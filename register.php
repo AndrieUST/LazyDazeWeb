@@ -15,11 +15,9 @@
 </head>
 <body>
 <header class="topnav">
-        <div class="topnav-left">
         <a target="_blank" href="">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
-        </div>
   </header>
 
     <!-- Register Page -->
