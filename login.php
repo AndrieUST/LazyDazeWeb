@@ -14,6 +14,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class = "bg">
 <header class="topnav">
         <a target="_blank" href="">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
@@ -34,6 +35,7 @@
         <a href="" class = "forgot-password-text">Forgot Password</a>
         </div>
     </form>
+    </div>
     </div>
 	</body>
 </html>

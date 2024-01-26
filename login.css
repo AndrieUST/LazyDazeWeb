@@ -22,6 +22,13 @@ label{
     margin-top: 50px;
     padding-left: 51px;
 }
+.bg {
+	background-image: linear-gradient(rgba(255, 255, 255, 0.910),rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
+	background-color: white;
+	height: 100%;
+	background-size: 100%;
+	position: relative;
+}
 .login-center {
     max-width: 500px;
     margin: auto;
@@ -76,7 +83,6 @@ form {
 	border-right: 1px solid #858585;
 	border-bottom: 1px solid #858585;
 	outline: none;
-	background: transparent;
 	transition-duration: 0.6s;
 	color: black;
 	font-family: 'Open Sans', sans-serif;
@@ -93,7 +99,6 @@ form {
 	border-right: 1px solid #858585;
 	border-bottom: 1px solid #858585;
 	outline: none;
-	background: transparent;
 	transition-duration: 0.6s;
 	color: black;
 	font-family: 'Open Sans', sans-serif;
@@ -126,7 +131,7 @@ input:focus {
 	cursor: pointer;
 	display: block;
 	margin: auto;
-	background: #4F4F54;
+	background: #858585;
 	border: 0;
 	color: white;
 	outline: none;
