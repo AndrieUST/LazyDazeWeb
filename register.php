@@ -22,7 +22,7 @@
         </div>
   </header>
 
-    <!-- Login Page -->
+    <!-- Register Page -->
     <h1>Create an account</h1>
     <div class = "register-center">
     <form id = "register" method ="post">
