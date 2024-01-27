@@ -16,6 +16,17 @@ a{
     text-decoration: none;
     color: white;
 }
+a:hover{
+    text-decoration: none;
+    color: white;
+}
+.bg {
+	background-image: linear-gradient(rgba(255, 255, 255, 0.144),rgba(255, 255, 255, 0.137)), url("./LDAssets/homepage\ bg.png");
+	background-color: white;
+	height: 100%;
+	background-size: 100%;
+	position: relative;
+}
 .topnav {
     overflow: hidden;
     background-color: rgba(255, 255, 255, 0.5);
@@ -41,4 +52,37 @@ a{
 .ld-icon{
     width: 70%;
     margin: 0px;
+}
+.go-login {
+	width: 12%;
+	height: 5.5%;
+	padding: 10px 30px;
+	cursor: pointer;
+	display: block;
+	background: black;
+    border: 0;
+	color: white;
+	outline: none;
+	border-radius: 30px;
+	margin-top: 20%;
+    margin-bottom: auto;
+    margin-left: 10%;
+	transition-duration: .4s;
+	font-family: 'Open Sans', sans-serif;
+}
+.go-login:hover {
+	width: 12%;
+	height: 5.5%;
+	padding: 10px 30px;
+	cursor: pointer;
+	display: block;
+	background: #858585;
+	border: 0;
+	color: white;
+	outline: none;
+	border-radius: 30px;
+	margin-top: 20%;
+    margin-bottom: auto;
+    margin-left: 10%;
+	transition-duration: .4s;
 }

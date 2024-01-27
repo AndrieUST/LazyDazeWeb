@@ -14,11 +14,17 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+  <!-- Background Image -->
+<div class = "bg">
+  <!-- Navigation Bar -->
 <header class="topnav">
-        <a target="_blank" href="">
+        <a href="">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
   </header>
-
-	</body>
+  <a href="login.php">
+  <button class = "go-login" name = "go-to-login" value = "Go-Login">Login</button>
+</a>
+</div>	
+</body>
 </html>
