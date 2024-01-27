@@ -6,7 +6,7 @@
     <title>Register</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <!-- Login CSS -->
+    <!-- Register CSS -->
     <link href="./register.css" rel="stylesheet" type="text/css"/>
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
