@@ -1,3 +1,33 @@
+<?php
+include('connect.php');
+
+if(!empty($_SESSION["id"])){
+    header("Location: login.php");
+   
+}
+
+if(isset($_POST["submit"])) {
+    $Customer_Email = $_POST["register_email"]; 
+    $Customer_PW = $_POST["register_password"]; 
+    $ConfirmPassword = $_POST["Confirmpassword"]; 
+    $duplicate = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
+    if(mysqli_num_rows($duplicate) > 0){
+        echo "<script> alert('Email Has Already Taken'); </script>";
+    } else {
+        if($Customer_PW == $ConfirmPassword){
+            $query = "INSERT INTO users (Customer_Email, Customer_PW) VALUES ('$Customer_Email', '$Customer_PW')"; 
+            mysqli_query($conn, $query);
+            echo "<script> alert('Registration Successful'); </script>";
+        } else {
+            echo "<script> alert('Password Does Not Match'); </script>";
+        }
+    }
+}
+?>
+
+
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,12 +56,14 @@
     <!-- Register Page -->
     <h1>Create an account</h1>
     <div class = "register-center">
-    <form id = "register" method ="post">
+    <form id = "register"  action = "register.php" method ="post">
         <label>Email</label>
-        <input type = "text" class = "email-input" name ="register_email" required>
+        <input type = "text" class = "email-input"  name ="register_email" required>
         <label>Password</label>
-        <input type = "password" class = "password-input" name ="register_password" required>
-        <button type= "submit" class = "submit-btn" name = "submit_login" value = "Login">Sign Up</button>
+        <input type = "password" class = "password-input"  name ="register_password" required>
+        <label>ConfirmPassword</label>
+        <input type = "password" class = "password-input"   name ="Confirmpassword" required>
+        <button type= "submit" class = "submit-btn" name = "submit" value = "Login">Sign Up</button>
         <div class = "center">
         <p>Already have an account? <a href="login.php" class = "sign-in-text">Sign In</a>!</p>
         </div>
