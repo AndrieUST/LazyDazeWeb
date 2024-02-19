@@ -10,12 +10,17 @@ if(isset($_POST["submit"])) {
     $Customer_Email = $_POST["register_email"]; 
     $Customer_PW = $_POST["register_password"]; 
     $ConfirmPassword = $_POST["Confirmpassword"]; 
+    
+  
+    $hashedPassword = password_hash($Customer_PW, PASSWORD_DEFAULT);
+    
     $duplicate = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
     if(mysqli_num_rows($duplicate) > 0){
         echo "<script> alert('Email Has Already Taken'); </script>";
     } else {
         if($Customer_PW == $ConfirmPassword){
-            $query = "INSERT INTO users (Customer_Email, Customer_PW) VALUES ('$Customer_Email', '$Customer_PW')"; 
+           
+            $query = "INSERT INTO users (Customer_Email, Customer_PW) VALUES ('$Customer_Email', '$hashedPassword')"; 
             mysqli_query($conn, $query);
             echo "<script> alert('Registration Successful'); </script>";
         } else {
