@@ -7,8 +7,8 @@ Cabanban, Angelo Martin
 ### _Systems Analyst:_
 Makalinaw, Luis Miguel
 ### _Business Analysts:_
-Nolasco, Jeremy Ryan & Linga, John Angelo
+Nolasco, Jeremy Ryan
 ### _Project Developers:_
-Macatangay, Andrie Paul & Padua, Mark Francis
+Macatangay, Andrie Paul & Padua, Mark Francis & Linga, John Angelo
 ### _Quality Assurance Officer:_
 Felix, Micah Angelo
