@@ -1,26 +1,28 @@
 <?php
+
 include('connect.php');
 
 if(!empty($_SESSION["id"])){
     header("Location: login.php");
-   
+    
 }
 
 if(isset($_POST["submit"])) {
     $Customer_Email = $_POST["register_email"]; 
     $Customer_PW = $_POST["register_password"]; 
+    $Customer_Address = $_POST["Address"]; 
+    $Customer_Number = $_POST["Number"]; 
     $ConfirmPassword = $_POST["Confirmpassword"]; 
-    
-  
+
     $hashedPassword = password_hash($Customer_PW, PASSWORD_DEFAULT);
-    
+
     $duplicate = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
     if(mysqli_num_rows($duplicate) > 0){
         echo "<script> alert('Email Has Already Taken'); </script>";
     } else {
         if($Customer_PW == $ConfirmPassword){
-           
-            $query = "INSERT INTO users (Customer_Email, Customer_PW) VALUES ('$Customer_Email', '$hashedPassword')"; 
+            $query = "INSERT INTO users (Customer_Email, Customer_PW, Customer_Address, Customer_Number) 
+                      VALUES ('$Customer_Email', '$hashedPassword', '$Customer_Address', '$Customer_Number')"; 
             mysqli_query($conn, $query);
             echo "<script> alert('Registration Successful'); </script>";
         } else {
@@ -29,6 +31,8 @@ if(isset($_POST["submit"])) {
     }
 }
 ?>
+
+
 
 
 
@@ -64,9 +68,13 @@ if(isset($_POST["submit"])) {
     <form id = "register"  action = "register.php" method ="post">
         <label>Email</label>
         <input type = "text" class = "email-input"  name ="register_email" required>
+        <label>Address</label>
+        <input type = "text" class = "Address-input"  name ="Address" required>
+        <label>Contact Number</label>
+        <input type = "number" class = "number-input"  name ="Number" required>
         <label>Password</label>
         <input type = "password" class = "password-input"  name ="register_password" required>
-        <label>Confirm Password</label>
+        <label>ConfirmPassword</label>
         <input type = "password" class = "password-input"   name ="Confirmpassword" required>
         <button type= "submit" class = "submit-btn" name = "submit" value = "Login">Sign Up</button>
         <div class = "center">
