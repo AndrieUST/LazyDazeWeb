@@ -41,14 +41,14 @@
             <div class="nav-line"></div>
             <!-- Reviews Icon -->
             <div class="nav-icon">
-                <a href="">
+                <a href="reviews.php">
                     <i class="fa-solid fa-star fa-xl"></i>
                 </a>
             </div>
             <div class="nav-line"></div>
             <!-- Info Icon -->
             <div class="nav-icon">
-                <a href="">
+                <a href="inquiries.php">
                     <i class="fa-solid fa-circle-info fa-xl"></i>
                 </a>
             </div>
