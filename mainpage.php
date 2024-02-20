@@ -27,7 +27,7 @@
         <div class="topnav-right">
             <!-- Logout Icon -->
             <div class="nav-icon">
-                <a href="./homepage.php">
+                <a href="logout.php">
                     <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
                 </a>
             </div>
