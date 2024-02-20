@@ -27,7 +27,7 @@ a:hover {
 }
 
 .bg {
-	background-image: linear-gradient(rgba(255, 255, 255, 0.144), rgba(255, 255, 255, 0.137)), url("./LDAssets/homepage\ bg.png");
+	background-image: linear-gradient(rgba(255, 255, 255, 0.910),rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
 	background-color: white;
 	height: 100%;
 	background-size: 100%;
@@ -64,62 +64,105 @@ a:hover {
 	margin: 0px;
 }
 
-.go-login {
-	width: 9%;
-	height: 5.5%;
-	padding: 10px 30px;
-	cursor: pointer;
-	background: black;
-	border: 0;
-	color: white;
-	outline: none;
-	border-radius: 30px;
-	transition-duration: .4s;
-	font-family: 'Open Sans', sans-serif;
+.nav-icon {
+    float: right;
+    margin-top: 23px;
+    margin-right: 15px;
+    padding-left: 9px;
+    text-decoration: none;
+    height: 50px;
 }
 
-.go-login:hover {
-	width: 9%;
-	height: 5.5%;
-	padding: 10px 30px;
-	cursor: pointer;
-	background: #858585;
-	border: 0;
-	color: white;
-	outline: none;
-	border-radius: 30px;
-	transition-duration: .4s;
+.nav-search {
+    float: right;
+    margin-top: 23px;
+    margin-right: 35px;
+    padding-left: 25px;
+    text-decoration: none;
+    height: 50px;
 }
 
-.go-mainpage {
+.nav-line {
+    float: right;
+    margin-top: -2px;
+    height: 76px;
+    border-left: 2.5px solid rgba(166, 166, 166, 0.5);
+}
+
+.search-btn {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.search-input {
+    font-family: 'Open Sans', sans-serif;
+    border: none;
+    margin-top: 4px;
+    width: 200px;
+}
+
+.search-input:focus {
+    outline: 0;
+}
+
+.fa-arrow-right-from-bracket:hover {
+    color: rgb(151, 151, 151);
+    transition-duration: 0.3s;
+}
+
+.fa-cart-shopping:hover {
+    color: rgb(151, 151, 151);
+    transition-duration: 0.3s;
+}
+
+.fa-star:hover {
+    color: rgb(151, 151, 151);
+    transition-duration: 0.3s;
+}
+
+.fa-circle-info:hover {
+    color: rgb(151, 151, 151);
+    transition-duration: 0.3s;
+}
+
+.fa-magnifying-glass:hover {
+    color: rgb(151, 151, 151);
+    transition-duration: 0.3s;
+}
+
+.go-products {
 	width: 12%;
 	height: 5.5%;
 	padding: 10px 30px;
 	cursor: pointer;
-	background: black;
+	display: block;
+	background: #5271FF;
 	border: 0;
-	color: white;
+	color: black;
 	outline: none;
-	border-radius: 30px;
 	transition-duration: .4s;
 	font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
 }
 
-.go-mainpage:hover {
+.go-products:hover {
 	width: 12%;
 	height: 5.5%;
 	padding: 10px 30px;
 	cursor: pointer;
-	background: #858585;
+	display: block;
+    background: #31449b;
 	border: 0;
-	color: white;
+	color: black;
 	outline: none;
-	border-radius: 30px;
+	border-radius: 15px;
 	transition-duration: .4s;
 }
 
 .intro {
-	margin-top: 11%;
+	margin-top: 15%;
 	margin-bottom: auto;
 	margin-left: 10%;
 	font-family: 'Open Sans', sans-serif;
@@ -134,12 +177,4 @@ a:hover {
 .intro h2{
 	margin-bottom: -15px;
 	font-size: 15px;
-}
-
-.intro h3{
-	display: inline;
-	margin-left: 5.5%;
-	margin-right: 6%;
-	font-size: 20px;
-	font-weight: 700;
 }
