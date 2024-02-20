@@ -126,17 +126,12 @@ a:hover {
     transition-duration: 0.3s;
 }
 
-.fa-circle-info:hover {
-    color: rgb(96, 178, 255);
-    transition-duration: 0.3s;
-}
-
 .fa-magnifying-glass:hover {
     color: rgb(151, 151, 151);
     transition-duration: 0.3s;
 }
 
-.go-products {
+.add-products {
 	width: 12%;
 	height: 5.5%;
 	padding: 10px 30px;
@@ -150,7 +145,7 @@ a:hover {
     font-weight: 700;
 }
 
-.go-products:hover {
+.add-products:hover {
 	width: 12%;
 	height: 5.5%;
 	padding: 10px 30px;

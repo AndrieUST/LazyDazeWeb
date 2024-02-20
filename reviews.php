@@ -3,11 +3,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Lazy Daze!</title>
+    <title>Reviews</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Homepage CSS -->
-    <link href="./mainpage.css" rel="stylesheet" type="text/css"/>
+    <link href="./reviews.css" rel="stylesheet" type="text/css"/>
     <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- jQuery library -->
@@ -39,13 +39,6 @@
                 </a>
             </div>
             <div class="nav-line"></div>
-            <!-- Reviews Icon -->
-            <div class="nav-icon">
-                <a href="">
-                    <i class="fa-solid fa-star fa-xl"></i>
-                </a>
-            </div>
-            <div class="nav-line"></div>
             <!-- Info Icon -->
             <div class="nav-icon">
                 <a href="">
@@ -63,11 +56,9 @@
             <div class="nav-line"></div>
         </div>
   </header>
-  <div class="intro">
-  <h2>Welcome to LazyDaze!</h2>
-  <h1>PLACEHOLDER</h1>
+  <div class="review-button">
   <a href="products.php">
-  <button class = "go-products" name = "go-to-products" value = "Go-Products">View Products</button>
+  <button class = "add-review" name = "add-review" value = "Add-Review">Add Review</button>
 </a>
 </div>
 </div>	

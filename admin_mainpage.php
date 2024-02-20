@@ -7,7 +7,7 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Homepage CSS -->
-    <link href="./mainpage.css" rel="stylesheet" type="text/css"/>
+    <link href="./admin_mainpage.css" rel="stylesheet" type="text/css"/>
     <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- jQuery library -->
@@ -46,13 +46,6 @@
                 </a>
             </div>
             <div class="nav-line"></div>
-            <!-- Info Icon -->
-            <div class="nav-icon">
-                <a href="">
-                    <i class="fa-solid fa-circle-info fa-xl"></i>
-                </a>
-            </div>
-            <div class="nav-line"></div>
             <!-- Search -->
             <div class="nav-search">
             <form method="get">
@@ -64,10 +57,10 @@
         </div>
   </header>
   <div class="intro">
-  <h2>Welcome to LazyDaze!</h2>
-  <h1>PLACEHOLDER</h1>
+  <h2>2024 Summer Collection</h2>
+  <h1>New Arrivals</h1>
   <a href="products.php">
-  <button class = "go-products" name = "go-to-products" value = "Go-Products">View Products</button>
+  <button class = "add-products" name = "add-products" value = "Add-Products">Add Products</button>
 </a>
 </div>
 </div>	

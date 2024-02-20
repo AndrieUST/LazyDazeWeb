@@ -121,11 +121,6 @@ a:hover {
     transition-duration: 0.3s;
 }
 
-.fa-star:hover {
-    color: rgb(253, 233, 146);
-    transition-duration: 0.3s;
-}
-
 .fa-circle-info:hover {
     color: rgb(96, 178, 255);
     transition-duration: 0.3s;
@@ -136,47 +131,32 @@ a:hover {
     transition-duration: 0.3s;
 }
 
-.go-products {
-	width: 12%;
+.add-review {
+	width: 11%;
+	height: 5.5%;
+	padding: 10px 30px;
+    margin-top: 40%;
+    margin-left: 45%;
+	cursor: pointer;
+	background: black;
+	border: 0;
+	color: white;
+	outline: none;
+	border-radius: 30px;
+	transition-duration: .4s;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.add-review:hover {
+	width: 11%;
 	height: 5.5%;
 	padding: 10px 30px;
 	cursor: pointer;
-	background: #5271FF;
+	background: #858585;
 	border: 0;
-	color: black;
+	color: white;
 	outline: none;
-	transition-duration: .4s;
-	font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
-}
-
-.go-products:hover {
-	width: 12%;
-	height: 5.5%;
-	padding: 10px 30px;
-	cursor: pointer;
-    background: #31449b;
-	border: 0;
-	color: black;
-	outline: none;
-	border-radius: 15px;
+	border-radius: 30px;
 	transition-duration: .4s;
 }
 
-.intro {
-	margin-top: 15%;
-	margin-bottom: auto;
-	margin-left: 10%;
-	font-family: 'Open Sans', sans-serif;
-}
-
-.intro h1{
-	margin-bottom: 15px;
-	font-size: 50px;
-	font-weight: 700;
-}
-
-.intro h2{
-	margin-bottom: -15px;
-	font-size: 15px;
-}
