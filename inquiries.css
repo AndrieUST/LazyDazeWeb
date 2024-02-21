@@ -126,11 +126,6 @@ a:hover {
     transition-duration: 0.3s;
 }
 
-.fa-circle-info:hover {
-    color: rgb(96, 178, 255);
-    transition-duration: 0.3s;
-}
-
 .fa-magnifying-glass:hover {
     color: rgb(151, 151, 151);
     transition-duration: 0.3s;
