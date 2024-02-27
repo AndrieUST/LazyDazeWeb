@@ -41,7 +41,7 @@
             <div class="nav-line"></div>
             <!-- Info Icon -->
             <div class="nav-icon">
-                <a href="inquiries">
+                <a href="inquiries.php">
                     <i class="fa-solid fa-circle-info fa-xl"></i>
                 </a>
             </div>
