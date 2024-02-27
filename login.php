@@ -3,7 +3,7 @@
 include('connect.php');
 
 $max_attempts = 3;
-$lockout_duration = 30; // Lockout duration in seconds
+$lockout_duration = 30; // Lockout duration in seconds.
 
 if (!isset($_SESSION['login_attempts'])) {
     $_SESSION['login_attempts'] = 0;
@@ -62,7 +62,7 @@ if (isset($_POST["submit"])) {
         echo "<script> alert('User Not Registered'); </script>";
     }
 
-    // Update last attempt time
+    // Update last attempt time.g
     $_SESSION['last_attempt_time'] = time();
 }
 ?>
