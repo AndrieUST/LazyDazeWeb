@@ -14,6 +14,7 @@ body {
 	animation: appear 0.5s;
 	background-color: white;
 	color: black;
+	overflow-x: hidden;
 }
 
 a {
@@ -33,6 +34,7 @@ a:hover {
 	background-size: 100%;
 	position: relative;
     z-index: 1;
+	overflow-x: hidden;
 }
 
 .bg2 {
@@ -165,4 +167,74 @@ a:hover {
 .intro h2{
 	margin-top: -3px;
 	font-size: 19px;
+}
+
+.container {
+	display: flex;
+	width: 100%;
+	margin-top: 55px;
+	margin-left: 10%;
+	margin-right: 10%;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.items-wrapper {
+	display: grid;
+	padding-top: 80px;
+	padding-bottom: 80px;
+	align-items: center;
+	grid-auto-columns: 1fr;
+	grid-column-gap: 40px;
+	grid-row-gap: 50px;
+	grid-template-columns: 350px 350px 350px 350px;
+	grid-template-rows: auto auto;
+}
+
+.item-image {
+	width: 40%;
+	display: block;
+	margin-bottom: 60px;
+	margin-left: auto;
+	margin-right: auto;
+	object-fit: cover;
+	text-align: center;
+}
+
+.item-title {
+	width: 350px;
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+	text-transform: uppercase;
+	overflow-wrap: anywhere;
+}
+
+.item-price {
+	margin-bottom: 15px;
+	font-size: 20px;
+	font-weight: 400;
+	text-align: center;
+}
+
+.item-btn {
+	width: 61%;
+	height: 13.5%;
+	display: block;
+	margin: auto;
+	padding-top: 12px;
+	padding-right: 25px;
+	padding-bottom: 12px;
+	padding-left: 25px;
+	background: black;
+	border: 0;
+	border-radius: 30px;
+	font-size: 17px;
+	font-weight: 100;
+}
+  
+.item-btn:hover {
+	background-color: #32343a;
+	border-radius: 0px;
+	color: hsla(0, 0.00%, 100.00%, 1.00);
+	transition-duration: .4s;
 }

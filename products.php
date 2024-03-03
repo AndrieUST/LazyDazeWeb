@@ -63,10 +63,59 @@
             <div class="nav-line"></div>
         </div>
   </header>
+    <!-- Banner -->
   <div class = "bg2"></div>
   <div class="intro">
   <h1>Ninja X Manila</h1>
   <h2>2024 Summer Collab Limited Collection</h2>
+</div>
+<!-- Item Container -->
+    <div class = "container">
+        <!-- Item/s Grid -->
+        <div class = "items-wrapper">
+            <div>
+                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
+                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
+                <div class = "item-price">PHP 000</div>
+                <a href="items.php">
+                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
+                </a>
+</div>
+<!-- Delete from here to ln118 if there is database population-->
+<div>
+                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
+                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
+                <div class = "item-price">PHP 000</div>
+                <a href="items.php">
+                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
+                </a>
+</div>
+<div>
+                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
+                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
+                <div class = "item-price">PHP 000</div>
+                <a href="items.php">
+                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
+                </a>
+</div>
+<div>
+                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
+                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
+                <div class = "item-price">PHP 000</div>
+                <a href="items.php">
+                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
+                </a>
+</div>
+<div>
+                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
+                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
+                <div class = "item-price">PHP 000</div>
+                <a href="items.php">
+                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
+                </a>
+</div>
+<!-- Delete from here to ln85 if there is database population-->
+</div>
 </div>
 </div>	
 </body>
