@@ -20,7 +20,7 @@
 <div class = "bg">
   <!-- Navigation Bar -->
 <header class="topnav">
-        <a href="">
+        <a href="homepage.php">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->

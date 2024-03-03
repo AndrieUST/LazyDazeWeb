@@ -2,29 +2,36 @@
 
 include('connect.php');
 
-if(!empty($_SESSION["id"])){
+if (!empty($_SESSION["id"])) {
     header("Location: login.php");
-    
 }
 
-if(isset($_POST["submit"])) {
-    $Customer_Email = $_POST["register_email"]; 
-    $Customer_PW = $_POST["register_password"]; 
-    $Customer_Address = $_POST["Address"]; 
-    $Customer_Number = $_POST["Number"]; 
-    $ConfirmPassword = $_POST["Confirmpassword"]; 
+if (isset($_POST["submit"])) {
+    $Customer_Email = $_POST["register_email"];
+    $Customer_PW = $_POST["register_password"];
+    $Customer_Address = $_POST["Address"];
+    $Customer_Number = $_POST["Number"];
+    $ConfirmPassword = $_POST["Confirmpassword"];
 
     $hashedPassword = password_hash($Customer_PW, PASSWORD_DEFAULT);
 
     $duplicate = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
-    if(mysqli_num_rows($duplicate) > 0){
+    if (mysqli_num_rows($duplicate) > 0) {
         echo "<script> alert('Email Has Already Taken'); </script>";
     } else {
-        if($Customer_PW == $ConfirmPassword){
+        if ($Customer_PW == $ConfirmPassword) {
             $query = "INSERT INTO users (Customer_Email, Customer_PW, Customer_Address, Customer_Number) 
-                      VALUES ('$Customer_Email', '$hashedPassword', '$Customer_Address', '$Customer_Number')"; 
+                      VALUES ('$Customer_Email', '$hashedPassword', '$Customer_Address', '$Customer_Number')";
             mysqli_query($conn, $query);
-            echo "<script> alert('Registration Successful'); </script>";
+            
+            
+            $_SESSION['registered_email'] = $Customer_Email;
+            
+            echo "<script> 
+                    alert('Registration Successful. The verification code has been sent to your email. Type the code to enter to the main website.'); 
+                    window.location.href = 'email_code.php';
+                  </script>";
+
         } else {
             echo "<script> alert('Password Does Not Match'); </script>";
         }

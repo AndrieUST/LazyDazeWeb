@@ -1,3 +1,8 @@
+<?php
+include('connect.php');
+
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -65,7 +70,16 @@
   </header>
   <div class="intro">
   <h2>Welcome to LazyDaze!</h2>
-  <h1>PLACEHOLDER</h1>
+  <?php
+        
+        if (isset($_SESSION['registered_email'])) {
+            $email_parts = explode('@', $_SESSION['registered_email']);
+            $display_name = $email_parts[0];
+            echo '<h1>' . htmlspecialchars($display_name) . '</h1>';
+        } else {
+            echo '<h1>PLACEHOLDER</h1>';
+        }
+        ?>
   <a href="products.php">
   <button class = "go-products" name = "go-to-products" value = "Go-Products">View Products</button>
 </a>

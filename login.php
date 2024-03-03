@@ -3,7 +3,7 @@
 include('connect.php');
 
 $max_attempts = 3;
-$lockout_duration = 30; // Lockout duration in seconds.
+$lockout_duration = 30; // Lockout duration in seconds
 
 if (!isset($_SESSION['login_attempts'])) {
     $_SESSION['login_attempts'] = 0;
@@ -53,7 +53,7 @@ if (isset($_POST["submit"])) {
             $_SESSION["login"] = true;
             $_SESSION["id"] = $row["id"];
             header("Location: mainpage.php");
-            
+            $_SESSION['registered_email'] = $Customer_Email;
         } else {
             echo "<script> alert('Wrong Password. Attempts left: ". ($max_attempts - $_SESSION['login_attempts']) ."'); </script>";
             $_SESSION['login_attempts']++;
@@ -62,7 +62,7 @@ if (isset($_POST["submit"])) {
         echo "<script> alert('User Not Registered'); </script>";
     }
 
-    // Update last attempt time.g
+    // Update last attempt time
     $_SESSION['last_attempt_time'] = time();
 }
 ?>
