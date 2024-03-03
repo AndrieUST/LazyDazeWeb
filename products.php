@@ -79,24 +79,16 @@
                 <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
                 <h2 class="item-title">Ninja from Manila Tee - Black</h2>
                 <div class = "item-price">PHP 000</div>
-                <a href="items.php">
+                <a href="viewprod.php">
                     <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
                 </a>
 </div>
-<!-- Delete from here to ln118 if there is database population-->
+<!-- Delete from here to ln119 if there is database population-->
 <div>
                 <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
                 <h2 class="item-title">Ninja from Manila Tee - Black</h2>
                 <div class = "item-price">PHP 000</div>
-                <a href="items.php">
-                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
-                </a>
-</div>
-<div>
-                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
-                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
-                <div class = "item-price">PHP 000</div>
-                <a href="items.php">
+                <a href="viewprod.php">
                     <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
                 </a>
 </div>
@@ -104,7 +96,7 @@
                 <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
                 <h2 class="item-title">Ninja from Manila Tee - Black</h2>
                 <div class = "item-price">PHP 000</div>
-                <a href="items.php">
+                <a href="viewprod.php">
                     <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
                 </a>
 </div>
@@ -112,11 +104,19 @@
                 <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
                 <h2 class="item-title">Ninja from Manila Tee - Black</h2>
                 <div class = "item-price">PHP 000</div>
-                <a href="items.php">
+                <a href="viewprod.php">
                     <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
                 </a>
 </div>
-<!-- Delete from here to ln85 if there is database population-->
+<div>
+                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
+                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
+                <div class = "item-price">PHP 000</div>
+                <a href="viewprod.php">
+                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
+                </a>
+</div>
+<!-- Delete from here to ln86 if there is database population-->
 </div>
 </div>
 </div>	
