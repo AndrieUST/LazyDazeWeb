@@ -19,7 +19,7 @@ if (!isset($_SESSION['lockout_start_time'])) {
 
 if (!empty($_SESSION["id"])) {
     header("Location: mainpage.php");
-    
+   
 }
 
 if (isset($_POST["submit"])) {
@@ -39,27 +39,48 @@ if (isset($_POST["submit"])) {
     if ($_SESSION['login_attempts'] >= $max_attempts) {
         $_SESSION['lockout_start_time'] = time(); // Set lockout start time
         echo "<script> alert('You have exceeded the maximum number of attempts. Please try again after $lockout_duration seconds.'); </script>";
-        
+       
     }
 
     $Customer_Email = $_POST["login_email"];
     $Customer_PW = $_POST["login_password"];
 
-    $result = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
-    $row = mysqli_fetch_assoc($result);
 
-    if (mysqli_num_rows($result) > 0) {
-        if (password_verify($Customer_PW, $row['Customer_PW'])) {
+    if ($Customer_Email === 'admin@gmail.com') {
+        
+        $admin_password = '123';
+        if ($Customer_PW === $admin_password) {
+            // Admin login
             $_SESSION["login"] = true;
-            $_SESSION["id"] = $row["id"];
-            header("Location: mainpage.php");
-            $_SESSION['registered_email'] = $Customer_Email;
+            $_SESSION["admin"] = true; 
+            header("Location: admin_mainpage.php");
+           
         } else {
-            echo "<script> alert('Wrong Password. Attempts left: ". ($max_attempts - $_SESSION['login_attempts']) ."'); </script>";
-            $_SESSION['login_attempts']++;
+           
+            echo "<script> alert('Wrong Admin Password.'); </script>";
+           
         }
     } else {
-        echo "<script> alert('User Not Registered'); </script>";
+       //Customer:)
+        $result = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
+        $row = mysqli_fetch_assoc($result);
+
+        if (mysqli_num_rows($result) > 0) {
+            if (password_verify($Customer_PW, $row['Customer_PW'])) {
+                $_SESSION["login"] = true;
+                $_SESSION["id"] = $row["id"];
+                header("Location: mainpage.php");
+                $_SESSION['registered_email'] = $Customer_Email;
+               
+            } else {
+                echo "<script> alert('Wrong Password. Attempts left: ". ($max_attempts - $_SESSION['login_attempts']) ."'); </script>";
+                $_SESSION['login_attempts']++;
+                
+            }
+        } else {
+            echo "<script> alert('User Not Registered'); </script>";
+            
+        }
     }
 
     // Update last attempt time
@@ -137,4 +158,3 @@ if (isset($_POST["submit"])) {
     </script>
 </body>
 </html>
-
