@@ -14,7 +14,7 @@ include('connect.php');
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Register CSS -->
-    <link href="./email.css" rel="stylesheet" type="text/css"/>
+    <link href="./pass-reset.css" rel="stylesheet" type="text/css"/>
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
@@ -35,7 +35,7 @@ include('connect.php');
     <form id = "email"  action = "" method ="post">
         <label>Email Verification</label>
         <input type = "text" class = "email-input"  name ="email_input" required>
-        <button type= "resend" class = "resend-btn" name = "resend" value = "resend">Send Password Reset Link</button>
+        <button type= "reset" class = "reset-btn" name = "reset" value = "reset">Send Password Reset Link</button>
     
     </form>
     </div>
