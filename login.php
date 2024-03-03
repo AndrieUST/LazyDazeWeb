@@ -111,7 +111,8 @@ if (isset($_POST["submit"])) {
                     }
                     ?>
                     <p>Don't have an account? <a href="register.php" class="sign-up-text">Sign Up</a>!</p>
-                    <a href="" class="forgot-password-text">Forgot Password</a>
+                    <!-- new class for href="password-reset.php -->
+                    <a href="password-reset.php" class="forgot-password-text">Forgot Password</a> 
                 </div>
             </form>
         </div>
