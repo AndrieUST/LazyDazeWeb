@@ -1,9 +1,17 @@
 <?php
+include('connect.php'); // Include database connection file
 
-include('connect.php');
+//Import PHPMailer classes into the global namespace
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+//Load Composer's autoloader
+require 'vendor/autoload.php';
 
 if (!empty($_SESSION["id"])) {
     header("Location: login.php");
+    exit;
 }
 
 if (isset($_POST["submit"])) {
@@ -13,37 +21,63 @@ if (isset($_POST["submit"])) {
     $Customer_Number = $_POST["Number"];
     $ConfirmPassword = $_POST["Confirmpassword"];
 
-    $hashedPassword = password_hash($Customer_PW, PASSWORD_DEFAULT);
-
-    $duplicate = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
-    if (mysqli_num_rows($duplicate) > 0) {
-        echo "<script> alert('Email Has Already Taken'); </script>";
+    // Check if the email is already taken
+    $duplicate_check = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
+    if (mysqli_num_rows($duplicate_check) > 0) {
+        echo "<script>alert('Email Has Already Taken');</script>";
     } else {
         if ($Customer_PW == $ConfirmPassword) {
-            $query = "INSERT INTO users (Customer_Email, Customer_PW, Customer_Address, Customer_Number) 
-                      VALUES ('$Customer_Email', '$hashedPassword', '$Customer_Address', '$Customer_Number')";
-            mysqli_query($conn, $query);
-            
-            
-            $_SESSION['registered_email'] = $Customer_Email;
-            
-            echo "<script> 
-                    alert('Registration Successful. The verification code has been sent to your email. Type the code to enter to the main website.'); 
-                    window.location.href = 'email_code.php';
-                  </script>";
+            // Hash the password
+            $hashedPassword = password_hash($Customer_PW, PASSWORD_DEFAULT);
 
+            // Generate verification code
+            $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+
+            // Send verification email
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'johnlinga0949@gmail.com'; // Update with your Gmail address
+                $mail->Password = 'vhyp kqbj ewaq igdr'; // Update with your Gmail password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
+
+                $mail->setFrom('johnlinga0949@gmail.com', 'LazyDaze.com');
+                $mail->addAddress($Customer_Email);
+
+                $mail->isHTML(true);
+                $mail->Subject = 'Email verification';
+                $mail->Body = '<p>Your verification code is: <b style="font-size: 30px;">' . $verification_code . '</b></p>';
+
+                $mail->send();
+
+                // Insert user into the database
+                $query = "INSERT INTO users (Customer_Email, Customer_PW, Customer_Address, Customer_Number, verification_code, email_verified_at) 
+                          VALUES ('$Customer_Email', '$hashedPassword', '$Customer_Address', '$Customer_Number', '$verification_code', NULL)";
+                if (mysqli_query($conn, $query)) {
+                  
+                    $_SESSION['registered_email'] = $Customer_Email;
+                
+                   
+                    header("Location: email_code.php?register_email=" . $Customer_Email);
+                    
+                } else {
+                    echo "Error: " . $query . "<br>" . mysqli_error($conn);
+                }
+            } catch (Exception $e) {
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
         } else {
-            echo "<script> alert('Password Does Not Match'); </script>";
+            echo "<script>alert('Password Does Not Match');</script>";
         }
     }
+    
 }
 ?>
 
-
-
-
-
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -92,5 +126,5 @@ if (isset($_POST["submit"])) {
     </form>
     </div>
     </div>
-	</body>
+</body>
 </html>
