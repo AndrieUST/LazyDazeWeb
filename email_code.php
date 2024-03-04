@@ -25,7 +25,7 @@ if(isset($_POST["confirm"])) {
         if ($email_verified_at !== null) {
             echo "Email already verified. Redirecting to main page...";
             header("Refresh:2; url=mainpage.php");
-            exit;
+            
         }
 
         if($stored_verification_code === $verification_code) {
@@ -34,7 +34,7 @@ if(isset($_POST["confirm"])) {
             if(mysqli_query($conn, $update_query)) {
                 // Redirect the user to the main page or any other destination
                 header("Location: mainpage.php");
-                exit;
+                
             } else {
                 echo "Error updating record: " . mysqli_error($conn);
             }

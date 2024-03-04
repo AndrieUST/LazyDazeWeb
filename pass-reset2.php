@@ -4,23 +4,26 @@ include('connect.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (isset($_POST['submit'])) {
-        
+        $Customer_Email = $_SESSION['registered_email']; // Assuming you're storing the email in a session
         $Customer_PW = $_POST['new_password'];
         $ConfirmPassword = $_POST['Confirmpassword'];
-        
        
         if ($Customer_PW ===  $ConfirmPassword) {
            
-          
-            
-            
-           
+            // Hash the new password
             $hashed_password = password_hash($Customer_PW, PASSWORD_DEFAULT);
             
-           
-            $sql = "UPDATE users SET Customer_PW = '$hashed_password' WHERE register_email = '$Customer_Email'";
-            if (mysqli_query($conn, $sql)) {
+            // Use prepared statement to prevent SQL injection
+            $sql = "UPDATE users SET Customer_PW = ? WHERE Customer_Email = ?";
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "ss", $hashed_password, $Customer_Email);
+            
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt)) {
                 echo "Password updated successfully.";
+              
+                header("Location: login.php");
+                
             } else {
                 echo "Error updating password: " . mysqli_error($conn);
             }
@@ -30,11 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
-
-
-
-
 
 <html lang="en">
 <head>
@@ -67,9 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         <label>New Password</label>
         <input type = "password" class = "password-input"  name ="new_password" required>
-        <label>ConfirmPassword</label>
+        <label>Confirm Password</label>
         <input type = "password" class = "password-input"   name ="Confirmpassword" required>
-        <button type= "submit" class = "submit-btn" name = "submit" value = "Login">confirm</button>
+        <button type= "submit" class = "submit-btn" name = "submit" value = "Login">Confirm</button>
     
     </form>
     </div>

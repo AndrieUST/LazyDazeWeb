@@ -1,51 +1,75 @@
 <?php
 
+
 include('connect.php');
+require 'vendor/autoload.php';
 
-function send_password_reset($get_email,$token)
-{
-    
-}
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
+if(isset($_POST["confirm"])) {
+    // Get the email input from the form
+    $Customer_Email = $_POST["email_input"];
 
-if(isset($_POST ['email_input']))
-{
-$email = mysqli_real_escape_string($conn, $_POST['Customer_Email']);
-$token = md5(rand());
+    // Set the registered email in the session
+    $_SESSION['registered_email'] = $Customer_Email;
 
-$check_email = "SELECT * FROM users WHERE Customer_Email ='$email' LIMIT 1";
-$check_email_run = mysqli_query($conn, $check_email);
+    // Check if the email exists in the database
+    $query = "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'";
+    $result = mysqli_query($conn, $query);
 
-if(mysqli_num_rows($check_email_run) > 0)
-{
-    $row = mysqli_fetch_array($check_email_run);
-    $get_email = $row['Customer_Email'];
+    if(mysqli_num_rows($result) == 1) {
+        
 
-    $update_token = "UPDATE users SET verify_token = '$token' WHERE Customer_Email='$get_email' LIMIT 1";
-    $update_token_run = mysqli_query($conn, $update_token);
-    if($update_token_run)
-    {
-        send_password_reset($get_email,$token);
-        $_SESSION['status'] = "We e-emailed you a password reset link";
-        header("Location: password-reset.php");
-        exit(0);
+        // Generate a new password reset code
+        $reset_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+        
 
+        // Update the user's record with the reset code
+        $update_query = "UPDATE users SET verification_code = '$reset_code' WHERE Customer_Email = '$Customer_Email'";
+        if(mysqli_query($conn, $update_query)) {
+           
+
+            // Send the password reset email with the reset code
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'johnlinga0949@gmail.com'; // Update with your Gmail address
+                $mail->Password = 'vhyp kqbj ewaq igdr'; // Update with your Gmail password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
+
+                $mail->setFrom('johnlinga0949@gmail.com', 'LazyDaze.com');
+                $mail->addAddress($Customer_Email);
+
+                $mail->isHTML(true);
+                $mail->Subject = 'Email verification';
+                $mail->Body = '<p>Your verification code is: <b style="font-size: 30px;">' . $reset_code . '</b></p>';
+
+                if($mail->send()) {
+                    echo "Password reset code sent successfully.";
+                    // Redirect to pass-resetcode.php
+                    header("Location: pass-resetcode.php");
+                    
+                } else {
+                    echo "Error sending password reset code: {$mail->ErrorInfo}";
+                }
+            } catch (Exception $e) {
+                echo "Error sending password reset code: {$mail->ErrorInfo}";
+            }
+        } else {
+            echo "Error updating reset code: " . mysqli_error($conn);
+        }
+    } else {
+        echo "<script>alert('User\'s Email is not registered.');</script>";
     }
-    else
-    {
-        $_SESSION['status'] = "Something went wrong. #1";
-        header("Location: password-reset.php");
-        exit(0);
-    }
 }
-{
-    $_SESSION['status'] = "No Email Found";
-    header("Location: password-reset.php");
-    exit(0);
-}
-}
-
 ?>
+
+
+
 
 <html lang="en">
 <head>
@@ -74,10 +98,10 @@ if(mysqli_num_rows($check_email_run) > 0)
 
     <h1>Reset Password</h1>
     <div class = "email-center">
-    <form id = "email"  action = "" method ="post">
+    <form id = "email"  action = "password-reset.php" method ="post">
         <label>Email Verification</label>
         <input type = "text" class = "email-input"  name ="email_input" required>
-        <button type= "reset" class = "reset-btn" name = "reset" value = "reset">Send Password Reset Link</button>
+        <button type= "submit" class = "reset-btn" name = "confirm" value = "confirm">Send Password Reset Code</button><br><br>
     
     </form>
     </div>
