@@ -22,7 +22,7 @@
 <div class = "bg">
   <!-- Navigation Bar -->
 <header class="topnav">
-        <a href="">
+        <a href="homepage.php">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
@@ -81,26 +81,6 @@
                             <span class="num">01</span>
                             <span class="plus"><i class="fa-solid fa-plus fa-xl"></i></span>
                         </div>
-                        <script>
-                            const plus = document.querySelector(".plus"),
-                                minus = document.querySelector(".minus"),
-                                num = document.querySelector(".num");
-                                let a = 1;
-
-                                plus.addEventListener("click", ()=>{
-                                    a++;
-                                    a = (a < 10) ? "0" + a : a;
-                                    num.innerText = a;
-                                });
-
-                                minus.addEventListener("click", ()=>{
-                                    if(a > 1){
-                                        a--;
-                                        a = (a < 10) ? "0" + a : a;
-                                        num.innerText = a;
-                                    }
-                                });
-                        </script>
                         </div>
                     </div>
             </div>
@@ -145,5 +125,28 @@
     </form>
 </section>
 </div>	
+<script>
+    const plusButtons = document.querySelectorAll(".plus");
+    const minusButtons = document.querySelectorAll(".minus");
+    const numFields = document.querySelectorAll(".num");
+
+    plusButtons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+            let num = parseInt(numFields[index].innerText);
+            num++;
+            numFields[index].innerText = num < 10 ? "0" + num : num;
+        });
+    });
+
+    minusButtons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+            let num = parseInt(numFields[index].innerText);
+            if (num > 1) {
+                num--;
+                numFields[index].innerText = num < 10 ? "0" + num : num;
+            }
+        });
+    });
+</script>
 </body>
 </html>
