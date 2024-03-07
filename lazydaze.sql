@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2024 at 05:05 PM
+-- Generation Time: Mar 07, 2024 at 07:18 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -47,10 +47,20 @@ CREATE TABLE `manageorders` (
 CREATE TABLE `manageprod` (
   `ProductID` int(200) NOT NULL,
   `Product_Name` varchar(255) NOT NULL,
-  `Description` int(255) NOT NULL,
+  `Description` varchar(255) NOT NULL,
   `Quantity` int(30) NOT NULL,
-  `Price` int(200) NOT NULL
+  `Price` int(200) NOT NULL,
+  `img` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `manageprod`
+--
+
+INSERT INTO `manageprod` (`ProductID`, `Product_Name`, `Description`, `Quantity`, `Price`, `img`) VALUES
+(5, 'Ninja Black Tee from manila ', '1231', 2, 2000, 'sample-shirt.png'),
+(6, 'Ninja Black Tee from manila ', '12131', 12121, 2000, 'sample-shirt.png'),
+(8, 'Ninja Black Tee from manila 4', 'blahblahblah', 3, 350, 'sample-shirt.png');
 
 -- --------------------------------------------------------
 
@@ -115,7 +125,7 @@ ALTER TABLE `manageorders`
 -- AUTO_INCREMENT for table `manageprod`
 --
 ALTER TABLE `manageprod`
-  MODIFY `ProductID` int(200) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProductID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
