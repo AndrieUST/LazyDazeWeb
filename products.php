@@ -1,3 +1,11 @@
+<?php
+include('connect.php');
+
+// Retrieve products from the database
+$sql = "SELECT * FROM manageprod";
+$result = mysqli_query($conn, $sql);
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,107 +26,83 @@
     <link rel="icon" href="./LDAssets/lz logo.png">
 </head>
 <body>
-  <!-- Background Image -->
-<div class = "bg">
-  <!-- Navigation Bar -->
-<header class="topnav">
-        <a href="">
-          <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
-        </a>
-        <!-- Icons -->
-        <div class="topnav-right">
-            <!-- Logout Icon -->
-            <div class="nav-icon">
-                <a href="./homepage.php">
-                    <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
-                </a>
+    <!-- Background Image -->
+    <div class="bg">
+        <!-- Navigation Bar -->
+        <header class="topnav">
+            <a href="homepage.php">
+                <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
+            </a>
+            <!-- Icons -->
+            <div class="topnav-right">
+                <!-- Logout Icon -->
+                <div class="nav-icon">
+                      <a href="./homepage.php">
+                          <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
+                             </a>
+                     </div>
+                <div class="nav-line"></div>
+                <!-- Cart Icon -->
+                <div class="nav-icon">
+                    <a href="">
+                        <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                    </a>
+                </div>
+                <div class="nav-line"></div>
+                <!-- Reviews Icon -->
+                <div class="nav-icon">
+                    <a href="reviews.php">
+                        <i class="fa-solid fa-star fa-xl"></i>
+                    </a>
+                </div>
+                <div class="nav-line"></div>
+                <!-- Info Icon -->
+                <div class="nav-icon">
+                    <a href="inquiries.php">
+                        <i class="fa-solid fa-circle-info fa-xl"></i>
+                    </a>
+                </div>
+                <div class="nav-line"></div>
+                <!-- Search -->
+                <div class="nav-search">
+                    <form method="get">
+                        <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
+                        <input type="text" class="search-input" name="search" value="" placeholder="Search Product">
+                    </form>
+                </div>
+                <div class="nav-line"></div>
             </div>
-            <div class="nav-line"></div>
-            <!-- Cart Icon -->
-            <div class="nav-icon">
-                <a href="">
-                    <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                </a>
+        </header>
+        <!-- Banner -->
+        <div class="bg2"></div>
+        <div class="intro">
+            <h1>Ninja X Manila</h1>
+            <h2>2024 Summer Collab Limited Collection</h2>
+            <div class="row">
+                <?php
+                // Loop through each product and display its information
+                while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                <div class="col-sm-4">
+                    <div class="thumbnail">
+                        <img src="<?php echo $row['img']; ?>" alt="<?php echo htmlspecialchars($row['Product_Name']); ?>">
+                        <div class="caption">
+                            <h3><?php echo htmlspecialchars($row['Product_Name']); ?></h3>
+                            <p><?php echo htmlspecialchars($row['Description']); ?></p>
+                            <p>Quantity: <?php echo $row['Quantity']; ?></p>
+                            <p>Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</p>
+                            <!-- Add the "Check Item" button below -->
+                            <form class="product-form"  method="post" action="viewprod.php">
+                                <button type="submit" class="add-btn" name="submit" value="check">Check Item</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                }
+                ?>
             </div>
-            <div class="nav-line"></div>
-            <!-- Reviews Icon -->
-            <div class="nav-icon">
-                <a href="reviews.php">
-                    <i class="fa-solid fa-star fa-xl"></i>
-                </a>
-            </div>
-            <div class="nav-line"></div>
-            <!-- Info Icon -->
-            <div class="nav-icon">
-                <a href="inquiries.php">
-                    <i class="fa-solid fa-circle-info fa-xl"></i>
-                </a>
-            </div>
-            <div class="nav-line"></div>
-            <!-- Search -->
-            <div class="nav-search">
-            <form method="get">
-                <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-                <input type="text" class="search-input" name="search" value="" placeholder="Search Product">
-            </form>
-            </div>
-            <div class="nav-line"></div>
         </div>
-  </header>
-    <!-- Banner -->
-  <div class = "bg2"></div>
-  <div class="intro">
-  <h1>Ninja X Manila</h1>
-  <h2>2024 Summer Collab Limited Collection</h2>
-</div>
-<!-- Item Container -->
-    <div class = "container">
-        <!-- Item/s Grid -->
-        <div class = "items-wrapper">
-            <div>
-                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
-                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
-                <div class = "item-price">PHP 000</div>
-                <a href="viewprod.php">
-                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
-                </a>
-</div>
-<!-- Delete from here to ln119 if there is database population-->
-<div>
-                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
-                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
-                <div class = "item-price">PHP 000</div>
-                <a href="viewprod.php">
-                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
-                </a>
-</div>
-<div>
-                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
-                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
-                <div class = "item-price">PHP 000</div>
-                <a href="viewprod.php">
-                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
-                </a>
-</div>
-<div>
-                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
-                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
-                <div class = "item-price">PHP 000</div>
-                <a href="viewprod.php">
-                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
-                </a>
-</div>
-<div>
-                <img class = "item-image" src = "./LDAssets/sample-shirt.png" alt = "Apparel">
-                <h2 class="item-title">Ninja from Manila Tee - Black</h2>
-                <div class = "item-price">PHP 000</div>
-                <a href="viewprod.php">
-                    <button class = "item-btn" name = "go-to-item" value = "Go-item">Check Item</button>
-                </a>
-</div>
-<!-- Delete from here to ln86 if there is database population-->
-</div>
-</div>
-</div>	
+    </div>
 </body>
 </html>

@@ -75,7 +75,7 @@
                 <h2>PHP 000</h2>
             </div>
             <div class="form">
-                <form id="prod-form" name="prod-form" method="get">
+                <form id="prod-form" name="prod-form" method="get" action="cart.php">
                     <label for="">Size</label><select class="select-field" id="size-field" name="s-field">
                         <option value=""></option>
                         <option value="First">S</option>
@@ -86,7 +86,7 @@
                         <option value="First">1</option>
                         <option value="Second">2</option>
                         <option value="Third">3</option>
-                    </select><input type="submit" class="submit-btn" value="Add to Cart" /></form>
+                    </select><input type="submit" class="submit-btn" value="Add to Cart"  /></form>
             </div>
         </div>
     </div>

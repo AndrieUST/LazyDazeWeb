@@ -1,81 +1,81 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 @keyframes appear {
-	0% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 0;
+    }
 
-	100% {
-		opacity: 1;
-	}
+    100% {
+        opacity: 1;
+    }
 }
 
 body {
-	animation: appear 0.5s;
-	background-color: white;
-	color: black;
-	overflow-x: hidden;
+    animation: appear 0.5s;
+    background-color: white;
+    color: black;
+    overflow-x: hidden;
 }
 
 a {
-	text-decoration: none;
-	color: white;
+    text-decoration: none;
+    color: white;
 }
 
 a:hover {
-	text-decoration: none;
-	color: white;
+    text-decoration: none;
+    color: white;
 }
 
 .bg {
-	background-image: linear-gradient(rgba(255, 255, 255, 0.910),rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
-	background-color: white;
-	height: 100%;
-	background-size: 100%;
-	position: relative;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.910),rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
+    background-color: white;
+    height: 100%;
+    background-size: 100%;
+    position: relative;
     z-index: 1;
-	overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 .bg2 {
-	background-image: linear-gradient(rgba(255, 255, 255, 0.027),rgba(255, 255, 255, 0)), url("./LDAssets/products\ bg.png");
-	background-color: white;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.027),rgba(255, 255, 255, 0)), url("./LDAssets/products\ bg.png");
+    background-color: white;
     margin-top: -9.5%;
-	height: 61.5%;
+    height: 61.5%;
     width: 100%;
-	background-size: 100%;
-	position: relative;
+    background-size: 100%;
+    position: relative;
     z-index: -1;
 }
 
 .topnav {
-	overflow: hidden;
-	background-color: rgba(255, 255, 255, 0.829);
-	backdrop-filter: blur(3px);
-	position: sticky;
-	top: 0px;
-	z-index: 10;
-	border-bottom: 1px solid rgba(136, 136, 136, 0.5);
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.829);
+    backdrop-filter: blur(3px);
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+    border-bottom: 1px solid rgba(136, 136, 136, 0.5);
 }
 
 .topnav a {
-	float: left;
-	margin-left: 5px;
-	color: black;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
-	transition-duration: 0.3s;
+    float: left;
+    margin-left: 5px;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition-duration: 0.3s;
 }
 
 .topnav a:hover {
-	text-shadow: 0px 0px 5px white;
-	transition-timing-function: ease-in-out;
+    text-shadow: 0px 0px 5px white;
+    transition-timing-function: ease-in-out;
 }
 
 .ld-icon {
-	width: 70%;
-	margin: 0px;
+    width: 70%;
+    margin: 0px;
 }
 
 .nav-icon {
@@ -177,64 +177,58 @@ a:hover {
 	margin-right: 10%;
 	font-family: 'Open Sans', sans-serif;
 }
-
-.items-wrapper {
-	display: grid;
-	padding-top: 80px;
-	padding-bottom: 80px;
-	align-items: center;
-	grid-auto-columns: 1fr;
-	grid-column-gap: 40px;
-	grid-row-gap: 50px;
-	grid-template-columns: 350px 350px 350px 350px;
-	grid-template-rows: auto auto;
+.add-btn {
+    width: 44.5%;
+    height: 5.5%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: black;
+    border: 0;
+    color: white;
+    outline: none;
+    border-radius: 30px;
+    margin-top: 10%;
+    transition-duration: .4s;
+    font-family: 'Open Sans', sans-serif;
 }
 
-.item-image {
-	width: 40%;
-	display: block;
-	margin-bottom: 60px;
-	margin-left: auto;
-	margin-right: auto;
-	object-fit: cover;
-	text-align: center;
+.add-btn:hover {
+    background: #858585;
 }
 
-.item-title {
-	width: 350px;
-	font-size: 20px;
-	font-weight: 700;
-	text-align: center;
-	text-transform: uppercase;
-	overflow-wrap: anywhere;
+
+.thumbnail {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 200px; /* Adjust this value as needed */
+    margin: 0 auto; /* Center the thumbnails */
 }
 
-.item-price {
-	margin-bottom: 15px;
-	font-size: 20px;
-	font-weight: 400;
-	text-align: center;
+.thumbnail img {
+    max-width: 100%; /* Ensure the image doesn't exceed its container */
+    height: auto; /* Maintain aspect ratio */
 }
 
-.item-btn {
-	width: 61%;
-	height: 13.5%;
-	display: block;
-	margin: auto;
-	padding-top: 12px;
-	padding-right: 25px;
-	padding-bottom: 12px;
-	padding-left: 25px;
-	background: black;
-	border: 0;
-	border-radius: 30px;
-	font-size: 17px;
-	font-weight: 100;
+/* Add this style to adjust the spacing within the thumbnails */
+.thumbnail .caption {
+    padding-top: 15px;
+    text-align: center;
 }
-  
-.item-btn:hover {
-	background-color: #32343a;
-	border-radius: 0px;
-	color: hsla(0, 0.00%, 100.00%, 1.00);
-	transition-duration: .4s;
+
+.thumbnail h3 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.thumbnail p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.thumbnail p:last-child {
+    margin-bottom: 0;
 }
