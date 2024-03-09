@@ -169,66 +169,67 @@ a:hover {
 	font-size: 19px;
 }
 
+/* Keep the container width */
+/* Keep the container width */
 .container {
-	display: flex;
-	width: 100%;
-	margin-top: 55px;
-	margin-left: 10%;
-	margin-right: 10%;
-	font-family: 'Open Sans', sans-serif;
-}
-.add-btn {
-    width: 44.5%;
-    height: 5.5%;
-    padding: 10px 30px;
+    display: flex;
+    width: 1000px; /* Set a fixed width */
+    margin-top: 55px;
+    margin-left: 10%;
+    margin-right: 10%;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  /* Style the product thumbnails */
+  .thumbnail {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 200px; /* Set a fixed width for thumbnails */
+    margin-right: 20px; /* Maintain some margin for spacing */
+    /* Adjust margin here to control spacing between products */
+  }
+  
+  .thumbnail img {
+    max-width: 100%; /* Ensure the image doesn't exceed its container */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  /* Style the product details area */
+  .product-details {
+    width: calc(100% - 220px); /* Calculate width based on container width and product thumbnail width with margin */
+    padding: 10px 15px; /* Add some padding for better readability */
+  }
+  
+  .product-details h3 {
+    margin-top: 0;
+    font-size: 18px;
+  }
+  
+  .product-details p {
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  /* Style the "Check Product" button */
+  .add-btn {
+    width: auto; /* Adjust width automatically based on content */
+    height: auto; /* Adjust height automatically based on content */
     cursor: pointer;
     display: block;
-    margin: auto;
     background: black;
     border: 0;
     color: white;
     outline: none;
     border-radius: 30px;
-    margin-top: 10%;
+    margin-top: 10%; /* Adjust margin for button placement */
     transition-duration: .4s;
     font-family: 'Open Sans', sans-serif;
-}
-
-.add-btn:hover {
+    font-size: 16px; /* Adjust font size */
+    padding: 10px 20px; /* Add padding for button text */
+  }
+  
+  .add-btn:hover {
     background: #858585;
-}
-
-
-.thumbnail {
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 200px; /* Adjust this value as needed */
-    margin: 0 auto; /* Center the thumbnails */
-}
-
-.thumbnail img {
-    max-width: 100%; /* Ensure the image doesn't exceed its container */
-    height: auto; /* Maintain aspect ratio */
-}
-
-/* Add this style to adjust the spacing within the thumbnails */
-.thumbnail .caption {
-    padding-top: 15px;
-    text-align: center;
-}
-
-.thumbnail h3 {
-    margin-top: 0;
-    font-size: 18px;
-}
-
-.thumbnail p {
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.thumbnail p:last-child {
-    margin-bottom: 0;
-}
+  }
