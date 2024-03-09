@@ -157,46 +157,46 @@ a:hover {
     padding: 10px 30px;
     cursor: pointer;
     display: block;
-    margin: auto;
+    margin: auto; /* Center the button horizontally */
     background: black;
     border: 0;
     color: white;
     outline: none;
     border-radius: 30px;
-    margin-top: 10%;
+    margin-top: 20px; /* Adjust margin for button placement */
     transition-duration: .4s;
     font-family: 'Open Sans', sans-serif;
-}
+  }
 
 .add-btn:hover {
     background: #858585;
 }
 
-.thumbnail img {
-    max-width: 100%; /* Ensure the image doesn't exceed its container */
-    height: auto; /* Maintain aspect ratio */
-}
-
-/* Add this style to adjust the size of the thumbnails */
 .thumbnail {
     padding: 15px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 300px; /* Adjust this value as needed */
-    margin: 0 auto; /* Center the thumbnails */
-}
-
-/* Add this style to adjust the spacing within the thumbnails */
-.thumbnail .caption {
-    padding-top: 15px;
+    width: 280px; /* Adjust width as needed */
+    margin: 10px auto; /* Adjust margin for spacing */
+  }
+  
+  .thumbnail img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .thumbnail .caption {
+    padding: 10px 15px;
+    font-size: 14px;
+    line-height: 1.5;
     text-align: center;
-}
+  }
 
-.thumbnail h3 {
+  .thumbnail h3 {
     margin-top: 0;
     font-size: 18px;
-}
+  }
 
 .thumbnail p {
     margin-bottom: 10px;
@@ -206,3 +206,7 @@ a:hover {
 .thumbnail p:last-child {
     margin-bottom: 0;
 }
+.prod-form {
+    margin: 0 auto; /* Center the button form horizontally */
+    margin-top: 30px; /* Adjust margin for spacing after product listings */
+  }
