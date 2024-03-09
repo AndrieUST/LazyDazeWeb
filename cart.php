@@ -1,3 +1,15 @@
+<?php
+// Check if the form has been submitted
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // Check if the required fields are set
+    if (isset($_GET["s-field"]) && isset($_GET["q-field"])) {
+        // Retrieve selected size and quantity from the database
+        $selectedSize = $_GET["s-field"];
+        $selectedQuantity = $_GET["q-field"];
+        
+    }
+}
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -94,10 +106,11 @@
                         <!-- Product Details Column -->
                         <div class="v-layout v-flex-block">
                             <h3>NINJA from MANILA Tee - Black</h3>
+                            <!-- Size Dropdown and retrieved back from the database -->
                             <select class="select-field" id="size-field" name="s-field">
-                                <option value="First">S</option>
-                                <option value="Second">M</option>
-                                <option value="Third">L</option>
+                                <option value="First" <?php if ($selectedSize == "First") echo "selected"; ?>>S</option>
+                                <option value="Second" <?php if ($selectedSize == "Second") echo "selected"; ?>>M</option>
+                                <option value="Third" <?php if ($selectedSize == "Third") echo "selected"; ?>>L</option>
                             </select>
                             <h4>PHP 000</h4>
                         </div>
@@ -106,7 +119,7 @@
                             <h4>Quantity</h4>
                         <div class="qty">
                             <span class="minus"><i class="fa-solid fa-minus fa-xl"></i></span>
-                            <span class="num">01</span>
+                            <span class="num"><?php echo $selectedQuantity; ?></span>
                             <span class="plus"><i class="fa-solid fa-plus fa-xl"></i></span>
                         </div>
                         </div>
