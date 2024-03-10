@@ -1,3 +1,8 @@
+<?php
+include('connect.php');
+
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,12 +23,12 @@
     <link rel="icon" href="./LDAssets/lz logo.png">
 </head>
 <body>
-  <!-- Background Image -->
-<div class = "bg">
-  <!-- Navigation Bar -->
-  <header class="topnav">
+<!-- Background Image -->
+<div class="bg">
+    <!-- Navigation Bar -->
+    <header class="topnav">
         <a href="homepage.php">
-          <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
+            <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
         <div class="topnav-right">
@@ -50,28 +55,26 @@
             <div class="nav-line"></div>
             <!-- Search -->
             <div class="nav-search">
-            <form class="search-form" method="get">
-                <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-                <input type="text" class="search-input" name="search" value="" placeholder="Search Product">
-            </form>
+                <form class="search-form" method="get">
+                    <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
+                    <input type="text" class="search-input" name="search" value="" placeholder="Search Product">
+                </form>
             </div>
             <div class="nav-line"></div>
         </div>
-  </header>
-      <!-- Inquiry Page -->
-      <h1>Inquiries</h1>
-      <div class="container">
-    <form class="inquiry-form" id = "inquiry" method ="post">
-        <label for="name-in">Name</label>
-        <input type = "text" id="name-in" class = "name-input" name ="name-text-box" required>
-        <label>Email</label>
-        <input type = "text" class = "email-input" name ="email-text-box" required>
-        <label>Inquiry</label>
-        <textarea class = "inquiry-input" name ="inquiry-text-box" required></textarea>
-        <button class = "back-btn" onclick="history.back()">Go Back</button>
-        <button type= "submit" class = "submit-btn" name = "submit_inquiry" value = "submit-inquiry">Submit</button>
-    </form>
+    </header>
+    <!-- Inquiry Page -->
+    <h1>Inquiries</h1>
+    <div class="container">
+        <form class="inquiry-form" id="inquiry" method="post" action="submit_inquiry.php">
+            <label for="name-in">Name</label>
+            <input type="text" id="name-in" class="name-input" name="name-text-box" required>
+            <label for="inquiry-text">Inquiry</label>
+            <textarea id="inquiry-text" class="inquiry-input" name="inquiry-text-box" required></textarea>
+            <button class="back-btn" onclick="history.back()">Go Back</button>
+            <button type="submit" class="submit-btn" name="submit_inquiry" value="submit-inquiry">Submit</button>
+        </form>
+    </div>
 </div>
-</div>	
 </body>
 </html>
