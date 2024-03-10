@@ -90,9 +90,9 @@ $result = mysqli_query($conn, $sql);
               <!-- Edit Button -->
               <a href="editprod.php?product_id=<?php echo $row['ProductID']; ?>" class="btn btn-primary">Edit</a>
               <!-- Remove Button -->
-              <form method="post" action="removeprod.php">
-                <input type="hidden" name="product_id" value="<?php echo $row['ProductID']; ?>">
-                <button type="submit" class="btn btn-danger" name="action" value="remove">Remove</button>
+              <form method="post" action="removeprod.php" onsubmit="return confirm('Are you sure you want to remove this item?');">
+              <input type="hidden" name="product_id" value="<?php echo $row['ProductID']; ?>">
+              <button type="submit" class="btn btn-danger" name="action" value="remove">Remove</button>
               </form>
             </div>
           </div>
