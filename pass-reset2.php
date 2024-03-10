@@ -7,6 +7,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $Customer_Email = $_SESSION['registered_email']; // Assuming you're storing the email in a session
         $Customer_PW = $_POST['new_password'];
         $ConfirmPassword = $_POST['Confirmpassword'];
+        
+        if (strlen($Customer_PW) < 8) {
+            echo "<script>alert('Password must be at least 8 characters long.');</script>";
+            
+        }
        
         if ($Customer_PW ===  $ConfirmPassword) {
            
@@ -64,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form id = "email"  action = "pass-reset2.php" method ="post">
         
         <label>New Password</label>
-        <input type = "password" class = "password-input"  name ="new_password" required>
+        <input type = "password" class = "password-input"  name ="new_password" minlength="8" required>
         <label>Confirm Password</label>
         <input type = "password" class = "password-input"   name ="Confirmpassword" required>
         <button type= "submit" class = "submit-btn" name = "submit" value = "Login">Confirm</button>

@@ -21,6 +21,12 @@ if (isset($_POST["submit"])) {
     $Customer_Number = $_POST["Number"];
     $ConfirmPassword = $_POST["Confirmpassword"];
 
+    // Check if password meets the minimum length requirement
+    if (strlen($Customer_PW) < 8) {
+        echo "<script>alert('Password must be at least 8 characters long.');</script>";
+        
+    }
+
     // Check if the email is already taken
     $duplicate_check = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
     if (mysqli_num_rows($duplicate_check) > 0) {
@@ -57,12 +63,9 @@ if (isset($_POST["submit"])) {
                 $query = "INSERT INTO users (Customer_Email, Customer_PW, Customer_Address, Customer_Number, verification_code, email_verified_at) 
                           VALUES ('$Customer_Email', '$hashedPassword', '$Customer_Address', '$Customer_Number', '$verification_code', NULL)";
                 if (mysqli_query($conn, $query)) {
-                  
                     $_SESSION['registered_email'] = $Customer_Email;
-                
-                   
                     header("Location: email_code.php?register_email=" . $Customer_Email);
-                    
+                    exit;
                 } else {
                     echo "Error: " . $query . "<br>" . mysqli_error($conn);
                 }
@@ -73,7 +76,6 @@ if (isset($_POST["submit"])) {
             echo "<script>alert('Password Does Not Match');</script>";
         }
     }
-    
 }
 ?>
 
@@ -118,7 +120,7 @@ if (isset($_POST["submit"])) {
         <label>Password</label>
         <input type = "password" class = "password-input"  name ="register_password" required>
         <label>ConfirmPassword</label>
-        <input type = "password" class = "password-input"   name ="Confirmpassword" required>
+        <input type = "password" class = "password-input"   name ="Confirmpassword" minlength="8" required>
         <button type= "submit" class = "submit-btn" name = "submit" value = "Login">Sign Up</button>
         <div class = "center">
         <p>Already have an account? <a href="login.php" class = "sign-in-text">Sign In</a>!</p>
