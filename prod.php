@@ -77,32 +77,30 @@ $result = mysqli_query($conn, $sql);
   <div class="bg2"></div>
   <div class="container">
     <h1>Products</h1>
-    <div class="row">
+    <div class="items-wrapper">
       <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-        <div class="col-sm-4">
-          <div class="thumbnail">
-            <img src="<?php echo $row['img']; ?>" alt="<?php echo $row['Product_Name']; ?>">
-            <div class="caption">
-              <h3><?php echo $row['Product_Name']; ?></h3>
-              <p><?php echo $row['Description']; ?></p>
-              <p>Quantity: <?php echo $row['Quantity']; ?></p>
-              <p>Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</p>
+        <div>
+            <img class = "item-image" src="<?php echo $row['img']; ?>" alt="<?php echo $row['Product_Name']; ?>">
+              <h3 class = "item-title"><?php echo $row['Product_Name']; ?></h3>
+              <div class = "item-deets"><?php echo $row['Description']; ?></div>
+              <div class = "item-deets">Quantity: <?php echo $row['Quantity']; ?></div>
+              <div class = "item-deets">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
               <!-- Edit Button -->
-              <a href="editprod.php?product_id=<?php echo $row['ProductID']; ?>" class="btn btn-primary">Edit</a>
+              <a href="editprod.php?product_id=<?php echo $row['ProductID']; ?>">
+              <button class = "edit-btn" type="submit" name="submit" value="check">Edit Item</button>
+              </a>
               <!-- Remove Button -->
               <form method="post" action="removeprod.php" onsubmit="return confirm('Are you sure you want to remove this item?');">
               <input type="hidden" name="product_id" value="<?php echo $row['ProductID']; ?>">
-              <button type="submit" class="btn btn-danger" name="action" value="remove">Remove</button>
+              <button type="submit" class="rm-btn" name="action" value="remove">Remove</button>
               </form>
-            </div>
-          </div>
         </div>
       <?php } ?>
     </div>
   </div>
   <!-- Add Product Button -->
-  <div class="container">
-    <form class="prod-form" id="prod" method="post" action="addprod.php">
+  <div class="add-btn-container">
+    <form id="prod" method="post" action="addprod.php">
       <button type="submit" class="add-btn" name="submit" value="add">Add a Product</button>
     </form>
   </div>

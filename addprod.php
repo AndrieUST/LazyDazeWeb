@@ -94,7 +94,7 @@ if(isset($_POST['submit'])) {
   <h1>Add Product</h1>
       <div class="container">
     <form class="prod-form" id="prod" method="post" action="" enctype="multipart/form-data">
-        <label>Product_Name</label>
+        <label>Product Name</label>
         <input type="text" class="name-input" name="Prod-name" required>
 
         <label>Description</label>

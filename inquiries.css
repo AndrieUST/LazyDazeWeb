@@ -1,72 +1,74 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 @keyframes appear {
-	0% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 0;
+    }
 
-	100% {
-		opacity: 1;
-	}
+    100% {
+        opacity: 1;
+    }
 }
 
-body {
-	animation: appear 0.5s;
-	background-color: white;
-	color: black;
-	overflow-x: hidden;
+body,
+html {
+    animation: appear 0.5s;
+    background-color: white;
+    color: black;
+    overflow-x: hidden;
+    height: 100%;
 }
 
 a {
-	text-decoration: none;
-	color: white;
+    text-decoration: none;
+    color: white;
 }
 
 a:hover {
-	text-decoration: none;
-	color: white;
+    text-decoration: none;
+    color: white;
 }
 
 .bg {
-	background-image: linear-gradient(rgba(255, 255, 255, 0.910),rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
-	background-color: white;
-	height: 100%;
-	background-size: 100%;
-	position: relative;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.910), rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
+    background-color: white;
+    height: 100%;
+    background-size: 100%;
+    position: relative;
     z-index: 1;
-	overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 
 
 .topnav {
-	overflow: hidden;
-	background-color: rgba(255, 255, 255, 0.829);
-	backdrop-filter: blur(3px);
-	position: sticky;
-	top: 0px;
-	z-index: 10;
-	border-bottom: 1px solid rgba(136, 136, 136, 0.5);
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.829);
+    backdrop-filter: blur(3px);
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+    border-bottom: 1px solid rgba(136, 136, 136, 0.5);
 }
 
 .topnav a {
-	float: left;
-	margin-left: 5px;
-	color: black;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
-	transition-duration: 0.3s;
+    float: left;
+    margin-left: 5px;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition-duration: 0.3s;
 }
 
 .topnav a:hover {
-	text-shadow: 0px 0px 5px white;
-	transition-timing-function: ease-in-out;
+    text-shadow: 0px 0px 5px white;
+    transition-timing-function: ease-in-out;
 }
 
 .ld-icon {
-	width: 70%;
-	margin: 0px;
+    width: 70%;
+    margin: 0px;
 }
 
 .nav-icon {
@@ -164,10 +166,12 @@ textarea {
 .inquiry-form {
     width: 50%;
 }
+
 .name-input {
     display: block;
     width: 100%;
-    height: 50px; /* Adjust height for longer input */
+    height: 50px;
+    /* Adjust height for longer input */
     padding: 10px;
     border: 1px solid #858585;
     margin-bottom: 5%;
@@ -176,10 +180,12 @@ textarea {
     color: black;
     font-family: 'Open Sans', sans-serif;
 }
+
 .inquiry-input {
     display: block;
     width: 100%;
-    height: 150px; /* Adjust height for longer input */
+    height: 150px;
+    /* Adjust height for longer input */
     padding: 10px;
     border: 1px solid #858585;
     margin-bottom: 5%;
@@ -194,7 +200,27 @@ textarea {
     transition-timing-function: ease-in-out;
 }
 
-.back-btn,
+.back-btn {
+    width: 45%;
+    height: 15%;
+    padding: 10px 30px;
+    cursor: pointer;
+    background: black;
+    border: 0;
+    color: white;
+    outline: none;
+    border-radius: 30px;
+    margin-top: 30.5px;
+    margin-bottom: 30.5px;
+    margin-right: 50px;
+    transition-duration: .4s;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.back-btn:hover {
+    background: #858585;
+}
+
 .submit-btn {
     width: 45%;
     height: 15%;
@@ -211,7 +237,6 @@ textarea {
     font-family: 'Open Sans', sans-serif;
 }
 
-.back-btn:hover,
 .submit-btn:hover {
     background: #858585;
 }

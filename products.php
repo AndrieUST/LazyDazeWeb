@@ -78,29 +78,28 @@ $result = mysqli_query($conn, $sql);
         <div class="intro">
             <h1>Ninja X Manila</h1>
             <h2>2024 Summer Collab Limited Collection</h2>
-            <div class="container"> <div class="row">
+        </div>
+        <div class="container">
+            <div class="items-wrapper">
          <?php
          // Loop through each product and display its information
          while ($row = mysqli_fetch_assoc($result)) {
          ?>
-         <div class="col-sm-4">
-            <div class="thumbnail">
-               <img src="<?php echo $row['img']; ?>" alt="<?php echo htmlspecialchars($row['Product_Name']); ?>">
-               <div class="product-details"> <h3><?php echo htmlspecialchars($row['Product_Name']); ?></h3>
-                  <p><?php echo htmlspecialchars($row['Description']); ?></p>
-                  <p>Quantity: <?php echo $row['Quantity']; ?></p>
-                  <p>Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</p>
-                  <form class="product-form" method="post" action="viewprod.php">
-                     <button type="submit" class="add-btn" name="submit" value="check">Check Item</button>
+         <div>
+               <img class = "item-image" src="<?php echo $row['img']; ?>" alt="<?php echo htmlspecialchars($row['Product_Name']); ?>">
+                <h3 class = "item-title"><?php echo htmlspecialchars($row['Product_Name']); ?></h3>
+                  <div class = "item-deets"><?php echo htmlspecialchars($row['Description']); ?></div>
+                  <div class = "item-deets">Quantity: <?php echo $row['Quantity']; ?></div>
+                  <div class = "item-deets">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
+                  <form method="post" action="viewprod.php">
+                     <button class = "item-btn" type="submit" name="submit" value="check">Check Item</button>
                   </form>
-                        </div>
-                    </div>
                 </div>
                 <?php
                 }
                 ?>
-            </div>
+                </div>
         </div>
-    </div>
+</div>
 </body>
 </html>

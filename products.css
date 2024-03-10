@@ -28,7 +28,7 @@ a:hover {
 }
 
 .bg {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.910),rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.910), rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
     background-color: white;
     height: 100%;
     background-size: 100%;
@@ -38,7 +38,7 @@ a:hover {
 }
 
 .bg2 {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.027),rgba(255, 255, 255, 0)), url("./LDAssets/products\ bg.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.027), rgba(255, 255, 255, 0)), url("./LDAssets/products\ bg.png");
     background-color: white;
     margin-top: -9.5%;
     height: 61.5%;
@@ -152,84 +152,89 @@ a:hover {
 }
 
 .intro {
-	margin-top: -8%;
-	margin-bottom: auto;
-	margin-left: 10%;
-	font-family: 'Open Sans', sans-serif;
+    margin-top: -8%;
+    margin-bottom: auto;
+    margin-left: 10%;
+    font-family: 'Open Sans', sans-serif;
     z-index: 5;
 }
 
-.intro h1{
-	font-size: 63px;
-	font-weight: 700;
+.intro h1 {
+    font-size: 63px;
+    font-weight: 700;
 }
 
-.intro h2{
-	margin-top: -3px;
-	font-size: 19px;
+.intro h2 {
+    margin-top: -3px;
+    font-size: 19px;
 }
 
-/* Keep the container width */
-/* Keep the container width */
 .container {
     display: flex;
-    width: 1000px; /* Set a fixed width */
+    width: 100%;
     margin-top: 55px;
-    margin-left: 10%;
-    margin-right: 10%;
+    padding-left: 7.5%;
     font-family: 'Open Sans', sans-serif;
-  }
-  
-  /* Style the product thumbnails */
-  .thumbnail {
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 200px; /* Set a fixed width for thumbnails */
-    margin-right: 20px; /* Maintain some margin for spacing */
-    /* Adjust margin here to control spacing between products */
-  }
-  
-  .thumbnail img {
-    max-width: 100%; /* Ensure the image doesn't exceed its container */
-    height: auto; /* Maintain aspect ratio */
-  }
-  
-  /* Style the product details area */
-  .product-details {
-    width: calc(100% - 220px); /* Calculate width based on container width and product thumbnail width with margin */
-    padding: 10px 15px; /* Add some padding for better readability */
-  }
-  
-  .product-details h3 {
-    margin-top: 0;
-    font-size: 18px;
-  }
-  
-  .product-details p {
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
-  
-  /* Style the "Check Product" button */
-  .add-btn {
-    width: auto; /* Adjust width automatically based on content */
-    height: auto; /* Adjust height automatically based on content */
-    cursor: pointer;
+}
+
+.items-wrapper {
+    display: grid;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    align-items: center;
+    grid-auto-columns: 1fr;
+    grid-column-gap: 60px;
+    grid-row-gap: 50px;
+    grid-template-columns: 350px 350px 350px 350px;
+    grid-template-rows: auto auto;
+}
+
+.item-image {
+    width: 40%;
     display: block;
+    margin-bottom: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+    text-align: center;
+}
+
+.item-title {
+    width: 350px;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.item-deets {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.item-btn {
+    width: 60%;
+    height: 11.5%;
+    display: block;
+    margin: auto;
+    padding-top: 12px;
+    padding-right: 25px;
+    padding-bottom: 12px;
+    padding-left: 25px;
     background: black;
-    border: 0;
     color: white;
-    outline: none;
+    border: 0;
     border-radius: 30px;
-    margin-top: 10%; /* Adjust margin for button placement */
+    font-size: 17px;
+    font-weight: 100;
+}
+
+.item-btn:hover {
+    background-color: #32343a;
+    border-radius: 0px;
+    color: hsla(0, 0.00%, 100.00%, 1.00);
     transition-duration: .4s;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px; /* Adjust font size */
-    padding: 10px 20px; /* Add padding for button text */
-  }
-  
-  .add-btn:hover {
-    background: #858585;
-  }
+}

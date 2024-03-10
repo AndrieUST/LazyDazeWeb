@@ -28,7 +28,7 @@ a:hover {
 }
 
 .bg {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.910),rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.910), rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
     background-color: white;
     height: 100%;
     background-size: 100%;
@@ -38,7 +38,7 @@ a:hover {
 }
 
 .bg2 {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.027),rgba(255, 255, 255, 0)), url("./LDAssets/products\ bg.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.027), rgba(255, 255, 255, 0)), url("./LDAssets/products\ bg.png");
     background-color: white;
     margin-top: -9.5%;
     height: 61.5%;
@@ -151,62 +151,133 @@ a:hover {
     transition-duration: 0.3s;
 }
 
-.add-btn {
-    width: 44.5%;
-    height: 5.5%;
-    padding: 10px 30px;
-    cursor: pointer;
-    display: block;
-    margin: auto; /* Center the button horizontally */
-    background: black;
-    border: 0;
-    color: white;
-    outline: none;
-    border-radius: 30px;
-    margin-top: 20px; /* Adjust margin for button placement */
-    transition-duration: .4s;
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 55px;
+    padding-left: 7.5%;
     font-family: 'Open Sans', sans-serif;
-  }
+}
+
+.items-wrapper {
+    display: grid;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    align-items: center;
+    grid-auto-columns: 1fr;
+    grid-column-gap: 60px;
+    grid-row-gap: 50px;
+    grid-template-columns: 350px 350px 350px 350px;
+    grid-template-rows: auto auto;
+}
+
+.item-image {
+    width: 50%;
+    display: block;
+    margin-bottom: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+    text-align: center;
+}
+
+.item-title {
+    width: 350px;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.item-deets {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.edit-btn {
+    width: 60%;
+    height: 10%;
+    display: block;
+    margin: auto;
+    margin-bottom: 10px;
+    padding-top: 12px;
+    padding-right: 25px;
+    padding-bottom: 12px;
+    padding-left: 25px;
+    background: #31449b;
+    color: white;
+    border: 0;
+    border-radius: 30px;
+    font-size: 17px;
+    font-weight: 100;
+    transition-duration: .4s;
+}
+
+.edit-btn:hover {
+    background-color: #31449b;
+    border-radius: 0px;
+    color: hsla(0, 0.00%, 100.00%, 1.00);
+    transition-duration: .4s;
+}
+
+.rm-btn {
+    width: 60%;
+    height: 10%;
+    display: block;
+    margin: auto;
+    padding-top: 12px;
+    padding-right: 25px;
+    padding-bottom: 12px;
+    padding-left: 25px;
+    background: #ff4040;
+    color: white;
+    border: 0;
+    border-radius: 30px;
+    font-size: 17px;
+    font-weight: 100;
+    transition-duration: .4s;
+}
+
+.rm-btn:hover {
+    background-color: #ff8585;
+    border-radius: 0px;
+    color: hsla(0, 0.00%, 100.00%, 1.00);
+    transition-duration: .4s;
+}
+
+.add-btn-container {
+    display: block;
+    margin: auto;
+    margin-bottom: 100px;
+    width: 50%;
+    height: 60px;
+}
+
+.add-btn {
+    width: 30%;
+    height: 100%;
+    display: block;
+    margin: auto;
+    padding-top: 12px;
+    padding-right: 25px;
+    padding-bottom: 12px;
+    padding-left: 25px;
+    background: black;
+    color: white;
+    border: 0;
+    border-radius: 40px;
+    font-size: 17px;
+    font-weight: 100;
+    transition-duration: .4s;
+}
 
 .add-btn:hover {
-    background: #858585;
+    background-color: #32343a;
+    border-radius: 0px;
+    color: hsla(0, 0.00%, 100.00%, 1.00);
+    transition-duration: .4s;
 }
-
-.thumbnail {
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 280px; /* Adjust width as needed */
-    margin: 10px auto; /* Adjust margin for spacing */
-  }
-  
-  .thumbnail img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  .thumbnail .caption {
-    padding: 10px 15px;
-    font-size: 14px;
-    line-height: 1.5;
-    text-align: center;
-  }
-
-  .thumbnail h3 {
-    margin-top: 0;
-    font-size: 18px;
-  }
-
-.thumbnail p {
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.thumbnail p:last-child {
-    margin-bottom: 0;
-}
-.prod-form {
-    margin: 0 auto; /* Center the button form horizontally */
-    margin-top: 30px; /* Adjust margin for spacing after product listings */
-  }
