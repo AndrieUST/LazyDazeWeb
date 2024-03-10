@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2024 at 07:18 PM
+-- Generation Time: Mar 10, 2024 at 04:38 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `lazydaze`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `manageinquiry`
+--
+
+CREATE TABLE `manageinquiry` (
+  `InquiryID` int(200) NOT NULL,
+  `Customer_Email` varchar(200) NOT NULL,
+  `Customer_Name` varchar(255) NOT NULL,
+  `Inquiry_Message` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `manageinquiry`
+--
+
+INSERT INTO `manageinquiry` (`InquiryID`, `Customer_Email`, `Customer_Name`, `Inquiry_Message`) VALUES
+(5, 'doffy0949@gmail.com', 'doffy', 'hleo'),
+(6, 'doffy0949@gmail.com', 'doffy', 'helo');
 
 -- --------------------------------------------------------
 
@@ -47,7 +68,7 @@ CREATE TABLE `manageorders` (
 CREATE TABLE `manageprod` (
   `ProductID` int(200) NOT NULL,
   `Product_Name` varchar(255) NOT NULL,
-  `Description` varchar(255) NOT NULL,
+  `Description` varchar(100) NOT NULL,
   `Quantity` int(30) NOT NULL,
   `Price` int(200) NOT NULL,
   `img` varchar(200) NOT NULL
@@ -58,9 +79,10 @@ CREATE TABLE `manageprod` (
 --
 
 INSERT INTO `manageprod` (`ProductID`, `Product_Name`, `Description`, `Quantity`, `Price`, `img`) VALUES
-(5, 'Ninja Black Tee from manila ', '1231', 2, 2000, 'sample-shirt.png'),
-(6, 'Ninja Black Tee from manila ', '12131', 12121, 2000, 'sample-shirt.png'),
-(8, 'Ninja Black Tee from manila 4', 'blahblahblah', 3, 350, 'sample-shirt.png');
+(20, 'Ninja Black Tee from manila 4', 'bigger', 2, 700, 'sample-shirt2.jpg'),
+(27, 'Ninja Black Tee from manila 2', 'newest oversized', 10, 600, 'sample-tshirt1.png'),
+(28, 'Ninja Black Tee from manila ', 'old black shirt', 5, 350, 'sample-shirt2.jpg'),
+(33, 'Ninja Black Tee from manila 4', 'blahblah', 2, 500, 'sample-shirt.png');
 
 -- --------------------------------------------------------
 
@@ -94,6 +116,12 @@ INSERT INTO `users` (`id`, `Customer_Email`, `Customer_Address`, `Customer_Numbe
 --
 
 --
+-- Indexes for table `manageinquiry`
+--
+ALTER TABLE `manageinquiry`
+  ADD PRIMARY KEY (`InquiryID`);
+
+--
 -- Indexes for table `manageorders`
 --
 ALTER TABLE `manageorders`
@@ -116,6 +144,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `manageinquiry`
+--
+ALTER TABLE `manageinquiry`
+  MODIFY `InquiryID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `manageorders`
 --
 ALTER TABLE `manageorders`
@@ -125,7 +159,7 @@ ALTER TABLE `manageorders`
 -- AUTO_INCREMENT for table `manageprod`
 --
 ALTER TABLE `manageprod`
-  MODIFY `ProductID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ProductID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `users`
