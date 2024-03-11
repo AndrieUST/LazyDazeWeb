@@ -30,7 +30,7 @@
   <a href="login.php">
   <button class = "go-login" name = "go-to-login" value = "Go-Login">Login</button>
 </a>
-
+<h3>or</h3>
 <a href="mainpage.php">
   <button class = "go-mainpage" name = "go-to-mainpage" value = "Go-Mainpage">View Products</button>
 </a>
