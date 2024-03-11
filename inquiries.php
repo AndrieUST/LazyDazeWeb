@@ -68,7 +68,7 @@ include('connect.php');
     <div class="container">
         <form class="inquiry-form" id="inquiry" method="post" action="submit_inquiry.php">
             <label for="name-in">Name</label>
-            <input type="text" id="name-in" class="name-input" name="name-text-box" required>
+            <input type="text" id="name-in" class="name-input" name="name-text-box" notrequired>
             <label for="inquiry-text">Inquiry</label>
             <textarea id="inquiry-text" class="inquiry-input" name="inquiry-text-box" required></textarea>
             <button class="back-btn" onclick="history.back()">Go Back</button>
