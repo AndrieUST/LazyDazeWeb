@@ -92,6 +92,10 @@ $result = mysqli_query($conn, $sql);
                   <div class = "item-deets">Quantity: <?php echo $row['Quantity']; ?></div>
                   <div class = "item-deets">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
                   <form method="post" action="viewprod.php">
+
+                  <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($row['Product_Name']); ?>">
+                <input type="hidden" name="quantity" value="<?php echo $row['Quantity']; ?>">
+                <input type="hidden" name="price" value="<?php echo $row['Price']; ?>">
                      <button class = "item-btn" type="submit" name="submit" value="check">Check Item</button>
                   </form>
                 </div>

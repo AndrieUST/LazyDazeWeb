@@ -1,3 +1,14 @@
+<?php
+include('connect.php');
+
+// Check if form has been submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+    // Retrieve product information from the submitted form
+    $product_name = $_POST["product_name"];
+    $quantity = $_POST["quantity"];
+    $price = $_POST["price"];
+}
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -71,22 +82,31 @@
   <div class="h-layout"><img class="prod-img" src="./LDAssets/sample-shirt.png" alt="Shirt"/>
         <div class="v-layout">
             <div>
-                <h1>NINJA from MANILA Tee - BLACK</h1>
-                <h2>PHP 000</h2>
+                <!-- Display product name from products.php SQL -->
+                <h1><?php echo htmlspecialchars($product_name); ?></h1>
+                <!-- Display product price deom products.php SQL -->
+                <h2><?php echo number_format($price, 2, '.', ','); ?> PHP</h2>
             </div>
             <div class="form">
                 <form id="prod-form" name="prod-form" method="get" action="cart.php">
-                    <label for="">Size</label><select class="select-field" id="size-field" name="s-field">
+                    <!-- Provide options for quantity -->
+                    <label for="size-field">Size</label>
+                    <select class="select-field" id="size-field" name="s-field">
                         <option value=""></option>
                         <option value="First">S</option>
                         <option value="Second">M</option>
                         <option value="Third">L</option>
-                    </select><label for="">Quantity</label><select class="select-field" id="quantity-field" name="q-field">
+                    </select>
+                    <label for="quantity-field">Quantity</label>
+                    <select class="select-field" id="quantity-field" name="q-field">
                         <option value=""></option>
-                        <option value="First">1</option>
-                        <option value="Second">2</option>
-                        <option value="Third">3</option>
-                    </select><input type="submit" class="submit-btn" value="Add to Cart"  /></form>
+                        <!-- Loop to provide quantity options base on the number input in SQL -->
+                        <?php for ($i = 1; $i <= $quantity; $i++) { ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                        <?php } ?>
+                    </select>
+                    <input type="submit" class="submit-btn" value="Add to Cart" />
+                </form>
             </div>
         </div>
     </div>
