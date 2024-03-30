@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $product_name = $_POST["product_name"];
     $quantity = $_POST["quantity"];
     $price = $_POST["price"];
+    
 }
 ?>
 <html lang="en">
@@ -26,6 +27,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Website Icon -->
+    <script>
+    // Function to validate the form before submission
+    function validateForm() {
+        var size = document.getElementById("size-field").value;
+        var quantity = document.getElementById("quantity-field").value;
+
+        // Check if both size and quantity are empty
+        if (size === "" && quantity === "") {
+            alert("Please Input Size and Quantity");
+            return false;
+        }
+        // Check if size is empty
+        else if (size === "") {
+            alert("Please Input Size");
+            return false;
+        }
+        // Check if quantity is empty
+        else if (quantity === "") {
+            alert("Please Input Quantity");
+            return false;
+        }
+        // If both fields have input. 
+        return true;
+    }</script>
+
     <link rel="icon" href="./LDAssets/lz logo.png">
 </head>
 <body>
@@ -88,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 <h2><?php echo number_format($price, 2, '.', ','); ?> PHP</h2>
             </div>
             <div class="form">
-                <form id="prod-form" name="prod-form" method="get" action="cart.php">
+            <form id="prod-form" name="prod-form" method="get" action="cart.php" onsubmit="return validateForm()">
                     <!-- Provide options for quantity -->
                     <label for="size-field">Size</label>
                     <select class="select-field" id="size-field" name="s-field">
@@ -105,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                             <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
                         <?php } ?>
                     </select>
-                    <input type="submit" class="submit-btn" value="Add to Cart" />
+                    <input type="submit" class="submit-btn" name="submit" value="Add to Cart" />
                 </form>
             </div>
         </div>
