@@ -131,7 +131,7 @@ if(isset($_POST["resend"])) {
     <div class = "email-center">
     <form id = "email"  action = "pass-resetcode.php" method ="post">
         <label>Verification Code</label>
-        <input type = "text" class = "email-input"  name ="email_input" required>
+        <input type = "text" class = "email-input"  name ="email_input">
         <button type= "resend" class = "resend-btn" name = "resend" value = "resend">Resend Code</button>
         <button type= "confirm" class = "confirm-btn" name = "confirm" value = "confirm">Confirm</button>
        
