@@ -68,10 +68,12 @@ $result = mysqli_query($conn, $query);
             <div class="nav-line"></div>
         </div>
   </div>
-
+<div class="whole-container">
   <!-- Reviews Container -->
   <div class="reviews-container">
+    <!-- Reviews Horizontal Flex Box -->
     <div class="h-layout h-flex-block">
+        <!-- Reviews Grid -->
       <div class="reviews-grid">
     <?php
     // Check if there are any reviews
@@ -104,9 +106,32 @@ $result = mysqli_query($conn, $query);
     }
     ?>
       </div>
-      <img src="LDAssets/reviews-img-1.png" alt="Image 1" class="image-1" />
+      <img src="LDAssets/reviews-img-1.png" alt="Image 1" class="image-1"/>
     </div>
   </div>
-
+  <div class="divider"></div>
+    <div class="reviews-container-2">
+        <div class="h-layout h-flex-block">
+            <img src="LDAssets/reviews-img-2.png" alt="Image 2" class="image-2"/>
+             <div class="reviews-grid-2">
+                <div class="review">
+                    <div class="rating">
+                        <i class="fas fa-star fa-xl"></i>
+                        <i class="fas fa-star fa-xl"></i>
+                        <i class="fas fa-star fa-xl"></i>
+                        <i class="fas fa-star fa-xl"></i>
+                        <i class="fas fa-star fa-xl"></i>
+                        </div>
+                        <div class="review-text">
+                            <p>Hello</p>
+                        </div>
+                        <div class="customer-info">
+                            <p>Toto</p>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
