@@ -121,11 +121,11 @@ if(isset($_POST["resend"])) {
   <!-- Background Image -->
 <div class = "bg">
   <!-- Navigation Bar -->
-<header class="topnav">
+<div class="topnav">
         <a href="homepage.php">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
-  </header>
+  </div>
 
     <h1>Verify Account</h1>
     <div class = "email-center">

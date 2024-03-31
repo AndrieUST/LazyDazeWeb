@@ -19,11 +19,11 @@
   <!-- Background Image -->
 <div class = "bg">
   <!-- Navigation Bar -->
-<header class="topnav">
+<div class="topnav">
         <a href="">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
-  </header>
+  </div>
   <div class="intro">
   <h2>What are you waiting for?</h2>
   <h1>Get your Lazy Daze now</h1>

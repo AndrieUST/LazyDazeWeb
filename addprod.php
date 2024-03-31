@@ -54,12 +54,12 @@ if(isset($_POST['submit'])) {
   <!-- Background Image -->
 <div class = "bg">
   <!-- Navigation Bar -->
-  <header class="topnav">
+  <div class="topnav">
         <a href="homepage.php">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
-        <div class="topnav-right">
+        <div class="nav-h-layout">
             <!-- Logout Icon -->
             <div class="nav-icon">
                 <a href="./homepage.php">
@@ -90,7 +90,7 @@ if(isset($_POST['submit'])) {
             </div>
             <div class="nav-line"></div>
         </div>
-  </header>
+  </div>
   <h1>Add Product</h1>
       <div class="container">
     <form class="prod-form" id="prod" method="post" action="" enctype="multipart/form-data">

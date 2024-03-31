@@ -21,12 +21,12 @@
   <!-- Background Image -->
 <div class = "bg">
   <!-- Navigation Bar -->
-<header class="topnav">
+<div class="topnav">
         <a href="">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
-        <div class="topnav-right">
+        <div class="nav-h-layout">
             <!-- Logout Icon -->
             <div class="nav-icon">
                 <a href="./homepage.php">
@@ -57,7 +57,7 @@
             </div>
             <div class="nav-line"></div>
         </div>
-  </header>
+  </div>
   <div class="intro">
   <h2>2024 Summer Collection</h2>
   <h1>New Arrivals</h1>

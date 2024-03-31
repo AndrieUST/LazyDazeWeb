@@ -26,12 +26,12 @@ include('connect.php');
 <!-- Background Image -->
 <div class="bg">
     <!-- Navigation Bar -->
-    <header class="topnav">
+    <div class="topnav">
         <a href="homepage.php">
             <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
-        <div class="topnav-right">
+        <div class="nav-h-layout">
             <!-- Logout Icon -->
             <div class="nav-icon">
                 <a href="./homepage.php">
@@ -62,7 +62,7 @@ include('connect.php');
             </div>
             <div class="nav-line"></div>
         </div>
-    </header>
+    </div>
     <!-- Inquiry Page -->
     <h1>Inquiries</h1>
     <div class="container">

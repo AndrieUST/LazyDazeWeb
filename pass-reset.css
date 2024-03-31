@@ -1,81 +1,95 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
 @keyframes appear {
 	0% {
-	  opacity: 0;
+		opacity: 0;
 	}
+
 	100% {
-	  opacity: 1;
+		opacity: 1;
 	}
 }
-body{
+
+body {
 	animation: appear 0.5s;
 	background-color: white;
 	color: black;
 }
-a{
-    text-decoration: none;
-    color: white;
+
+a {
+	text-decoration: none;
+	color: white;
 }
-label{
-    display: block;
-    color: rgb(177, 177, 177);
-    margin-top: 50px;
-    padding-left: 51px;
+
+label {
+	display: block;
+	color: rgb(177, 177, 177);
+	margin-top: 50px;
+	padding-left: 51px;
 }
+
 .bg {
-	background-image: linear-gradient(rgba(255, 255, 255, 0.910),rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
+	background-image: linear-gradient(rgba(255, 255, 255, 0.910), rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
 	background-color: white;
 	height: 100%;
 	background-size: 100%;
 	position: relative;
 }
+
 .email-center {
-    max-width: 500px;
-    margin: auto;
+	max-width: 500px;
+	margin: auto;
 }
+
 .topnav {
-    overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(3px);
-    position: sticky;
-    top: 0px;
-    z-index: 1;
-    border-bottom: 1px solid rgba(136, 136, 136, 0.5);
+	overflow: hidden;
+	background-color: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(3px);
+	position: sticky;
+	top: 0px;
+	z-index: 1;
+	border-bottom: 1px solid rgba(136, 136, 136, 0.5);
 }
+
 .topnav a {
-    float: left;
-    margin-left: 5px;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    transition-duration: 0.3s;
+	float: left;
+	margin-left: 5px;
+	color: black;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	transition-duration: 0.3s;
 }
+
 .topnav a:hover {
-    text-shadow: 0px 0px 5px white;
-    transition-timing-function: ease-in-out;
+	text-shadow: 0px 0px 5px white;
+	transition-timing-function: ease-in-out;
 }
-.ld-icon{
-    width: 70%;
-    margin: 0px;
+
+.ld-icon {
+	width: 70%;
+	margin: 0px;
 }
-h1{
-    margin-top: 60px;
-    margin-bottom: 10px;
+
+h1 {
+	margin-top: 60px;
+	margin-bottom: 10px;
 	font-family: 'Open Sans', sans-serif;
 	text-align: center;
-    color: black;
-    font-size: 45px;
-    font-weight: 700;
+	color: black;
+	font-size: 45px;
+	font-weight: 700;
 }
+
 form {
 	font-family: 'Open Sans', sans-serif;
 }
+
 .email-input {
-    display: flex;
-    justify-content: center;
+	display: flex;
+	justify-content: center;
 	width: 80%;
-    height: 45px;
+	height: 45px;
 	padding: 10px 10px;
 	margin: auto;
 	border-left: 1px solid #858585;
@@ -92,26 +106,29 @@ input:focus {
 	border-color: #e9e9e9;
 	transition-timing-function: ease-in-out;
 }
+
 .reset-btn {
-	width: 45%;
-	height: 7%;
+	width: 50%;
+	height: 5.5%;
 	padding: 10px 30px;
 	cursor: pointer;
 	display: block;
 	margin: auto;
 	background: black;
-    border: 0;
+	border: 0;
 	color: white;
 	outline: none;
 	border-radius: 30px;
 	margin-top: 30.5px;
-    margin-bottom: 30.5px;
+	margin-bottom: 30.5px;
 	transition-duration: .4s;
 	font-family: 'Open Sans', sans-serif;
 }
+
 .reset-btn:hover {
 	width: 45%;
-	height: 7%;;
+	height: 7%;
+	;
 	padding: 10px 30px;
 	cursor: pointer;
 	display: block;
@@ -122,14 +139,15 @@ input:focus {
 	outline: none;
 	border-radius: 30px;
 	margin-top: 30.5px;
-    margin-bottom: 30.5px;
+	margin-bottom: 30.5px;
 	transition-duration: .4s;
 }
+
 .password-input {
-    display: flex;
-    justify-content: center;
+	display: flex;
+	justify-content: center;
 	width: 80%;
-    height: 45px;
+	height: 45px;
 	padding: 10px 10px;
 	margin: auto;
 	border-left: 1px solid #858585;
@@ -141,6 +159,7 @@ input:focus {
 	color: black;
 	font-family: 'Open Sans', sans-serif;
 }
+
 .submit-btn {
 	width: 44.5%;
 	height: 5.5%;
@@ -149,15 +168,16 @@ input:focus {
 	display: block;
 	margin: auto;
 	background: black;
-    border: 0;
+	border: 0;
 	color: white;
 	outline: none;
 	border-radius: 30px;
 	margin-top: 30.5px;
-    margin-bottom: 30.5px;
+	margin-bottom: 30.5px;
 	transition-duration: .4s;
 	font-family: 'Open Sans', sans-serif;
 }
+
 .submit-btn:hover {
 	width: 44.5%;
 	height: 5.5%;
@@ -171,6 +191,6 @@ input:focus {
 	outline: none;
 	border-radius: 30px;
 	margin-top: 30.5px;
-    margin-bottom: 30.5px;
+	margin-bottom: 30.5px;
 	transition-duration: .4s;
 }

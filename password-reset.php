@@ -90,11 +90,11 @@ if(isset($_POST["confirm"])) {
   <!-- Background Image -->
 <div class = "bg">
   <!-- Navigation Bar -->
-<header class="topnav">
+<div class="topnav">
         <a href="homepage.php">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
-  </header>
+  </div>
 
     <h1>Reset Password</h1>
     <div class = "email-center">

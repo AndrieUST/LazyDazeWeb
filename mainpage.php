@@ -31,7 +31,7 @@ include('connect.php');
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
-        <div class="topnav-right">
+        <div class="nav-h-layout">
             <!-- Logout Icon -->
             <div class="nav-icon">
                 <a href="logout.php">

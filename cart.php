@@ -33,12 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   <!-- Background Image -->
 <div class = "bg">
   <!-- Navigation Bar -->
-<header class="topnav">
+<div class="topnav">
         <a href="homepage.php">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
-        <div class="topnav-right">
+        <div class="nav-h-layout">
             <!-- Logout Icon -->
             <div class="nav-icon">
                 <a href="logout.php">
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </div>
             <div class="nav-line"></div>
         </div>
-  </header>
+  </div>
   <!-- Cart Header -->
   <section class="section-2"></section>
   <!-- Cart -->

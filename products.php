@@ -29,12 +29,12 @@ $result = mysqli_query($conn, $sql);
     <!-- Background Image -->
     <div class="bg">
         <!-- Navigation Bar -->
-        <header class="topnav">
+        <div class="topnav">
             <a href="homepage.php">
                 <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
             </a>
             <!-- Icons -->
-            <div class="topnav-right">
+            <div class="nav-h-layout">
                 <!-- Logout Icon -->
                 <div class="nav-icon">
                       <a href="./homepage.php">
@@ -72,7 +72,7 @@ $result = mysqli_query($conn, $sql);
                 </div>
                 <div class="nav-line"></div>
             </div>
-        </header>
+        </div>
         <!-- Banner -->
         <div class="bg2"></div>
         <div class="intro">
