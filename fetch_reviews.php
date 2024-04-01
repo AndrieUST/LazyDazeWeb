@@ -1,13 +1,10 @@
 <?php
 include('connect.php');
 
-// Initialize customer email as null
-$Customer_Email = null;
-
-// Fetch reviews from the database
-if (isset($_SESSION['registered_email'])) {
-    $Customer_Email = $_SESSION['registered_email'];
-    $reviews_query = "SELECT * FROM managereview WHERE Customer_Email = '$Customer_Email'";
+// Fetch reviews from the database based on the product name
+if (isset($_POST["product_name"])) { // Change to $_POST
+    $Product_Name = $_POST["product_name"]; // Get the product name
+    $reviews_query = "SELECT * FROM managereview WHERE Product_Name = '$Product_Name'";
     $reviews_result = mysqli_query($conn, $reviews_query);
 
     // Check if there are reviews
@@ -34,10 +31,10 @@ if (isset($_SESSION['registered_email'])) {
         echo $reviews_html;
     } else {
         // If there are no reviews, display a message
-        echo '<p>No reviews found.</p>';
+        echo '<p>No reviews found for this product.</p>';
     }
 } else {
-    // If the user is not logged in, display a message
-    echo '<p>Please log in to view reviews.</p>';
+    // If the product name is not provided, display a message
+    echo '<p>Please select a product to view reviews.</p>';
 }
 ?>

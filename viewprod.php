@@ -19,39 +19,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     // Retrieve product information from the submitted form
     $Product_Name = $_POST["product_name"];
     $Quantity = $_POST["quantity"];
-    $Size = $_POST["size"];
+    // $Size = $_POST["size"];
     $Price = $_POST["price"];
     $image = $_POST["image"];
-        // Insert product into database
-        $query = "INSERT INTO `manageprod2` (`Size`, `Product_Name`, `Quantity`, `Price`, `img`) VALUES ('$Size', '$Product_Name', '$Quantity', '$Price', '$image')";
-        if (mysqli_query($conn, $query)) {
-            // Product inserted successfully
-            echo "Product added to cart successfully.";
-        } else {
-            echo "Error: " . $query . "<br>" . mysqli_error($conn);
-        }
+        // // Insert product into database
+        // $query = "INSERT INTO `manageprod2` (`Size`, `Product_Name`, `Quantity`, `Price`, `img`) VALUES ('$Size', '$Product_Name', '$Quantity', '$Price', '$image')";
+        // if (mysqli_query($conn, $query)) {
+        //     // Product inserted successfully
+        //     echo "Product added to cart successfully.";
+        // } else {
+        //     echo "Error: " . $query . "<br>" . mysqli_error($conn);
+        // }
     
     
     // Check if the customer name is provided in the form
     $Customer_Name = isset($_POST["customer_name"]) ? $_POST["customer_name"] : null;
-
-    // Insert review into database if all required fields are present
-    if (isset($_SESSION['registered_email']) && isset($_POST["review_message"]) && isset($_POST["rating"])) { // Check if user is logged in and required fields are set
-        $Customer_Email = $_SESSION['registered_email']; // Get the current logged-in user's email
-        $Review_Message = $_POST["review_message"];
-        $Rating = $_POST["rating"];
-        $query = "INSERT INTO managereview (Customer_Email, Customer_Name, Review_Message, Rating) VALUES ('$Customer_Email', '$Customer_Name', '$Review_Message', '$Rating')";
-        if (mysqli_query($conn, $query)) {
-            // Review inserted successfully
-        } else {
-            echo "Error: " . $query . "<br>" . mysqli_error($conn);
-        }
-    } elseif (!isset($_SESSION['registered_email'])) {
-        // Handle the case where the user is not logged in
-        echo "Please log in to submit a review.";
+ // Insert review into database if all required fields are present
+ if (isset($_SESSION['registered_email']) && isset($_POST["review_message"]) && isset($_POST["rating"]) && isset($_POST["product_name"])) { 
+    // Check if user is logged in and required fields are set
+    $Customer_Email = $_SESSION['registered_email']; // Get the current logged-in user's email
+    $Review_Message = $_POST["review_message"];
+    $Rating = $_POST["rating"];
+    $Product_Name = $_POST["product_name"]; // Include the product name in the review
+    $query = "INSERT INTO managereview (Customer_Email, Customer_Name, Review_Message, Rating, Product_Name) 
+              VALUES ('$Customer_Email', '$Customer_Name', '$Review_Message', '$Rating', '$Product_Name')";
+    if (mysqli_query($conn, $query)) {
+        // Review inserted successfully
+    } else {
+        echo "Error: " . $query . "<br>" . mysqli_error($conn);
     }
-
-    
+} elseif (!isset($_SESSION['registered_email'])) {
+    // Handle the case where the user is not logged in
+    echo "Please log in to submit a review.";
+}
 }
 ?>
 
@@ -72,48 +72,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Website Icon --> 
-    <script>
-    // Function to validate the form before submission
-    function validateForm() {
-        var size = document.getElementById("size-field").value;
-        var quantity = document.getElementById("quantity-field").value;
-
-        // Check if both size and quantity are empty
-        if (size === "" && quantity === "") {
-            alert("Please Input Size and Quantity");
-            return false;
-        }
-        // Check if size is empty
-        else if (size === "") {
-            alert("Please Input Size");
-            return false;
-        }
-        // Check if quantity is empty
-        else if (quantity === "") {
-            alert("Please Input Quantity");
-            return false;
-        }
-        // If both fields have input. 
-        return true;
-    }
-
-    // Function to fetch and display reviews
-    function fetchReviews() {
-        $.ajax({
-            url: 'fetch_reviews.php',
-            type: 'GET',
-            success: function(data) {
-                $('.review-container').html(data);
-            }
-        });
-    }
-
-    // Fetch and display reviews when the page is loaded
-    $(document).ready(function() {
-        fetchReviews();
-    });
-    </script>
-   
 </head>
 <body>
   <!-- Background Image -->
@@ -224,5 +182,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     <!-- Reviews will be dynamically fetched and displayed here -->
 </div>
 </div>
+<!-- JavaScript block moved here -->
+<script>
+    // Function to fetch and display reviews
+    function fetchReviews() {
+        var productName = "<?php echo $Product_Name; ?>"; // Get the product name from PHP
+        $.ajax({
+            url: 'fetch_reviews.php',
+            type: 'POST',
+            data: { product_name: productName },
+            success: function(data) {
+                $('.review-container').html(data);
+            }
+        });
+    }
+    // Call fetchReviews() when the page is loaded
+    $(document).ready(function() {
+        fetchReviews();
+    });
+</script>
 </body>
 </html>
