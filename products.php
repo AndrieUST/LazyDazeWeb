@@ -29,12 +29,12 @@ $result = mysqli_query($conn, $sql);
     <!-- Background Image -->
     <div class="bg">
         <!-- Navigation Bar -->
-        <div class="topnav">
+        <header class="topnav">
             <a href="homepage.php">
                 <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
             </a>
             <!-- Icons -->
-            <div class="nav-h-layout">
+            <div class="topnav-right">
                 <!-- Logout Icon -->
                 <div class="nav-icon">
                       <a href="./homepage.php">
@@ -72,7 +72,7 @@ $result = mysqli_query($conn, $sql);
                 </div>
                 <div class="nav-line"></div>
             </div>
-        </div>
+        </header>
         <!-- Banner -->
         <div class="bg2"></div>
         <div class="intro">
@@ -83,8 +83,7 @@ $result = mysqli_query($conn, $sql);
             <div class="items-wrapper">
          <?php
          // Loop through each product and display its information
-         while ($row = mysqli_fetch_assoc($result)) {
-         ?>
+         while ($row = mysqli_fetch_assoc($result)) {?>
          <div>
                <img class = "item-image" src="<?php echo $row['img']; ?>" alt="<?php echo htmlspecialchars($row['Product_Name']); ?>">
                 <h3 class = "item-title"><?php echo htmlspecialchars($row['Product_Name']); ?></h3>
@@ -93,9 +92,11 @@ $result = mysqli_query($conn, $sql);
                   <div class = "item-deets">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
                   <form method="post" action="viewprod.php">
 
+                  <!-- get the value and pass to the viewprod.php -->
+                  <input type="hidden" name="image" value="<?php echo $row['img']; ?>">
                   <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($row['Product_Name']); ?>">
-                <input type="hidden" name="quantity" value="<?php echo $row['Quantity']; ?>">
-                <input type="hidden" name="price" value="<?php echo $row['Price']; ?>">
+                  <input type="hidden" name="quantity" value="<?php echo $row['Quantity']; ?>">
+                  <input type="hidden" name="price" value="<?php echo $row['Price']; ?>">
                      <button class = "item-btn" type="submit" name="submit" value="check">Check Item</button>
                   </form>
                 </div>
