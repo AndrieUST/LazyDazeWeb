@@ -19,8 +19,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     // Retrieve product information from the submitted form
     $Product_Name = $_POST["product_name"];
     $Quantity = $_POST["quantity"];
+    $Size = $_POST["size"];
     $Price = $_POST["price"];
     $image = $_POST["image"];
+        // Insert product into database
+        $query = "INSERT INTO `manageprod2` (`Size`, `Product_Name`, `Quantity`, `Price`, `img`) VALUES ('$Size', '$Product_Name', '$Quantity', '$Price', '$image')";
+        if (mysqli_query($conn, $query)) {
+            // Product inserted successfully
+            echo "Product added to cart successfully.";
+        } else {
+            echo "Error: " . $query . "<br>" . mysqli_error($conn);
+        }
+    
     
     // Check if the customer name is provided in the form
     $Customer_Name = isset($_POST["customer_name"]) ? $_POST["customer_name"] : null;
@@ -44,8 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     
 }
 ?>
-
-
 
 <html lang="en">
 <head>
@@ -170,14 +178,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             <form id="prod-form" name="prod-form" method="get" action="cart.php" onsubmit="return validateForm()">
                     <!-- Provide options for quantity -->
                     <label for="size-field">Size</label>
-                    <select class="select-field" id="size-field" name="s-field">
+                    <select class="select-field" id="size-field" name="Size">
                         <option value=""></option>
                         <option value="First">S</option>
                         <option value="Second">M</option>
                         <option value="Third">L</option>
                     </select>
                     <label for="quantity-field">Quantity</label>
-                    <select class="select-field" id="quantity-field" name="q-field">
+                    <select class="select-field" id="quantity-field" name="Quantity">
                         <option value=""></option>
                         <!-- Loop to provide quantity options base on the number input in SQL -->
                         <?php for ($i = 1; $i <= $Quantity; $i++) { ?>
