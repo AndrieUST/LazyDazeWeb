@@ -19,17 +19,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     // Retrieve product information from the submitted form
     $Product_Name = $_POST["product_name"];
     $Quantity = $_POST["quantity"];
-    // $Size = $_POST["size"];
+     $Size = isset($_POST["size"]) ? $_POST["size"] : null;
     $Price = $_POST["price"];
     $image = $_POST["image"];
-        // // Insert product into database
+        // Insert product into database
+        $query = "INSERT INTO `managecart` (`Size`, `Product_Name`, `Quantity`, `Price`, `img`) VALUES ('$Size', '$Product_Name', '$Quantity', '$Price', '$image')";
+
         // $query = "INSERT INTO `manageprod2` (`Size`, `Product_Name`, `Quantity`, `Price`, `img`) VALUES ('$Size', '$Product_Name', '$Quantity', '$Price', '$image')";
-        // if (mysqli_query($conn, $query)) {
-        //     // Product inserted successfully
-        //     echo "Product added to cart successfully.";
-        // } else {
-        //     echo "Error: " . $query . "<br>" . mysqli_error($conn);
-        // }
+        if (mysqli_query($conn, $query)) {
+            // Product inserted successfully
+            echo "Product added to cart successfully.";
+        } else {
+            echo "Error: " . $query . "<br>" . mysqli_error($conn);
+        }
     
     
     // Check if the customer name is provided in the form
@@ -136,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             <form id="prod-form" name="prod-form" method="get" action="cart.php" onsubmit="return validateForm()">
                     <!-- Provide options for quantity -->
                     <label for="size-field">Size</label>
-                    <select class="select-field" id="size-field" name="Size">
+                    <select class="select-field" id="size-field" name="size">
                         <option value=""></option>
                         <option value="First">S</option>
                         <option value="Second">M</option>
