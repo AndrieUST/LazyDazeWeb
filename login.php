@@ -46,19 +46,23 @@ if (isset($_POST["submit"])) {
     $Customer_PW = $_POST["login_password"];
 
 
-    if ($Customer_Email === 'admin@gmail.com') {
-        
-        $admin_password = '123';
-        if ($Customer_PW === $admin_password) {
-            // Admin login
-            $_SESSION["login"] = true;
-            $_SESSION["admin"] = true; 
-            header("Location: admin_mainpage.php");
-           
+    if ($Customer_Email === 'johnlinga0949@gmail.com') {
+        $admin_password = '123'; // No longer needed
+        $query = "SELECT * FROM admin WHERE Admin_Email = '$Customer_Email'";
+        $result = mysqli_query($conn, $query);
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $admin_password = $row['Admin_PW'];
+            if ($Customer_PW === $admin_password) {
+                // Admin login
+                $_SESSION["login"] = true;
+                $_SESSION["admin"] = true; 
+                header("Location: admin_mainpage.php");
+            } else {
+                echo "<script> alert('Wrong Admin Password.'); </script>";
+            }
         } else {
-           
-            echo "<script> alert('Wrong Admin Password.'); </script>";
-           
+            echo "<script> alert('Admin account not found.'); </script>";
         }
     } else {
        //Customer:)

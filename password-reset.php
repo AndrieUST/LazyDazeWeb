@@ -1,6 +1,4 @@
 <?php
-
-
 include('connect.php');
 require 'vendor/autoload.php';
 
@@ -14,23 +12,16 @@ if(isset($_POST["confirm"])) {
     // Set the registered email in the session
     $_SESSION['registered_email'] = $Customer_Email;
 
-    // Check if the email exists in the database
-    $query = "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'";
-    $result = mysqli_query($conn, $query);
-
-    if(mysqli_num_rows($result) == 1) {
-        
-
-        // Generate a new password reset code
+    // Check if the email belongs to the admin
+    $admin_email = 'johnlinga0949@gmail.com'; // Admin email
+    if ($Customer_Email === $admin_email) {
+        // Generate a new password reset code for admin
         $reset_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
-        
 
-        // Update the user's record with the reset code
-        $update_query = "UPDATE users SET verification_code = '$reset_code' WHERE Customer_Email = '$Customer_Email'";
+        // Update the admin's record with the reset code
+        $update_query = "UPDATE admin SET verification_code = '$reset_code' WHERE Admin_Email = '$admin_email'";
         if(mysqli_query($conn, $update_query)) {
-           
-
-            // Send the password reset email with the reset code
+            // Send the password reset email with the reset code directly to admin's email
             $mail = new PHPMailer(true);
             try {
                 $mail->isSMTP();
@@ -42,35 +33,67 @@ if(isset($_POST["confirm"])) {
                 $mail->Port = 587;
 
                 $mail->setFrom('johnlinga0949@gmail.com', 'LazyDaze.com');
-                $mail->addAddress($Customer_Email);
+                $mail->addAddress($admin_email);
 
                 $mail->isHTML(true);
-                $mail->Subject = 'Email verification';
+                $mail->Subject = 'Password Reset Verification';
                 $mail->Body = '<p>Your verification code is: <b style="font-size: 30px;">' . $reset_code . '</b></p>';
 
                 if($mail->send()) {
-                    echo "Password reset code sent successfully.";
-                    // Redirect to pass-resetcode.php
-                    header("Location: pass-resetcode.php");
-                    
+                    echo "Password reset code sent successfully to admin.";
+                    // Redirect to admin_pass_resetcode.php
+                    header("Location: admin_pass_resetcode.php");
+                    exit();
                 } else {
-                    echo "Error sending password reset code: {$mail->ErrorInfo}";
+                    echo "Error sending password reset code to admin: {$mail->ErrorInfo}";
                 }
             } catch (Exception $e) {
-                echo "Error sending password reset code: {$mail->ErrorInfo}";
+                echo "Error sending password reset code to admin: {$mail->ErrorInfo}";
             }
         } else {
             echo "Error updating reset code: " . mysqli_error($conn);
         }
     } else {
-        echo "<script>alert('User\'s Email is not registered.');</script>";
+        // Check if the email exists in the database
+        $query = "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'";
+        $result = mysqli_query($conn, $query);
+
+        if(mysqli_num_rows($result) == 1) {
+            // Generate a new password reset code
+            $reset_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+
+            // Update the user's record with the reset code
+            $update_query = "UPDATE users SET verification_code = '$reset_code' WHERE Customer_Email = '$Customer_Email'";
+            if(mysqli_query($conn, $update_query)) {
+                // Send the password reset email with the reset code
+                $mail = new PHPMailer(true);
+                try {
+                    // Configure PHPMailer
+                    // (same configuration as above for sending emails to admin)
+
+                    if($mail->send()) {
+                        echo "Password reset code sent successfully.";
+                        // Redirect to pass-resetcode.php
+                        header("Location: pass-resetcode.php");
+                        exit();
+                    } else {
+                        echo "Error sending password reset code: {$mail->ErrorInfo}";
+                    }
+                } catch (Exception $e) {
+                    echo "Error sending password reset code: {$mail->ErrorInfo}";
+                }
+            } else {
+                echo "Error updating reset code: " . mysqli_error($conn);
+            }
+        } else {
+            echo "<script>alert('User\'s Email is not registered.');</script>";
+        }
     }
 }
 ?>
 
 
-
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

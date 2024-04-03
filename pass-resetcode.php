@@ -1,12 +1,9 @@
 <?php
-
 include('connect.php');
 require 'vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-
 
 if(isset($_POST["confirm"])) {
     // Get the verification code submitted by the user
@@ -99,7 +96,6 @@ if(isset($_POST["resend"])) {
         echo "Error updating verification code: " . mysqli_error($conn);
     }
 }
-
 ?>
 
 <html lang="en">
