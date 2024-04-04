@@ -1,5 +1,4 @@
 <?php
-
 include('connect.php');
 
 $max_attempts = 3;
@@ -19,7 +18,6 @@ if (!isset($_SESSION['lockout_start_time'])) {
 
 if (!empty($_SESSION["id"])) {
     header("Location: mainpage.php");
-   
 }
 
 if (isset($_POST["submit"])) {
@@ -47,18 +45,18 @@ if (isset($_POST["submit"])) {
 
 
     if ($Customer_Email === 'johnlinga0949@gmail.com') {
-        $admin_password = '123'; // No longer needed
         $query = "SELECT * FROM admin WHERE Admin_Email = '$Customer_Email'";
         $result = mysqli_query($conn, $query);
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
             $admin_password = $row['Admin_PW'];
-            if ($Customer_PW === $admin_password) {
+            // Verify entered password against hashed password
+            if (password_verify($Customer_PW, $admin_password)) {
                 // Admin login
                 $_SESSION["login"] = true;
                 $_SESSION["admin"] = true; 
                 header("Location: admin_mainpage.php");
-            } else {
+           }  else {
                 echo "<script> alert('Wrong Admin Password.'); </script>";
             }
         } else {
