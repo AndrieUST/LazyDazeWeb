@@ -189,6 +189,10 @@ a:hover {
 	grid-template-rows: auto auto;
 }
 
+.Product_Name {
+	text-transform: uppercase;
+	color: black;
+}
 .review {
 	width: 100%;
 	padding: 40px;

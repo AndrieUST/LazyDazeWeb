@@ -1,8 +1,16 @@
 <?php
 include('connect.php'); // Include database connection file
 
-// Retrieve reviews from the database
+// Initialize SQL query
 $query = "SELECT * FROM managereview";
+
+// Check if search query is set
+if(isset($_GET['search']) && !empty($_GET['search'])) {
+    $search = mysqli_real_escape_string($conn, $_GET['search']);
+    // Modify SQL query to include search condition
+    $query .= " WHERE Product_Name LIKE '%$search%'";
+}
+
 $result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
@@ -62,7 +70,7 @@ $result = mysqli_query($conn, $query);
             <div class="nav-search">
             <form method="get">
                 <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-                <input type="text" class="search-input" name="search" value="" placeholder="Search Product">
+                <input type="text" class="search-input" id="search-input" name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" placeholder="Search Product">
             </form>
             </div>
             <div class="nav-line"></div>
@@ -82,6 +90,9 @@ $result = mysqli_query($conn, $query);
         while ($row = mysqli_fetch_assoc($result)) {
             // Display review information
             echo "<div class='review'>";
+            echo "<div class='product_name'>";
+            echo "<p><strong>" . $row['Product_Name'] . "</strong></p>";
+            echo "</div>";
             echo "<div class='rating'>";
             // Convert numerical rating to star icons
             $rating = intval($row['Rating']);
@@ -133,5 +144,36 @@ $result = mysqli_query($conn, $query);
         </div>
     </div>
 </div>
+
+<script>
+// Debounce function
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this,
+            args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}
+
+// Function to handle search
+var handleSearch = debounce(function() {
+    var searchQuery = $('#search-input').val();
+    window.location.href = 'reviews.php?search=' + searchQuery;
+}, 500); // Adjust debounce time as needed
+
+$(document).ready(function() {
+    // Bind debounce function to input change event
+    $('#search-input').on('input', handleSearch);
+});
+</script>
+
 </body>
 </html>
