@@ -26,24 +26,15 @@ a:hover {
 	color: white;
 }
 
-.bg {
-	background-image: linear-gradient(rgba(255, 255, 255, 0.910),rgba(255, 255, 255, 0.910)), url("./LDAssets/typo\ bg.png");
-	background-color: white;
-	height: 100%;
-	background-size: 100%;
-	position: relative;
-}
-
 .topnav {
-	overflow: hidden;
-	background-color: rgba(255, 255, 255, 0.5);
-	backdrop-filter: blur(3px);
-	position: sticky;
-	top: 0px;
-	z-index: 1;
-	border-bottom: 1px solid rgba(136, 136, 136, 0.5);
+    /* Adjust z-index to ensure it's above other content */
+    z-index: 10;
 }
 
+.bg {
+    /* Remove overflow-x: hidden; to allow horizontal scrolling if necessary */
+    overflow-x: auto;
+}
 .topnav a {
 	float: left;
 	margin-left: 5px;

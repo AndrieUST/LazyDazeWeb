@@ -1,6 +1,15 @@
 <?php
 include('connect.php');
 
+// Check if search query is set
+if(isset($_GET['search'])) {
+    // Perform search operation here
+    // You can add your search logic here
+    // For example: $search_query = $_GET['search'];
+    // Then redirect to products.php with the search query
+    header("Location: products.php?search=" . urlencode($_GET['search']));
+    exit();
+}
 ?>
 
 <html lang="en">
@@ -24,11 +33,11 @@ include('connect.php');
 </head>
 <body>
   <!-- Background Image -->
-<div class = "bg">
+<div class="bg">
   <!-- Navigation Bar -->
 <header class="topnav">
-        <a href="">
-          <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
+        <a href="homepage.php">
+          <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
         <div class="nav-h-layout">
@@ -71,21 +80,56 @@ include('connect.php');
         </div>
   </header>
   <div class="intro">
-  <h2>Welcome to LazyDaze!</h2>
-  <?php
-        
-        if (isset($_SESSION['registered_email'])) {
-            $email_parts = explode('@', $_SESSION['registered_email']);
-            $display_name = $email_parts[0];
-            echo '<h1>' . htmlspecialchars($display_name) . '</h1>';
-        } else {
-            echo '<h1>PLACEHOLDER</h1>';
-        }
-        ?>
-  <a href="products.php">
-  <button class = "go-products" name = "go-to-products" value = "Go-Products">View Products</button>
-</a>
+    <h2>Welcome to LazyDaze!</h2>
+    <?php
+    if (isset($_SESSION['registered_email'])) {
+        $email_parts = explode('@', $_SESSION['registered_email']);
+        $display_name = $email_parts[0];
+        echo '<h1>' . htmlspecialchars($display_name) . '</h1>';
+    } else {
+        echo '<h1>PLACEHOLDER</h1>';
+    }
+    ?>
+    <div id="itemsWrapper"></div> <!-- Add this line -->
+    <a href="products.php">
+        <button class="go-products" name="go-to-products" value="Go-Products">View Products</button>
+    </a>
 </div>
-</div>	
+</div> 
 </body>
 </html>
+
+<!-- JavaScript for live search with debounce -->
+<script>
+$(document).ready(function(){
+    var typingTimer;
+    var doneTypingInterval = 300; // 300 milliseconds
+
+    // On keyup, start the countdown
+    $("#searchInput").on("keyup", function() {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    // On keydown, clear the countdown
+    $("#searchInput").on("keydown", function() {
+        clearTimeout(typingTimer);
+    });
+
+    // User is finished typing, perform search
+    function doneTyping() {
+        var searchQuery = $(".search-input").val().trim();
+        if (searchQuery !== '') {
+            $.ajax({
+                type: "GET",
+                url: "products.php",
+                data: { search: searchQuery },
+                success: function(response) {
+                    // Update itemsWrapper with search results
+                    $("#itemsWrapper").html(response);
+                }
+            });
+        }
+    }
+});
+</script>

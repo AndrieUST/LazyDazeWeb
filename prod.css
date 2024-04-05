@@ -152,13 +152,10 @@ a:hover {
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 55px;
-    padding-left: 7.5%;
-    font-family: 'Open Sans', sans-serif;
+    /* Adjust padding to create space between content and top navigation */
+    padding-top: 105px; /* Adjust as needed */
 }
+
 
 .items-wrapper {
     display: grid;

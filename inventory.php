@@ -1,3 +1,22 @@
+<?php
+include('connect.php');
+
+// Check if search parameter is provided in the URL
+if(isset($_GET['search'])) {
+    // Sanitize the search input to prevent SQL injection
+    $search = mysqli_real_escape_string($conn, $_GET['search']);
+
+    // Construct the SQL query to filter results based on the search input
+    $sql = "SELECT * FROM manageprod WHERE Product_Name LIKE '%$search%'";
+} else {
+    // If no search parameter provided, retrieve all products
+    $sql = "SELECT * FROM manageprod";
+}
+
+$result = mysqli_query($conn, $sql);
+$counter = 1; // Counter for numbering items
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +32,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Website Icon -->
     <link rel="icon" href="./LDAssets/lz logo.png">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
   <!-- Background Image -->
@@ -49,7 +70,7 @@
       <div class="nav-search">
         <form class="search-form" method="get">
           <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-          <input type="text" class="search-input" name="search" value="" placeholder="Search Product">
+          <input type="text" class="search-input" id="searchInput" name="search" value="<?php echo $search; ?>" placeholder="Search Product">
         </form>
       </div>
       <div class="nav-line"></div>
@@ -58,15 +79,8 @@
   <div class="bg2"></div>
   <div class="container">
     <h1>Inventory</h1>
-    <div class="items-wrapper">
+    <div class="items-wrapper" id="itemsWrapper">
         <?php
-        include('connect.php');
-
-        // Retrieve products from the database
-        $sql = "SELECT * FROM manageprod";
-        $result = mysqli_query($conn, $sql);
-        $counter = 1; // Counter for numbering items
-
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
         <div class="item">
@@ -84,5 +98,34 @@
     </div>
 </div>
 </div>
+
+<!-- JavaScript for live search with debounce -->
+<script>
+// Function to debounce search input
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}
+
+$(document).ready(function(){
+    $("#searchInput").on("keyup", debounce(function() {
+        var value = $(this).val().toLowerCase();
+        $("#itemsWrapper .item").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    }, 300)); // 300 milliseconds debounce time
+});
+</script>
+
 </body>
 </html>
