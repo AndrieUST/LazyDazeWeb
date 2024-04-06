@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2024 at 01:22 PM
+-- Generation Time: Apr 06, 2024 at 02:59 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -39,7 +39,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `Admin_Email`, `Admin_PW`, `verification_code`) VALUES
-(29, 'johnlinga0949@gmail.com', '$2y$10$IDHzoZRPLb5nLC2IulhEV.qB/xc8XRYrtPKwspLTLoZlbtzhM.3Cq', '341241');
+(29, 'johnlinga0949@gmail.com', '$2y$10$P8s7e1hxcg12UgqcqS8xFud5iSRKLUNnVOo5b7ts4oNKCVFl1Dq02', '502514');
 
 -- --------------------------------------------------------
 
@@ -178,9 +178,7 @@ INSERT INTO `managereview` (`ReviewID`, `Customer_Email`, `Customer_Name`, `Revi
 (19, 'doffy0949@gmail.com', 'john john', 'hehe', '3', 'Ninja Black Tee from manila 4'),
 (20, 'doffy0949@gmail.com', 'junjun', 'great', '4', 'Ninja Black Tee from manila 7'),
 (21, 'doffy0949@gmail.com', 'junjun', 'great', '4', 'Ninja Black Tee from manila 7'),
-(25, 'doffy0949@gmail.com', 'migz', 'hehehe', '1', 'Ninja Black Tee from manila 7'),
-(26, 'doffy0949@gmail.com', 'cabanban', 'very comfortable', '5', 'Ninja Black Tee from manila '),
-(27, 'doffy0949@gmail.com', 'andrie', 'hehe', '2', 'Ninja Black Tee from manila 1');
+(25, 'doffy0949@gmail.com', 'migz', 'hehehe', '1', 'Ninja Black Tee from manila 7');
 
 -- --------------------------------------------------------
 
@@ -207,8 +205,8 @@ INSERT INTO `users` (`id`, `Customer_Email`, `Customer_Address`, `Customer_Numbe
 (60, 'torontondo08@gmail.com', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$/XfGpG/Y4EYdz3L/fk.PiuKiQA.mVvu87Yliyf/eXZMbqbsQRrYPy', '303211', '2024-03-06 19:23:59'),
 (61, 'kylehernandez2002@gmail.com', '1212121', '1213121', '$2y$10$kf8WanedMGBZPXTuNyiP.uFn736Jqn6kpp9fr5xsHkW.BNvsAKKiq', '299992', '2024-03-06 23:26:23'),
 (62, 'mikafeliiix@gmail.com', '21213', '09950240166', '$2y$10$NE4cG2MVpkZtdkhk7oKE1OvqoLZOa2unsJMhx./j5pimsaFncUoOy', '356111', '2024-03-06 23:45:23'),
-(64, 'johnangelo.linga.shs@ust.edu.ph', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$QzzruNPr2DkBGX2eajIIAe55q5MtqqQp2gsIN0aGd./hpPVvwIzFe', '337913', '2024-04-04 00:08:10'),
-(65, 'johnangelo.linga.cics@ust.edu.ph', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$SZLp6sK2MUDZl/mcM8SpE.9M3y7QzGIhXXI66xcZADnGRhzAmXEjO', '363054', '2024-04-04 21:29:03');
+(65, 'johnangelo.linga.cics@ust.edu.ph', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$SZLp6sK2MUDZl/mcM8SpE.9M3y7QzGIhXXI66xcZADnGRhzAmXEjO', '363054', '2024-04-04 21:29:03'),
+(68, 'johnangelo.linga.shs@ust.edu.ph', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$E4vT0EjWc0Swq0RJaz4oX.QQx6rDvcftcfQrIy8TJkvGuKOx55Tuu', '313559', '2024-04-06 20:20:06');
 
 --
 -- Indexes for dumped tables
@@ -312,7 +310,7 @@ ALTER TABLE `managereview`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
