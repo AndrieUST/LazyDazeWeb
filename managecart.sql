@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2024 at 07:47 PM
+-- Generation Time: Apr 06, 2024 at 06:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,19 +41,7 @@ CREATE TABLE `managecart` (
 --
 
 INSERT INTO `managecart` (`id`, `Size`, `Product_Name`, `Quantity`, `Price`, `img`) VALUES
-(1, '', 'Ninja Black Tee from manila ', 2, 2000, 'sample-shirt2.jpg'),
-(2, '', 'Ninja Black Tee from manila ', 12121, 2000, 'sample-shirt.png'),
-(3, '', 'Ninja Black Tee from manila ', 12121, 2000, 'sample-shirt.png'),
-(4, '', 'Ninja Black Tee from manila ', 12121, 2000, 'sample-shirt.png'),
-(5, '', 'Ninja Black Tee from manila ', 12121, 2000, 'sample-shirt.png'),
-(6, '', 'Ninja Black Tee from manila ', 12121, 2000, 'sample-shirt.png'),
-(7, '', 'Ninja Black Tee from manila 4', 3, 350, 'sample-shirt.png'),
-(8, '', 'Ninja Black Tee from manila ', 12121, 2000, 'sample-shirt.png'),
-(9, '', 'Ninja Black Tee from manila 4', 3, 350, 'sample-shirt.png'),
-(10, '', 'Ninja Black Tee from manila ', 12121, 2000, 'sample-shirt.png'),
-(11, '', 'Ninja Black Tee from manila ', 12121, 2000, 'sample-shirt.png'),
-(12, '', 'Ninja Black Tee from manila ', 2, 2000, 'sample-shirt2.jpg'),
-(13, '', 'Ninja Black Tee from manila ', 12121, 2000, 'sample-shirt.png');
+(11, 'Second', 'Ninja Black Tee from manila 4', 3, 1050, 'sample-shirt.png');
 
 --
 -- Indexes for dumped tables
@@ -73,7 +61,7 @@ ALTER TABLE `managecart`
 -- AUTO_INCREMENT for table `managecart`
 --
 ALTER TABLE `managecart`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
