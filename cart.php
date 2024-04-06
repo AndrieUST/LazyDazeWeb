@@ -1,7 +1,6 @@
 <?php
 include('connect.php');
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteProduct'])) {
     // Get product ID from POST
     $productId = $_POST['productId'];
@@ -91,7 +90,7 @@ $totalPrice = 0;
 while ($row = mysqli_fetch_assoc($result)) {?>
 <?php
             // Calculate total price for each product
-            $productPrice = $row['Price'] * $row['Quantity'];
+            $productPrice = $row['Price'];
             // Add the product price to the total price
             $totalPrice += $productPrice;
             ?>
@@ -165,5 +164,6 @@ while ($row = mysqli_fetch_assoc($result)) {?>
             }
         });
     });
+</script>
 </body>
 </html>

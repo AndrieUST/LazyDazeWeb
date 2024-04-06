@@ -126,7 +126,7 @@ if(isset($_POST['submit_cart'])) {
         <div class="nav-line"></div>
         <!-- Cart Icon -->
         <div class="nav-icon">
-            <a href="">
+            <a href="cart.php">
                 <i class="fa-solid fa-cart-shopping fa-xl"></i>
             </a>
         </div>
