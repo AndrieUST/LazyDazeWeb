@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2024 at 02:59 PM
+-- Generation Time: Apr 06, 2024 at 09:25 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -49,6 +49,7 @@ INSERT INTO `admin` (`id`, `Admin_Email`, `Admin_PW`, `verification_code`) VALUE
 
 CREATE TABLE `managecart` (
   `id` int(30) NOT NULL,
+  `Customer_Email` varchar(255) NOT NULL,
   `Size` char(9) NOT NULL,
   `Product_Name` varchar(255) NOT NULL,
   `Quantity` int(30) NOT NULL,
@@ -60,9 +61,9 @@ CREATE TABLE `managecart` (
 -- Dumping data for table `managecart`
 --
 
-INSERT INTO `managecart` (`id`, `Size`, `Product_Name`, `Quantity`, `Price`, `img`) VALUES
-(78, 'First', 'Ninja Black Tee from manila ', 2, 1000, 'sample-shirt2.jpg'),
-(79, 'Second', 'Ninja Black Tee from manila 1', 1, 400, 'sample-tshirt1.png');
+INSERT INTO `managecart` (`id`, `Customer_Email`, `Size`, `Product_Name`, `Quantity`, `Price`, `img`) VALUES
+(92, 'johnangelo.linga.shs@ust.edu.ph', 'Second', 'Ninja Black Tee from manila 4', 1, 300, 'sample-shirt.png'),
+(96, 'doffy0949@gmail.com', 'Second', 'Ninja Black Tee from manila 4', 1, 300, 'sample-shirt.png');
 
 -- --------------------------------------------------------
 
@@ -178,7 +179,8 @@ INSERT INTO `managereview` (`ReviewID`, `Customer_Email`, `Customer_Name`, `Revi
 (19, 'doffy0949@gmail.com', 'john john', 'hehe', '3', 'Ninja Black Tee from manila 4'),
 (20, 'doffy0949@gmail.com', 'junjun', 'great', '4', 'Ninja Black Tee from manila 7'),
 (21, 'doffy0949@gmail.com', 'junjun', 'great', '4', 'Ninja Black Tee from manila 7'),
-(25, 'doffy0949@gmail.com', 'migz', 'hehehe', '1', 'Ninja Black Tee from manila 7');
+(25, 'doffy0949@gmail.com', 'migz', 'hehehe', '1', 'Ninja Black Tee from manila 7'),
+(28, 'johnangelo.linga.shs@ust.edu.ph', 'mika', 'hehe', '3', 'Ninja Black Tee from manila 4');
 
 -- --------------------------------------------------------
 
@@ -274,7 +276,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `managecart`
 --
 ALTER TABLE `managecart`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `manageinquiry`
@@ -304,7 +306,7 @@ ALTER TABLE `manageprod`
 -- AUTO_INCREMENT for table `managereview`
 --
 ALTER TABLE `managereview`
-  MODIFY `ReviewID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `ReviewID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `users`
