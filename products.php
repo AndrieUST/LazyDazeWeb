@@ -96,8 +96,9 @@ $result = mysqli_query($conn, $sql);
                         <div class="item-deets"><?php echo htmlspecialchars($row['Description']); ?></div>
                         <div class="item-deets">Quantity: <?php echo $row['Quantity']; ?></div>
                         <div class="item-deets">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
-                        <form method="post" action="viewprod.php">
+                        <form method="get" action="viewprod.php">
                             <!-- get the value and pass to the viewprod.php -->
+                            <input type="hidden" name="product_id" value="<?php echo $row['ProductID']; ?>">
                             <input type="hidden" name="image" value="<?php echo $row['img']; ?>">
                             <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($row['Product_Name']); ?>">
                             <input type="hidden" name="quantity" value="<?php echo $row['Quantity']; ?>">
@@ -111,7 +112,6 @@ $result = mysqli_query($conn, $sql);
     </div>
 </body>
 </html>
-
 <!-- JavaScript for live search with debounce -->
 <script>
 $(document).ready(function(){
