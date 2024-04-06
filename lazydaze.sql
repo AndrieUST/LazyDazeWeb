@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2024 at 08:29 PM
+-- Generation Time: Apr 06, 2024 at 01:22 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -20,6 +20,49 @@ SET time_zone = "+00:00";
 --
 -- Database: `lazydaze`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(20) NOT NULL,
+  `Admin_Email` varchar(50) NOT NULL,
+  `Admin_PW` varchar(255) NOT NULL,
+  `verification_code` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `Admin_Email`, `Admin_PW`, `verification_code`) VALUES
+(29, 'johnlinga0949@gmail.com', '$2y$10$IDHzoZRPLb5nLC2IulhEV.qB/xc8XRYrtPKwspLTLoZlbtzhM.3Cq', '341241');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `managecart`
+--
+
+CREATE TABLE `managecart` (
+  `id` int(30) NOT NULL,
+  `Size` char(9) NOT NULL,
+  `Product_Name` varchar(255) NOT NULL,
+  `Quantity` int(30) NOT NULL,
+  `Price` int(200) NOT NULL,
+  `img` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `managecart`
+--
+
+INSERT INTO `managecart` (`id`, `Size`, `Product_Name`, `Quantity`, `Price`, `img`) VALUES
+(78, 'First', 'Ninja Black Tee from manila ', 2, 1000, 'sample-shirt2.jpg'),
+(79, 'Second', 'Ninja Black Tee from manila 1', 1, 400, 'sample-tshirt1.png');
 
 -- --------------------------------------------------------
 
@@ -43,7 +86,22 @@ INSERT INTO `manageinquiry` (`InquiryID`, `Customer_Email`, `Customer_Name`, `In
 (6, 'doffy0949@gmail.com', 'doffy', 'helo'),
 (7, 'doffy0949@gmail.com', 'Migz', 'blahbahblabh'),
 (8, 'doffy0949@gmail.com', 'migz', 'blahbalahlbajaouasfiaushf0asf'),
-(9, 'doffy0949@gmail.com', 'doffy', 'adadafafa');
+(9, 'doffy0949@gmail.com', 'doffy', 'adadafafa'),
+(10, 'johnangelo.linga.cics@ust.edu.ph', 'mika', 'blahblahbalbh');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `manageinventory`
+--
+
+CREATE TABLE `manageinventory` (
+  `Product_ID` int(30) NOT NULL,
+  `Product_Name` varchar(255) NOT NULL,
+  `Description` varchar(255) NOT NULL,
+  `Quantity` int(200) NOT NULL,
+  `Price` int(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -82,7 +140,10 @@ CREATE TABLE `manageprod` (
 --
 
 INSERT INTO `manageprod` (`ProductID`, `Product_Name`, `Description`, `Quantity`, `Price`, `img`) VALUES
-(48, 'Ninja Black Tee from manila ', 'blablahblah\r\n', 2, 500, 'sample-shirt2.jpg');
+(48, 'Ninja Black Tee from manila ', 'blablahblah\r\n', 2, 500, 'sample-shirt2.jpg'),
+(49, 'Ninja Black Tee from manila 4', 'goods', 1, 300, 'sample-shirt.png'),
+(52, 'Ninja Black Tee from manila 1', 'guds', 5, 400, 'sample-tshirt1.png'),
+(53, 'Ninja Black Tee from manila 6', 'gege', 3, 300, 'sample-shirt2.jpg');
 
 -- --------------------------------------------------------
 
@@ -95,18 +156,31 @@ CREATE TABLE `managereview` (
   `Customer_Email` varchar(200) NOT NULL,
   `Customer_Name` varchar(200) NOT NULL,
   `Review_Message` varchar(200) NOT NULL,
-  `Rating` varchar(200) NOT NULL
+  `Rating` varchar(200) NOT NULL,
+  `Product_Name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `managereview`
 --
 
-INSERT INTO `managereview` (`ReviewID`, `Customer_Email`, `Customer_Name`, `Review_Message`, `Rating`) VALUES
-(1, 'doffy0949@gmail.com', 'john linga', 'blahblah', '4'),
-(2, 'johnlinga0949@gmail.com', 'junjun', 'heheheheheadasdafeawgag', '5'),
-(3, '', '', 'adasdasda', '2'),
-(4, '', '', 'aaaa', '1');
+INSERT INTO `managereview` (`ReviewID`, `Customer_Email`, `Customer_Name`, `Review_Message`, `Rating`, `Product_Name`) VALUES
+(5, 'doffy0949@gmail.com', 'kyle', 'hehe', '5', 'Ninja Black Tee from manila '),
+(6, 'doffy0949@gmail.com', 'john john', 'adada', '5', 'Ninja Black Tee from manila '),
+(7, 'doffy0949@gmail.com', '', 'hehehe', '1', 'Ninja Black Tee from manila '),
+(8, 'doffy0949@gmail.com', '', 'hehehe', '1', 'Ninja Black Tee from manila '),
+(9, 'doffy0949@gmail.com', '', 'hehehe', '1', 'Ninja Black Tee from manila '),
+(10, 'johnlinga0949@gmail.com', 'junjun', 'comfy', '4', 'Ninja Black Tee from manila 2'),
+(14, 'doffy0949@gmail.com', 'junjun', 'goods', '4', 'Ninja Black Tee from manila '),
+(15, 'doffy0949@gmail.com', 'kyle', 'hehe', '3', 'Ninja Black Tee from manila 4'),
+(17, 'johnangelo.linga.cics@ust.edu.ph', 'john ', 'very nice', '5', 'Ninja Black Tee from manila '),
+(18, 'doffy0949@gmail.com', 'john', 'good', '3', 'Ninja Black Tee from manila 7'),
+(19, 'doffy0949@gmail.com', 'john john', 'hehe', '3', 'Ninja Black Tee from manila 4'),
+(20, 'doffy0949@gmail.com', 'junjun', 'great', '4', 'Ninja Black Tee from manila 7'),
+(21, 'doffy0949@gmail.com', 'junjun', 'great', '4', 'Ninja Black Tee from manila 7'),
+(25, 'doffy0949@gmail.com', 'migz', 'hehehe', '1', 'Ninja Black Tee from manila 7'),
+(26, 'doffy0949@gmail.com', 'cabanban', 'very comfortable', '5', 'Ninja Black Tee from manila '),
+(27, 'doffy0949@gmail.com', 'andrie', 'hehe', '2', 'Ninja Black Tee from manila 1');
 
 -- --------------------------------------------------------
 
@@ -133,17 +207,36 @@ INSERT INTO `users` (`id`, `Customer_Email`, `Customer_Address`, `Customer_Numbe
 (60, 'torontondo08@gmail.com', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$/XfGpG/Y4EYdz3L/fk.PiuKiQA.mVvu87Yliyf/eXZMbqbsQRrYPy', '303211', '2024-03-06 19:23:59'),
 (61, 'kylehernandez2002@gmail.com', '1212121', '1213121', '$2y$10$kf8WanedMGBZPXTuNyiP.uFn736Jqn6kpp9fr5xsHkW.BNvsAKKiq', '299992', '2024-03-06 23:26:23'),
 (62, 'mikafeliiix@gmail.com', '21213', '09950240166', '$2y$10$NE4cG2MVpkZtdkhk7oKE1OvqoLZOa2unsJMhx./j5pimsaFncUoOy', '356111', '2024-03-06 23:45:23'),
-(63, 'johnlinga0949@gmail.com', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$yVMTs0VBUPpSDRPrDDfhpeRI1Gt/9cCEuJgeVO.irvfoA0ck06QU.', '384329', '2024-03-31 03:06:13');
+(64, 'johnangelo.linga.shs@ust.edu.ph', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$QzzruNPr2DkBGX2eajIIAe55q5MtqqQp2gsIN0aGd./hpPVvwIzFe', '337913', '2024-04-04 00:08:10'),
+(65, 'johnangelo.linga.cics@ust.edu.ph', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$SZLp6sK2MUDZl/mcM8SpE.9M3y7QzGIhXXI66xcZADnGRhzAmXEjO', '363054', '2024-04-04 21:29:03');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `managecart`
+--
+ALTER TABLE `managecart`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `manageinquiry`
 --
 ALTER TABLE `manageinquiry`
   ADD PRIMARY KEY (`InquiryID`);
+
+--
+-- Indexes for table `manageinventory`
+--
+ALTER TABLE `manageinventory`
+  ADD PRIMARY KEY (`Product_ID`);
 
 --
 -- Indexes for table `manageorders`
@@ -174,10 +267,28 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `managecart`
+--
+ALTER TABLE `managecart`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+
+--
 -- AUTO_INCREMENT for table `manageinquiry`
 --
 ALTER TABLE `manageinquiry`
-  MODIFY `InquiryID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `InquiryID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `manageinventory`
+--
+ALTER TABLE `manageinventory`
+  MODIFY `Product_ID` int(30) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `manageorders`
@@ -189,19 +300,19 @@ ALTER TABLE `manageorders`
 -- AUTO_INCREMENT for table `manageprod`
 --
 ALTER TABLE `manageprod`
-  MODIFY `ProductID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `ProductID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `managereview`
 --
 ALTER TABLE `managereview`
-  MODIFY `ReviewID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ReviewID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
