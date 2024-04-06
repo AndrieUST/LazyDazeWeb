@@ -1,30 +1,28 @@
 <?php
 include('connect.php');
 
-// Function to delete product from database
-function deleteProduct($productId) {
-    global $conn;
-    $query = "DELETE FROM managecart WHERE Product_ID = $productId";
-    mysqli_query($conn, $query);
-}
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['productId'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteProduct'])) {
+    // Get product ID from POST
     $productId = $_POST['productId'];
 
-    // Retrieve product details before deletion
-    $query = "SELECT Price, Quantity FROM managecart WHERE Product_ID = $productId";
+    // Delete the product from the database
+    $query = "DELETE FROM managecart WHERE id = $productId"; // managecart/ID NOTE: $id to $productId
     $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_assoc($result);
-    $productPrice = $row['Price'];
-    $quantity = $row['Quantity'];
 
-    // Delete the product and update total price
-    deleteProduct($productId, $productPrice, $quantity);
-
-    exit(); // Stop further execution
+    if ($result) {
+        // To Check if na delete
+        echo "Product deleted successfully.";
+        // Reload the page or any other action you want to perform after deletion
+        header("Location: cart.php");
+        exit(); // Ensure that no further code execution occurs after redirection
+    } else {
+        // Error occurred while deleting the product
+        echo "Error deleting product: " . mysqli_error($conn);
+    }
 }
 
-
+// Fetch cart items from the database
 $query = "SELECT * FROM managecart";
 $result = mysqli_query($conn, $query);
 $totalPrice = 0;
@@ -99,9 +97,12 @@ while ($row = mysqli_fetch_assoc($result)) {?>
             ?>
     <!-- Cart Row -->
     <div class="h-layout h-flex-block">
-        <a href="#" class="rm-btn" data-product-id="<?php echo $row['Product_ID']; ?>">
-            <i class="fa-solid fa-xmark fa-2xl"></i>
-        </a>
+    <form method="post" action="cart.php">
+    <input type="hidden" name="productId" value="<?php echo $row['id']; ?>">
+    <button type="submit" name="deleteProduct" class="rm-btn">
+        <i class="fa-solid fa-xmark fa-2xl"></i>
+    </button>
+</form>
         <img src="<?php echo $row['img']; ?>" alt="<?php echo $row['Product_Name']; ?>" class="item-image" />
         <!-- Product Details Column -->
         <div class="v-layout v-flex-block">
@@ -164,27 +165,5 @@ while ($row = mysqli_fetch_assoc($result)) {?>
             }
         });
     });
-
-    $(document).ready(function(){
-        $('.rm-btn').click(function(e){
-            e.preventDefault();
-            var productId = $(this).data('product-id');
-            var rowToRemove = $(this).closest('.h-layout');
-            $.ajax({
-                type: 'POST',
-                url: 'cart.php', // Change this to the URL of your PHP script
-                data: {productId: productId},
-                success: function(response){
-                    rowToRemove.remove(); // Remove corresponding HTML row
-                    // You may want to update the total price here if needed
-                },
-                error: function(xhr, status, error){
-                    // Handle errors here
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-    });
-</script>
 </body>
 </html>
