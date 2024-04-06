@@ -10,10 +10,12 @@
 	}
 }
 
-body {
+body,
+html {
 	animation: appear 0.5s;
 	background-color: white;
 	color: black;
+	height: 100%
 }
 
 a {

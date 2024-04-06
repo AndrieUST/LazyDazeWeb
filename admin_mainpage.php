@@ -1,15 +1,5 @@
 <?php
 include('connect.php');
-
-// Check if search query is set
-if(isset($_GET['search'])) {
-    // Perform search operation here
-    // You can add your search logic here
-    // For example: $search_query = $_GET['search'];
-    // Then redirect to products.php with the search query
-    header("Location: prod.php?search=" . urlencode($_GET['search']));
-    exit();
-}
 ?>
 <html lang="en">
 <head>
@@ -74,7 +64,6 @@ if(isset($_GET['search'])) {
   <div class="intro">
   <h2>2024 Summer Collection</h2>
   <h1>New Arrivals</h1>
-  <div id="itemsWrapper"></div> 
   <a href="prod.php">
   <button class = "add-products" name = "add-products" value = "Add-Products">Add Products</button>
 </a>
@@ -85,37 +74,3 @@ if(isset($_GET['search'])) {
 </div>	
 </body>
 </html>
-<!-- JavaScript for live search with debounce -->
-<script>
-$(document).ready(function(){
-    var typingTimer;
-    var doneTypingInterval = 300; // 300 milliseconds
-
-    // On keyup, start the countdown
-    $("#searchInput").on("keyup", function() {
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(doneTyping, doneTypingInterval);
-    });
-
-    // On keydown, clear the countdown
-    $("#searchInput").on("keydown", function() {
-        clearTimeout(typingTimer);
-    });
-
-    // User is finished typing, perform search
-    function doneTyping() {
-        var searchQuery = $(".search-input").val().trim();
-        if (searchQuery !== '') {
-            $.ajax({
-                type: "GET",
-                url: "prod.php",
-                data: { search: searchQuery },
-                success: function(response) {
-                    // Update itemsWrapper with search results
-                    $("#itemsWrapper").html(response);
-                }
-            });
-        }
-    }
-});
-</script>
