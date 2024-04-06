@@ -52,10 +52,11 @@ $result = mysqli_query($conn, $sql);
                 <div class="nav-line"></div>
                 <!-- Cart Icon -->
                 <div class="nav-icon">
-                    <a href="cart.php">
-                        <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                    </a>
-                </div>
+            <a href="cart.php">
+                <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
+            </a>
+        </div>
                 <div class="nav-line"></div>
                 <!-- Reviews Icon -->
                 <div class="nav-icon">
@@ -147,4 +148,25 @@ $(document).ready(function(){
         }
     }
 });
+function updateCartNotification() {
+        $.ajax({
+            url: 'fetch_cart_count.php', // Endpoint to fetch cart count
+            type: 'GET',
+            success: function(count) {
+                $('#cart-notification').text(count);
+            }
+        });
+    }
+
+    // Call updateCartNotification() when the page is loaded
+    $(document).ready(function() {
+        updateCartNotification();
+    });
+
+    // Call fetchReviews() when the page is loaded
+    $(document).ready(function() {
+        fetchReviews();
+    });
+
+
 </script>

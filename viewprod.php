@@ -1,17 +1,31 @@
 <?php
 include('connect.php');
 
-// Initialize customer email as null
-$Customer_Email = null;
+// Initialize customer email and ID as null
+$customer_email = null;
 
-// Fetch reviews from the database
-if (isset($_SESSION['registered_email'])) {
-    $Customer_Email = $_SESSION['registered_email'];
-    $reviews_query = "SELECT * FROM managereview WHERE Customer_Email = '$Customer_Email'";
-    $reviews_result = mysqli_query($conn, $reviews_query);
-} else {
-    // Prompt user to log in to view reviews
-    echo "Please log in to view reviews.";
+// Check if the review form is submitted
+if(isset($_POST['submit_review'])) {
+    // Get form data
+    $customer_name = $_POST['customer_name']; // Optional field, adjust accordingly
+    $review_message = $_POST['review_message'];
+    $rating = $_POST['rating'];
+    $product_name = $_POST['product_name'];
+
+    // Insert data into managereview table
+    $insert_review_query = "INSERT INTO managereview (Customer_Email, Customer_Name, Review_Message, Rating, Product_Name) VALUES ('$customer_email', '$customer_name', '$review_message', $rating, '$product_name')";
+    $insert_review_result = mysqli_query($conn, $insert_review_query);
+
+    if($insert_review_result) {
+        // Notify the user that the review has been submitted successfully
+        echo "Thank you for your review! It has been submitted successfully.";
+        // Redirect to viewprod.php to prevent form resubmission prompt
+        header('Location: viewprod.php?product_id=' . $product_id);
+        exit();
+    } else {
+        // Notify the user if an error occurred while submitting the review
+        echo "Oops! Something went wrong while submitting your review. Please try again later.";
+    }
 }
 
 // Check if product ID is provided in the URL
@@ -41,26 +55,14 @@ if(isset($_GET['product_id'])) {
     exit(); // Stop further execution
 }
 
-// Check if the review form is submitted
-if(isset($_POST['submit_review'])) {
-    // Get form data
-    $customer_email = $_SESSION['registered_email']; // Assuming the email is stored in the session
-    $customer_name = $_POST['customer_name']; // Optional field, adjust accordingly
-    $review_message = $_POST['review_message'];
-    $rating = $_POST['rating'];
-    $product_name = $_POST['product_name'];
-
-    // Insert data into managereview table
-    $insert_review_query = "INSERT INTO managereview (Customer_Email, Customer_Name, Review_Message, Rating, Product_Name) VALUES ('$customer_email', '$customer_name', '$review_message', $rating, '$product_name')";
-    $insert_review_result = mysqli_query($conn, $insert_review_query);
-
-    if($insert_review_result) {
-        // Notify the user that the review has been submitted successfully
-        echo "Thank you for your review! It has been submitted successfully.";
-    } else {
-        // Notify the user if an error occurred while submitting the review
-        echo "Oops! Something went wrong while submitting your review. Please try again later.";
-    }
+// Fetch reviews from the database
+if (isset($_SESSION['registered_email'])) {
+    $customer_email = $_SESSION['registered_email'];
+    $reviews_query = "SELECT * FROM managereview WHERE Customer_Email = '$customer_email'";
+    $reviews_result = mysqli_query($conn, $reviews_query);
+} else {
+    // Prompt user to log in to view reviews
+    echo "Please log in to view reviews.";
 }
 
 // Check if the add to cart form is submitted
@@ -75,17 +77,19 @@ if(isset($_POST['submit_cart'])) {
     // Calculate the total price based on quantity
     $total_price = $base_price * $quantity;
 
-    // Insert data into managecart table
-    $insert_cart_query = "INSERT INTO managecart (Size, Quantity, Product_Name, Price, img) VALUES ('$size', $quantity, '$product_name', $total_price, '$image')";
+    // Insert data into managecart table with user's email and ID
+    $insert_cart_query = "INSERT INTO managecart (Customer_Email,  Size, Quantity, Product_Name, Price, img) VALUES ('$customer_email',  '$size', $quantity, '$product_name', $total_price, '$image')";
     $insert_cart_result = mysqli_query($conn, $insert_cart_query);
+if($insert_cart_result) {
+    // Redirect to viewprod.php to prevent form resubmission prompt
+    echo "Product added successfully.";
+    header('Location: viewprod.php?product_id=' . $product_id);
+    exit();
+} else {
+    // Notify the user if an error occurred while adding to cart
+    echo "Oops! Something went wrong while adding the item to your cart. Please try again later.";
+}
 
-    if($insert_cart_result) {
-        // Notify the user that the item has been added to the cart successfully
-        echo "The item has been added to your cart successfully.";
-    } else {
-        // Notify the user if an error occurred while adding to cart
-        echo "Oops! Something went wrong while adding the item to your cart. Please try again later.";
-    }
 }
 ?>
 
@@ -128,6 +132,7 @@ if(isset($_POST['submit_cart'])) {
         <div class="nav-icon">
             <a href="cart.php">
                 <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
             </a>
         </div>
         <div class="nav-line"></div>
@@ -221,22 +226,52 @@ if(isset($_POST['submit_cart'])) {
 
 <!-- JavaScript block moved here -->
 <script>
-    // Function to fetch and display reviews
-    function fetchReviews() {
-        var productName = "<?php echo $Product_Name; ?>"; // Get the product name from PHP
-        $.ajax({
-            url: 'fetch_reviews.php',
-            type: 'POST',
-            data: { product_name: productName },
-            success: function(data) {
-                $('.review-container').html(data);
+        $(document).ready(function() {
+            // Function to fetch and display reviews
+            function fetchReviews() {
+                var productName = "<?php echo $Product_Name; ?>"; // Get the product name from PHP
+                $.ajax({
+                    url: 'fetch_reviews.php',
+                    type: 'POST',
+                    data: { product_name: productName },
+                    success: function(data) {
+                        $('.review-container').html(data);
+                    }
+                });
             }
+
+            // Function to update cart notification badge
+            function updateCartNotification() {
+                $.ajax({
+                    url: 'fetch_cart_count.php', // Endpoint to fetch cart count
+                    type: 'GET',
+                    success: function(count) {
+                        $('#cart-notification').text(count);
+                    }
+                });
+            }
+
+            // Call updateCartNotification() when the page is loaded
+            updateCartNotification();
+
+            // Call fetchReviews() when the page is loaded
+            fetchReviews();
+
+            // Function to validate the form before submission
+            $('#prod-form').submit(function(event) {
+                // Get the selected size and quantity
+                var size = $('#size-field').val();
+                var quantity = $('#quantity-field').val();
+
+                // Check if size and quantity are not selected
+                if (size === "" || quantity === "") {
+                    // Prevent the form from submitting
+                    event.preventDefault();
+                    // Display a prompt to the user
+                    alert("Please select size and quantity before adding to cart.");
+                }
+            });
         });
-    }
-    // Call fetchReviews() when the page is loaded
-    $(document).ready(function() {
-        fetchReviews();
-    });
-</script>
+    </script>
 </body>
 </html>
