@@ -1,6 +1,16 @@
 <?php
 include('connect.php');
 
+
+if (isset($_SESSION["id"])) {
+    header("Location: mainpage.php");
+    exit;
+}
+
+if (!empty($_SESSION['registered_email'])) {
+    header("Location: email_code.php?register_email=" . $_SESSION['registered_email']);
+    exit;
+}
 $max_attempts = 3;
 $lockout_duration = 30; // Lockout duration in seconds
 
