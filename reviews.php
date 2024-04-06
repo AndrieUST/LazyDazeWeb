@@ -12,6 +12,15 @@ if(isset($_GET['search']) && !empty($_GET['search'])) {
 }
 
 $result = mysqli_query($conn, $query);
+
+// Calculate the number of reviews
+$total_reviews = mysqli_num_rows($result);
+
+// Calculate the number of reviews for each container
+$reviews_per_container = ceil($total_reviews / 2);
+
+// Move the pointer to the beginning of the result set
+mysqli_data_seek($result, 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,44 +85,39 @@ $result = mysqli_query($conn, $query);
             <div class="nav-line"></div>
         </div>
   </div>
-<div class="whole-container">
-  <!-- Reviews Container -->
+  <div class="whole-container">
+  <!-- Reviews Container 1 -->
   <div class="reviews-container">
     <!-- Reviews Horizontal Flex Box -->
     <div class="h-layout h-flex-block">
-        <!-- Reviews Grid -->
+        <!-- Reviews Grid for Container 1 -->
       <div class="reviews-grid">
     <?php
-    // Check if there are any reviews
-    if (mysqli_num_rows($result) > 0) {
-        // Loop through each row to display the reviews
-        while ($row = mysqli_fetch_assoc($result)) {
-            // Display review information
-            echo "<div class='review'>";
-            echo "<div class='product_name'>";
-            echo "<p><strong>" . $row['Product_Name'] . "</strong></p>";
-            echo "</div>";
-            echo "<div class='rating'>";
-            // Convert numerical rating to star icons
-            $rating = intval($row['Rating']);
-            for ($i = 1; $i <= 5; $i++) {
-                if ($i <= $rating) {
-                    echo "<i class='fas fa-star fa-xl'></i>";
-                } else {
-                    echo "";
-                }
+    // Loop through each row to display the reviews for container 1
+    for ($i = 0; $i < $reviews_per_container && $row = mysqli_fetch_assoc($result); $i++) {
+        // Display review information
+        echo "<div class='review'>";
+        echo "<div class='product_name'>";
+        echo "<p><strong>" . $row['Product_Name'] . "</strong></p>";
+        echo "</div>";
+        echo "<div class='rating'>";
+        // Convert numerical rating to star icons
+        $rating = intval($row['Rating']);
+        for ($j = 1; $j <= 5; $j++) {
+            if ($j <= $rating) {
+                echo "<i class='fas fa-star fa-xl'></i>";
+            } else {
+                echo "";
             }
-            echo "</div>";
-            echo "<div class='review-text'>";
-            echo "<p>" . $row['Review_Message'] . "</p>";
-            echo "</div>";
-            echo "<div class='customer-info'>";
-            echo "<p><strong>" . $row['Customer_Name'] . "</strong></p>";
-            echo "</div>";
-            echo "</div>";
         }
-    } else {
-        echo "No reviews found.";
+        echo "</div>";
+        echo "<div class='review-text'>";
+        echo "<p>" . $row['Review_Message'] . "</p>";
+        echo "</div>";
+        echo "<div class='customer-info'>";
+        echo "<p><strong>" . $row['Customer_Name'] . "</strong></p>";
+        echo "</div>";
+        echo "</div>";
     }
     ?>
       </div>
@@ -121,25 +125,38 @@ $result = mysqli_query($conn, $query);
     </div>
   </div>
   <div class="divider"></div>
+    <!-- Reviews Container 2 -->
     <div class="reviews-container-2">
-        <div class="h-layout h-flex-block">
+        <!-- Reviews Horizontal Flex Box -->
+        <div class="h-layout-2 h-flex-block-2">
             <img src="LDAssets/reviews-img-2.png" alt="Image 2" class="image-2"/>
+             <!-- Reviews Grid for Container 2 -->
              <div class="reviews-grid-2">
-                <div class="review">
-                    <div class="rating">
-                        <i class="fas fa-star fa-xl"></i>
-                        <i class="fas fa-star fa-xl"></i>
-                        <i class="fas fa-star fa-xl"></i>
-                        <i class="fas fa-star fa-xl"></i>
-                        <i class="fas fa-star fa-xl"></i>
-                        </div>
-                        <div class="review-text">
-                            <p>Hello</p>
-                        </div>
-                        <div class="customer-info">
-                            <p>Toto</p>
-                        </div>
-                </div>
+                <?php
+                // Loop through each row to display the reviews for container 2
+                while ($row = mysqli_fetch_assoc($result)) {
+                    // Display review information
+                    echo "<div class='review'>";
+                    echo "<div class='rating'>";
+                    // Convert numerical rating to star icons
+                    $rating = intval($row['Rating']);
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($i <= $rating) {
+                            echo "<i class='fas fa-star fa-xl'></i>";
+                        } else {
+                            echo "";
+                        }
+                    }
+                    echo "</div>";
+                    echo "<div class='review-text'>";
+                    echo "<p>" . $row['Review_Message'] . "</p>";
+                    echo "</div>";
+                    echo "<div class='customer-info'>";
+                    echo "<p><strong>" . $row['Customer_Name'] . "</strong></p>";
+                    echo "</div>";
+                    echo "</div>";
+                }
+                ?>
             </div>
         </div>
     </div>
