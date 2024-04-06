@@ -137,6 +137,9 @@ mysqli_data_seek($result, 0);
                 while ($row = mysqli_fetch_assoc($result)) {
                     // Display review information
                     echo "<div class='review'>";
+                    echo "<div class='product_name'>";
+                    echo "<p><strong>" . $row['Product_Name'] . "</strong></p>";
+                    echo "</div>";
                     echo "<div class='rating'>";
                     // Convert numerical rating to star icons
                     $rating = intval($row['Rating']);
