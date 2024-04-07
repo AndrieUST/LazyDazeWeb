@@ -1,6 +1,12 @@
 <?php
 include('connect.php');
-
+if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+    $cartPage = "cart.php"; // Set the cart page URL
+    $inquiriespage = "inquiries.php";
+} else {
+    $cartPage = "#"; 
+    $inquiriespage = "#";
+}
 // Initialize SQL query
 $sql = "SELECT * FROM manageprod";
 
@@ -52,7 +58,7 @@ $result = mysqli_query($conn, $sql);
                 <div class="nav-line"></div>
                 <!-- Cart Icon -->
                 <div class="nav-icon">
-            <a href="cart.php">
+                <a href="<?php echo $cartPage; ?>">
                 <i class="fa-solid fa-cart-shopping fa-xl"></i>
                 <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
             </a>
@@ -67,7 +73,7 @@ $result = mysqli_query($conn, $sql);
                 <div class="nav-line"></div>
                 <!-- Info Icon -->
                 <div class="nav-icon">
-                    <a href="inquiries.php">
+                <a href="<?php echo $inquiriespage; ?>">
                         <i class="fa-solid fa-circle-info fa-xl"></i>
                     </a>
                 </div>

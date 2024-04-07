@@ -9,10 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 //Load Composer's autoloader
 require 'vendor/autoload.php';
 
-if (!empty($_SESSION["id"])) {
-    header("Location: login.php");
-    exit;
-}
+
 
 if (isset($_POST["submit"])) {
     $Customer_Email = $_POST["register_email"];

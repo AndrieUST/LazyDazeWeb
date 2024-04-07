@@ -1,15 +1,15 @@
 <?php
 include('connect.php');
 
-// Check if search query is set
-if(isset($_GET['search'])) {
-    // Perform search operation here
-    // You can add your search logic here
-    // For example: $search_query = $_GET['search'];
-    // Then redirect to products.php with the search query
-    header("Location: products.php?search=" . urlencode($_GET['search']));
-    exit();
-}
+
+    if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+        $cartPage = "cart.php"; // Set the cart page URL
+        $inquiriespage = "inquiries.php";
+    } else {
+        $cartPage = "#"; 
+        $inquiriespage = "#";
+    }
+
 ?>
 
 <html lang="en">
@@ -50,7 +50,7 @@ if(isset($_GET['search'])) {
             <div class="nav-line"></div>
             <!-- Cart Icon -->
             <div class="nav-icon">
-            <a href="cart.php">
+            <a href="<?php echo $cartPage; ?>">
                 <i class="fa-solid fa-cart-shopping fa-xl"></i>
                 <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
             </a>
@@ -65,7 +65,7 @@ if(isset($_GET['search'])) {
             <div class="nav-line"></div>
             <!-- Info Icon -->
             <div class="nav-icon">
-                <a href="inquiries.php">
+            <a href="<?php echo $inquiriespage; ?>">
                     <i class="fa-solid fa-circle-info fa-xl"></i>
                 </a>
             </div>
@@ -80,10 +80,11 @@ if(isset($_GET['search'])) {
             <div class="nav-line"></div>
         </div>
   </header>
-  <<div class="intro">
+  <div class="intro">
     <h2>Welcome to LazyDaze!</h2>
     <?php
-    if (isset($_SESSION['registered_email'])) {
+    // Check if the email is set and email_verified_at is not null
+    if (isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
         $email_parts = explode('@', $_SESSION['registered_email']);
         $display_name = $email_parts[0];
         echo '<h1>' . htmlspecialchars($display_name) . '</h1>';

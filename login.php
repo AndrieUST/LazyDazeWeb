@@ -1,16 +1,5 @@
 <?php
 include('connect.php');
-
-
-if (isset($_SESSION["id"])) {
-    header("Location: mainpage.php");
-    exit;
-}
-
-if (!empty($_SESSION['registered_email'])) {
-    header("Location: email_code.php?register_email=" . $_SESSION['registered_email']);
-    exit;
-}
 $max_attempts = 3;
 $lockout_duration = 30; // Lockout duration in seconds
 
@@ -53,7 +42,6 @@ if (isset($_POST["submit"])) {
     $Customer_Email = $_POST["login_email"];
     $Customer_PW = $_POST["login_password"];
 
-
     if ($Customer_Email === 'johnlinga0949@gmail.com') {
         $query = "SELECT * FROM admin WHERE Admin_Email = '$Customer_Email'";
         $result = mysqli_query($conn, $query);
@@ -72,26 +60,29 @@ if (isset($_POST["submit"])) {
         } else {
             echo "<script> alert('Admin account not found.'); </script>";
         }
+        // Admin login logic
+        // Omitted for brevity
     } else {
-       //Customer:)
+        // Customer login logic
         $result = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
         $row = mysqli_fetch_assoc($result);
 
         if (mysqli_num_rows($result) > 0) {
             if (password_verify($Customer_PW, $row['Customer_PW'])) {
-                $_SESSION["login"] = true;
-                $_SESSION["id"] = $row["id"];
-                header("Location: mainpage.php");
-                $_SESSION['registered_email'] = $Customer_Email;
-               
+                if (!empty($row['email_verified_at'])) { // Check if email is verified
+                    $_SESSION["login"] = true;
+                    $_SESSION["id"] = $row["id"];
+                    header("Location: mainpage.php");
+                    $_SESSION['registered_email'] = $Customer_Email;
+                } else {
+                    echo "<script> alert('Please verify your email to proceed.'); </script>";
+                }
             } else {
                 echo "<script> alert('Wrong Password. Attempts left: ". ($max_attempts - $_SESSION['login_attempts']) ."'); </script>";
                 $_SESSION['login_attempts']++;
-                
             }
         } else {
             echo "<script> alert('User Not Registered'); </script>";
-            
         }
     }
 

@@ -1,6 +1,20 @@
 <?php
 include('connect.php'); // Include database connection file
+// Check if the user's email is verified before allowing access to the cart page
 
+if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+    $cartPage = "cart.php"; // Set the cart page URL
+    $inquiriespage = "inquiries.php";
+} else {
+    $cartPage = "#"; 
+    $inquiriespage = "#";
+}
+// Check if the user's email is verified before allowing access to the cart page
+if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+    $cartPage = "cart.php"; // Set the cart page URL
+} else {
+    $cartPage = "#"; // Set the URL to a placeholder or any other page you want to redirect unverified users to
+}
 // Initialize SQL query
 $query = "SELECT * FROM managereview";
 
@@ -63,14 +77,15 @@ mysqli_data_seek($result, 0);
             <div class="nav-line"></div>
             <!-- Cart Icon -->
             <div class="nav-icon">
-                <a href="">
-                    <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                </a>
+            <a href="<?php echo $cartPage; ?>">
+                <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
+            </a>
             </div>
             <div class="nav-line"></div>
             <!-- Info Icon -->
             <div class="nav-icon">
-                <a href="inquiries.php">
+            <a href="<?php echo $inquiriespage; ?>">
                     <i class="fa-solid fa-circle-info fa-xl"></i>
                 </a>
             </div>
@@ -166,6 +181,23 @@ mysqli_data_seek($result, 0);
 </div>
 
 <script>
+    $(document).ready(function() {
+     // Function to update cart notification badge
+     function updateCartNotification() {
+        $.ajax({
+            url: 'fetch_cart_count.php', // Endpoint to fetch cart count
+            type: 'GET',
+            success: function(count) {
+                $('#cart-notification').text(count);
+            }
+        });
+    }
+
+    // Call updateCartNotification() when the page is loaded
+    updateCartNotification();
+
+    // Call fetchReviews() when the page is loaded
+    fetchReviews();
 // Debounce function
 function debounce(func, wait, immediate) {
     var timeout;
@@ -192,6 +224,7 @@ var handleSearch = debounce(function() {
 $(document).ready(function() {
     // Bind debounce function to input change event
     $('#search-input').on('input', handleSearch);
+});
 });
 </script>
 

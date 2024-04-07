@@ -2,10 +2,7 @@
 
 include('connect.php');
 
-if (!isset($_SESSION['registered_email'])) {
-    header("Location: login.php");
-    exit;
-}
+
 
 require 'vendor/autoload.php';
 

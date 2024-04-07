@@ -3,6 +3,24 @@ include('connect.php');
 
 // Initialize customer email and ID as null
 $customer_email = null;
+// Check if the user's email is verified before allowing access to the cart page
+
+if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+    $cartPage = "cart.php"; // Set the cart page URL
+    $inquiriespage = "inquiries.php";
+} else {
+    $cartPage = "#"; 
+    $inquiriespage = "#";
+}
+// Check if the user is logged in and their email is verified
+if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+    // User is logged in and email is verified
+    $customer_email = $_SESSION['registered_email'];
+} else {
+    // Prompt a warning message or handle the case where email is not verified
+    echo "<div class='warning'>Only verified users can submit reviews and add items to the cart.</div>";
+    // You might want to add an exit() here to stop further execution if needed
+}
 
 // Check if product ID is provided in the URL
 if(isset($_GET['product_id'])) {
@@ -44,6 +62,7 @@ if(isset($_GET['product_id'])) {
     echo "Product ID is not provided. Please provide a valid product ID.";
     exit(); // Stop further execution
 }
+
 // Fetch reviews from the database
 if (isset($_SESSION['registered_email'])) {
     $customer_email = $_SESSION['registered_email'];
@@ -51,61 +70,71 @@ if (isset($_SESSION['registered_email'])) {
     $reviews_result = mysqli_query($conn, $reviews_query);
 } else {
     // Prompt user to log in to view reviews
-    echo "Please log in to view reviews.";
+    echo "<div class='warning'>Please log in to view reviews.</div>";
 }
 
 // Check if the review form is submitted
 if(isset($_POST['submit_review'])) {
-    // Get form data
-    $customer_name = $_POST['customer_name']; // Optional field, adjust accordingly
-    $review_message = $_POST['review_message'];
-    $rating = $_POST['rating'];
-    $product_name = $_POST['product_name'];
+    // Check if the user's email is verified
+    if(isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+        // Get form data
+        $customer_name = $_POST['customer_name']; // Optional field, adjust accordingly
+        $review_message = $_POST['review_message'];
+        $rating = $_POST['rating'];
+        $product_name = $_POST['product_name'];
 
-    // Insert data into managereview table
-    $insert_review_query = "INSERT INTO managereview (Customer_Email, Customer_Name, Review_Message, Rating, Product_Name) VALUES ('$customer_email', '$customer_name', '$review_message', $rating, '$product_name')";
-    $insert_review_result = mysqli_query($conn, $insert_review_query);
+        // Insert data into managereview table
+        $insert_review_query = "INSERT INTO managereview (Customer_Email, Customer_Name, Review_Message, Rating, Product_Name) VALUES ('$customer_email', '$customer_name', '$review_message', $rating, '$product_name')";
+        $insert_review_result = mysqli_query($conn, $insert_review_query);
 
-    if($insert_review_result) {
-        // Notify the user that the review has been submitted successfully
-        echo "Thank you for your review! It has been submitted successfully.";
-        // Redirect to viewprod.php to prevent form resubmission prompt
-        header('Location: viewprod.php?product_id=' . $product_id);
-        exit();
-    } else {
-        // Notify the user if an error occurred while submitting the review
-        echo "Oops! Something went wrong while submitting your review. Please try again later.";
-    }
+        if($insert_review_result) {
+            // Notify the user that the review has been submitted successfully
+            echo "<div class='success'>Thank you for your review! It has been submitted successfully.</div>";
+            // Redirect to viewprod.php to prevent form resubmission prompt
+            header('Location: viewprod.php?product_id=' . $product_id);
+            exit();
+        } else {
+            // Notify the user if an error occurred while submitting the review
+            echo "<div class='error'>Oops! Something went wrong while submitting your review. Please try again later.</div>";
+        }
+    } 
 }
 
 // Check if the add to cart form is submitted
 if(isset($_POST['submit_cart'])) {
-    // Get form data
-    $size = $_POST['size'];
-    $quantity = $_POST['quantity'];
-    $Quantity_Small = $product_row['Quantity_Small'];
-    $Quantity_Medium = $product_row['Quantity_Medium'];
-    $Quantity_Large = $product_row['Quantity_Large'];
-    $Quantity_XL = $product_row['Quantity_XL'];
-    $product_name = $_POST['product_name'];
-    $base_price = $_POST['price']; // Fetch the base price
-    $image = $_POST['image'];
+    // Check if the user's email is verified
+    if(isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+        // Get form data
+        $size = $_POST['size'];
+        $quantity = $_POST['quantity'];
+        $Quantity_Small = $product_row['Quantity_Small'];
+        $Quantity_Medium = $product_row['Quantity_Medium'];
+        $Quantity_Large = $product_row['Quantity_Large'];
+        $Quantity_XL = $product_row['Quantity_XL'];
+        $product_name = $_POST['product_name'];
+        $base_price = $_POST['price']; // Fetch the base price
+        $image = $_POST['image'];
 
-    // Calculate the total price based on quantity
-    $total_price = $base_price * $quantity;
+        // Calculate the total price based on quantity
+        $total_price = $base_price * $quantity;
 
-    // Insert data into managecart table with user's email and ID
-    $insert_cart_query = "INSERT INTO managecart (Customer_Email,  Size, Quantity, Product_Name, Price, img) VALUES ('$customer_email',  '$size', $quantity, '$product_name', $total_price, '$image')";
-    $insert_cart_result = mysqli_query($conn, $insert_cart_query);
-    if($insert_cart_result) {
-        // Redirect to viewprod.php to prevent form resubmission prompt
-        echo "Product added successfully.";
-        header('Location: viewprod.php?product_id=' . $product_id);
-        exit();
+        // Insert data into managecart table with user's email and ID
+        $insert_cart_query = "INSERT INTO managecart (Customer_Email,  Size, Quantity, Product_Name, Price, img) VALUES ('$customer_email',  '$size', $quantity, '$product_name', $total_price, '$image')";
+        $insert_cart_result = mysqli_query($conn, $insert_cart_query);
+        if($insert_cart_result) {
+            // Redirect to viewprod.php to prevent form resubmission prompt
+            echo "<div class='success'>Product added successfully.</div>";
+            header('Location: viewprod.php?product_id=' . $product_id);
+            exit();
+        } else {
+            // Notify the user if an error occurred while adding to cart
+            echo "<div class='error'>Oops! Something went wrong while adding the item to your cart. Please try again later.</div>";
+        }
     } else {
-        // Notify the user if an error occurred while adding to cart
-        echo "Oops! Something went wrong while adding the item to your cart. Please try again later.";
+        // Prompt a warning message
+        echo "<script>alert('Only verified users can add to cart.');</script>";
     }
+    
 }
 ?>
 <html lang="en">
@@ -145,11 +174,11 @@ if(isset($_POST['submit_cart'])) {
         <div class="nav-line"></div>
         <!-- Cart Icon -->
         <div class="nav-icon">
-            <a href="cart.php">
+            <a href="<?php echo $cartPage; ?>">
                 <i class="fa-solid fa-cart-shopping fa-xl"></i>
                 <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
             </a>
-        </div>
+            </div>
         <div class="nav-line"></div>
         <!-- Reviews Icon -->
         <div class="nav-icon">
@@ -160,7 +189,7 @@ if(isset($_POST['submit_cart'])) {
         <div class="nav-line"></div>
         <!-- Info Icon -->
         <div class="nav-icon">
-            <a href="inquiries.php">
+        <a href="<?php echo $inquiriespage; ?>">
                 <i class="fa-solid fa-circle-info fa-xl"></i>
             </a>
         </div>
@@ -177,17 +206,6 @@ if(isset($_POST['submit_cart'])) {
 </div>
     <!-- Banner -->
   <div class = "bg2"></div>
-  <?php
-// Fetch reviews from the database
-if (isset($_SESSION['registered_email'])) {
-    $customer_email = $_SESSION['registered_email'];
-    $reviews_query = "SELECT * FROM managereview WHERE Customer_Email = '$customer_email'";
-    $reviews_result = mysqli_query($conn, $reviews_query);
-} else {
-    // Prompt user to log in to view reviews
-    echo "<div class='warning'>Please log in to view reviews.</div>";
-}
-?>
   <!-- Item -->
   <div class="h-layout">
         <img class="prod-img" src="<?php echo $image; ?>" alt="<?php echo htmlspecialchars($Product_Name); ?>"/>
