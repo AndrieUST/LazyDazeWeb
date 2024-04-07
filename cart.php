@@ -15,17 +15,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } 
 
-$customer_email = $_SESSION['registered_email'];
-$totalPrice = 0; // Initialize total price here
+// Check if 'registered_email' is set in the $_SESSION array
+if (isset($_SESSION['registered_email'])) {
+    $customer_email = $_SESSION['registered_email'];
+    $totalPrice = 0; // Initialize total price here
 
-// Fetch products details including the maximum quantity available for each item
-$query = "SELECT mc.id, mc.Customer_Email, mc.Quantity, mc.Price, mc.Product_Name, mc.img, mc.Size,
-                mp.Quantity_Small, mp.Quantity_Medium, mp.Quantity_Large, mp.Quantity_XL
-          FROM managecart mc
-          INNER JOIN manageprod mp ON mc.Product_Name = mp.Product_Name
-          WHERE mc.Customer_Email = '$customer_email'";
-$result = mysqli_query($conn, $query);
-
+    // Fetch products details including the maximum quantity available for each item
+    $query = "SELECT mc.id, mc.Customer_Email, mc.Quantity, mc.Price, mc.Product_Name, mc.img, mc.Size,
+                    mp.Quantity_Small, mp.Quantity_Medium, mp.Quantity_Large, mp.Quantity_XL
+              FROM managecart mc
+              INNER JOIN manageprod mp ON mc.Product_Name = mp.Product_Name
+              WHERE mc.Customer_Email = '$customer_email'";
+    $result = mysqli_query($conn, $query);
+} else {
+    // If 'registered_email' is not set in the $_SESSION array, redirect the user to the login page
+    // You can change 'login.php' to the actual login page URL
+    header("Location: login.php");
+    exit(); // Ensure no further code execution after redirection
+}
 ?>
 
 
@@ -164,39 +171,63 @@ $result = mysqli_query($conn, $query);
         // Call updateCartNotification() when the page is loaded
         updateCartNotification();
 
+        // Function to update total price based on quantity changes
+        function updateTotalPrice() {
+            var totalPrice = 0;
+
+            // Loop through each item in the cart
+            $(".qty").each(function() {
+                // Get the quantity and price of the current item
+                var quantity = parseInt($(this).find(".num").text());
+                var price = parseFloat($(this).closest(".h-layout").find("h4").text());
+
+                // Calculate the subtotal for the current item
+                var subtotal = quantity * price;
+
+                // Add the subtotal to the total price
+                totalPrice += subtotal;
+            });
+
+            // Update the total price displayed on the page
+            $(".total-container h2").text(": " + totalPrice.toFixed(2) + " PHP");
+        }
+
+        // Call updateTotalPrice() when the page is loaded
+        updateTotalPrice();
+
         // Function to handle quantity changes
         $(document).on("click", ".qty .plus, .qty .minus", function() {
-    // Find the quantity element within the same item
-    var quantityField = $(this).siblings(".num");
+            // Find the quantity element within the same item
+            var quantityField = $(this).siblings(".num");
 
-    // Get the current quantity as an integer
-    var quantity = parseInt(quantityField.text());
+            // Get the current quantity as an integer
+            var quantity = parseInt(quantityField.text());
 
-    // Get the maximum quantity available for this item
-    var maxQuantity = parseInt(quantityField.parent().attr('data-max-quantity'));
+            // Get the maximum quantity available for this item
+            var maxQuantity = parseInt(quantityField.parent().attr('data-max-quantity'));
 
-    // Determine if the button clicked was the plus or minus
-    if ($(this).hasClass("plus")) {
-        // Increment the quantity by 1 if it's less than the maximum quantity
-        if (quantity < maxQuantity) {
-            quantity++;
-        } else {
-            // Display an alert if the maximum quantity is reached
-            alert("Maximum quantity reached for this item.");
-            return; // Stop further execution
-        }
-    } else {
-        // Ensure the quantity is not less than 1 before decrementing
-        if (quantity > 1) {
-            quantity--;
-        }
-    }
+            // Determine if the button clicked was the plus or minus
+            if ($(this).hasClass("plus")) {
+                // Increment the quantity by 1 if it's less than the maximum quantity
+                if (quantity < maxQuantity) {
+                    quantity++;
+                } else {
+                    // Display an alert if the maximum quantity is reached
+                    alert("Maximum quantity reached for this item.");
+                    return; // Stop further execution
+                }
+            } else {
+                // Ensure the quantity is not less than 1 before decrementing
+                if (quantity > 1) {
+                    quantity--;
+                }
+            }
 
-    // Update the quantity text with the new value
-    quantityField.text(quantity);
+            // Update the quantity text with the new value
+            quantityField.text(quantity);
 
-    // Update the total price based on the new quantity
-    updateTotalPrice();
-});
+            // Update the total price based on the new quantity
+            updateTotalPrice();
+        });
     });
 </script>
