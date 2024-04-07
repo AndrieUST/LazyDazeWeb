@@ -44,6 +44,15 @@ if(isset($_GET['product_id'])) {
     echo "Product ID is not provided. Please provide a valid product ID.";
     exit(); // Stop further execution
 }
+// Fetch reviews from the database
+if (isset($_SESSION['registered_email'])) {
+    $customer_email = $_SESSION['registered_email'];
+    $reviews_query = "SELECT * FROM managereview WHERE Customer_Email = '$customer_email'";
+    $reviews_result = mysqli_query($conn, $reviews_query);
+} else {
+    // Prompt user to log in to view reviews
+    echo "Please log in to view reviews.";
+}
 
 // Check if the review form is submitted
 if(isset($_POST['submit_review'])) {

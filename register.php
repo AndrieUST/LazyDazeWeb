@@ -28,8 +28,11 @@ if (isset($_POST["submit"])) {
     }
 
     // Check if the email is already taken
-    $duplicate_check = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
-    if (mysqli_num_rows($duplicate_check) > 0) {
+    $duplicate_check_users = mysqli_query($conn, "SELECT * FROM users WHERE Customer_Email = '$Customer_Email'");
+    $duplicate_check_admin = mysqli_query($conn, "SELECT * FROM admin WHERE Admin_Email = '$Customer_Email'");
+    
+    // Check if the email is already taken in either users or admin table
+    if (mysqli_num_rows($duplicate_check_users) > 0 || mysqli_num_rows($duplicate_check_admin) > 0) {
         echo "<script>alert('Email Has Already Taken');</script>";
     } else {
         if ($Customer_PW == $ConfirmPassword) {
