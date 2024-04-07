@@ -4,6 +4,57 @@ include('connect.php');
 // Initialize customer email and ID as null
 $customer_email = null;
 
+// Check if product ID is provided in the URL
+if(isset($_GET['product_id'])) {
+    $product_id = $_GET['product_id'];
+    
+    // Fetch product details from the database
+    $product_query = "SELECT * FROM manageprod WHERE ProductID = $product_id"; // Updated query
+    $product_result = mysqli_query($conn, $product_query);
+
+    // Check for errors
+    if (!$product_result) {
+        // If there's an error, print the SQL query and the error message
+        echo "Error in SQL query: " . $product_query . "<br>";
+        echo "Error message: " . mysqli_error($conn);
+        exit(); // Stop further execution
+    }
+
+    // Fetch product details
+    $product_row = mysqli_fetch_assoc($product_result);
+    
+    // Check if product details are fetched successfully
+    if($product_row) {
+        // Extract product details
+        $Product_Name = $product_row['Product_Name'];
+        $Price = $product_row['Price'];
+        $image = $product_row['img'];
+        // Default to Quantity_Small if size is not selected
+        $Quantity_Small = $product_row['Quantity_Small'];
+        $Quantity_Medium = $product_row['Quantity_Medium'];
+        $Quantity_Large = $product_row['Quantity_Large'];
+        $Quantity_XL = $product_row['Quantity_XL'];
+    } else {
+        // Inform the user that the product is not found
+        echo "Oops! The product you are looking for is not found.";
+        exit(); // Stop further execution
+    }
+} else {
+    // Prompt user to provide a product ID
+    echo "Product ID is not provided. Please provide a valid product ID.";
+    exit(); // Stop further execution
+}
+
+// Fetch reviews from the database
+if (isset($_SESSION['registered_email'])) {
+    $customer_email = $_SESSION['registered_email'];
+    $reviews_query = "SELECT * FROM managereview WHERE Customer_Email = '$customer_email'";
+    $reviews_result = mysqli_query($conn, $reviews_query);
+} else {
+    // Prompt user to log in to view reviews
+    echo "Please log in to view reviews.";
+}
+
 // Check if the review form is submitted
 if(isset($_POST['submit_review'])) {
     // Get form data
@@ -28,48 +79,15 @@ if(isset($_POST['submit_review'])) {
     }
 }
 
-// Check if product ID is provided in the URL
-if(isset($_GET['product_id'])) {
-    $product_id = $_GET['product_id'];
-    
-    // Fetch product details from the database
-    $product_query = "SELECT * FROM manageprod WHERE ProductID = $product_id"; // Updated query
-    $product_result = mysqli_query($conn, $product_query);
-    $product_row = mysqli_fetch_assoc($product_result);
-    
-    // Check if product details are fetched successfully
-    if($product_row) {
-        // Extract product details
-        $Product_Name = $product_row['Product_Name'];
-        $Quantity = $product_row['Quantity'];
-        $Price = $product_row['Price'];
-        $image = $product_row['img'];
-    } else {
-        // Inform the user that the product is not found
-        echo "Oops! The product you are looking for is not found.";
-        exit(); // Stop further execution
-    }
-} else {
-    // Prompt user to provide a product ID
-    echo "Product ID is not provided. Please provide a valid product ID.";
-    exit(); // Stop further execution
-}
-
-// Fetch reviews from the database
-if (isset($_SESSION['registered_email'])) {
-    $customer_email = $_SESSION['registered_email'];
-    $reviews_query = "SELECT * FROM managereview WHERE Customer_Email = '$customer_email'";
-    $reviews_result = mysqli_query($conn, $reviews_query);
-} else {
-    // Prompt user to log in to view reviews
-    echo "Please log in to view reviews.";
-}
-
 // Check if the add to cart form is submitted
 if(isset($_POST['submit_cart'])) {
     // Get form data
     $size = $_POST['size'];
     $quantity = $_POST['quantity'];
+    $Quantity_Small = $product_row['Quantity_Small'];
+    $Quantity_Medium = $product_row['Quantity_Medium'];
+    $Quantity_Large = $product_row['Quantity_Large'];
+    $Quantity_XL = $product_row['Quantity_XL'];
     $product_name = $_POST['product_name'];
     $base_price = $_POST['price']; // Fetch the base price
     $image = $_POST['image'];
@@ -80,19 +98,17 @@ if(isset($_POST['submit_cart'])) {
     // Insert data into managecart table with user's email and ID
     $insert_cart_query = "INSERT INTO managecart (Customer_Email,  Size, Quantity, Product_Name, Price, img) VALUES ('$customer_email',  '$size', $quantity, '$product_name', $total_price, '$image')";
     $insert_cart_result = mysqli_query($conn, $insert_cart_query);
-if($insert_cart_result) {
-    // Redirect to viewprod.php to prevent form resubmission prompt
-    echo "Product added successfully.";
-    header('Location: viewprod.php?product_id=' . $product_id);
-    exit();
-} else {
-    // Notify the user if an error occurred while adding to cart
-    echo "Oops! Something went wrong while adding the item to your cart. Please try again later.";
-}
-
+    if($insert_cart_result) {
+        // Redirect to viewprod.php to prevent form resubmission prompt
+        echo "Product added successfully.";
+        header('Location: viewprod.php?product_id=' . $product_id);
+        exit();
+    } else {
+        // Notify the user if an error occurred while adding to cart
+        echo "Oops! Something went wrong while adding the item to your cart. Please try again later.";
+    }
 }
 ?>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -173,36 +189,36 @@ if($insert_cart_result) {
             </div>
             <div class="form">
                 <form id="prod-form" name="prod-form" method="post" action="">
-                    <!-- Provide options for quantity -->
-                    <label for="size-field">Size</label>
-                    <select class="select-field" id="size-field" name="size">
-                        <option value=""></option>
-                        <option value="First">S</option>
-                        <option value="Second">M</option>
-                        <option value="Third">L</option>
-                    </select>
-                    <label for="quantity-field">Quantity</label>
-                    <select class="select-field" id="quantity-field" name="quantity">
-                        <option value=""></option>
-                        <!-- Loop to provide quantity options base on the number input in SQL -->
-                        <?php for ($i = 1; $i <= $Quantity; $i++) { ?>
-                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                        <?php } ?>
-                    </select>
-                    <!-- Hidden input fields for other product details -->
-                    <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($Product_Name); ?>">
+                 <!-- Provide options for size -->
+
+
+<!-- Quantity options for Small size -->
+<label for="size-field">Size</label>
+          <select class="select-field" id="size-field" name="size">
+            <option value=""></option>
+            <option value="Small">S</option>
+            <option value="Medium">M</option>
+            <option value="Large">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <!-- Quantity selection dropdown -->
+          <label for="quantity-field">Quantity</label>
+          <select class="select-field" id="quantity-field" name="quantity">
+            <!-- Quantity options will be dynamically updated based on the selected size -->
+          </select>
+             <!-- Hidden input fields for other product details -->
+             <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($Product_Name); ?>">
                     <input type="hidden" name="price" value="<?php echo htmlspecialchars($Price); ?>">
                     <input type="hidden" name="image" value="<?php echo htmlspecialchars($image); ?>">
                     <!-- Submit button for adding to cart -->
                     <input type="submit" class="submit-btn" name="submit_cart" value="Add to Cart" />
-                </form>
-            </div>
-        </div>
+        </form>
+      </div>
     </div>
+  </div>
     <!-- Review Form -->
     <form method="POST" class="form-container1">
         <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($Product_Name); ?>">
-        <input type="hidden" name="quantity" value="<?php echo $Quantity; ?>">
         <input type="hidden" name="price" value="<?php echo htmlspecialchars($Price); ?>">
         <input type="hidden" name="image" value="<?php echo htmlspecialchars($image); ?>">
         <input type="text" name="customer_name" placeholder="Your Name (Optional)">
@@ -223,55 +239,80 @@ if($insert_cart_result) {
         <!-- Reviews will be dynamically fetched and displayed here -->
     </div>
 </div>
-
-<!-- JavaScript block moved here -->
+<!-- JavaScript block -->
 <script>
-        $(document).ready(function() {
-            // Function to fetch and display reviews
-            function fetchReviews() {
-                var productName = "<?php echo $Product_Name; ?>"; // Get the product name from PHP
-                $.ajax({
-                    url: 'fetch_reviews.php',
-                    type: 'POST',
-                    data: { product_name: productName },
-                    success: function(data) {
-                        $('.review-container').html(data);
-                    }
-                });
+    $(document).ready(function() {
+         // Function to fetch and display reviews
+    function fetchReviews() {
+        var productName = "<?php echo $Product_Name; ?>"; // Get the product name from PHP
+        $.ajax({
+            url: 'fetch_reviews.php',
+            type: 'POST',
+            data: { product_name: productName },
+            success: function(data) {
+                $('.review-container').html(data);
             }
-
-            // Function to update cart notification badge
-            function updateCartNotification() {
-                $.ajax({
-                    url: 'fetch_cart_count.php', // Endpoint to fetch cart count
-                    type: 'GET',
-                    success: function(count) {
-                        $('#cart-notification').text(count);
-                    }
-                });
-            }
-
-            // Call updateCartNotification() when the page is loaded
-            updateCartNotification();
-
-            // Call fetchReviews() when the page is loaded
-            fetchReviews();
-
-            // Function to validate the form before submission
-            $('#prod-form').submit(function(event) {
-                // Get the selected size and quantity
-                var size = $('#size-field').val();
-                var quantity = $('#quantity-field').val();
-
-                // Check if size and quantity are not selected
-                if (size === "" || quantity === "") {
-                    // Prevent the form from submitting
-                    event.preventDefault();
-                    // Display a prompt to the user
-                    alert("Please select size and quantity before adding to cart.");
-                }
-            });
         });
-    </script>
+    }
+
+    // Function to update cart notification badge
+    function updateCartNotification() {
+        $.ajax({
+            url: 'fetch_cart_count.php', // Endpoint to fetch cart count
+            type: 'GET',
+            success: function(count) {
+                $('#cart-notification').text(count);
+            }
+        });
+    }
+
+    // Call updateCartNotification() when the page is loaded
+    updateCartNotification();
+
+    // Call fetchReviews() when the page is loaded
+    fetchReviews();
+
+    // Function to validate the form before submission
+    $('#prod-form').submit(function(event) {
+        // Get the selected size and quantity
+        var size = $('#size-field').val();
+        var quantity = $('#quantity-field').val();
+
+        // Check if size and quantity are not selected
+        if (size === "" || quantity === "") {
+            // Prevent the form from submitting
+            event.preventDefault();
+            // Display a prompt to the user
+            alert("Please select size and quantity before adding to cart.");
+        }
+    });
+
+      // Function to update quantity dropdown options based on the selected size
+      $('#size-field').change(function() {
+        var selectedSize = $(this).val();
+        var quantityOptions = [];
+
+        // Clear previous options
+        $('#quantity-field').empty();
+
+        // Determine quantity options based on the selected size
+        if (selectedSize === "Small") {
+            quantityOptions = <?php echo $Quantity_Small > 0 ? json_encode(range(1, $Quantity_Small)) : '["Out of Stock"]'; ?>;
+        } else if (selectedSize === "Medium") {
+          quantityOptions = <?php echo $Quantity_Medium > 0 ? json_encode(range(1, $Quantity_Medium)) : '["Out of Stock"]'; ?>;
+        } else if (selectedSize === "Large") {
+          quantityOptions = <?php echo $Quantity_Large > 0 ? json_encode(range(1, $Quantity_Large)) : '["Out of Stock"]'; ?>;
+        } else if (selectedSize === "XL") {
+          quantityOptions = <?php echo $Quantity_XL > 0 ? json_encode(range(1, $Quantity_XL)) : '["Out of Stock"]'; ?>;
+        }
+
+        // Add quantity options to the dropdown
+        $.each(quantityOptions, function(index, value) {
+          $('#quantity-field').append($('<option>').text(value).attr('value', value));
+        });
+      });
+    });
+  </script>
+
 </body>
 </html>

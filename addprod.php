@@ -5,7 +5,6 @@ if(isset($_POST['submit'])) {
     // Escape user inputs for security
     $Product_Name = isset($_POST['Prod-name']) ? mysqli_real_escape_string($conn, $_POST['Prod-name']) : '';
     $Description = isset($_POST['Description']) ? mysqli_real_escape_string($conn, $_POST['Description']) : '';
-    $Quantity = isset($_POST['Quantity']) ? mysqli_real_escape_string($conn, $_POST['Quantity']) : '';
     $Price = isset($_POST['Price']) ? mysqli_real_escape_string($conn, $_POST['Price']) : '';
 
     // File upload handling
@@ -14,8 +13,14 @@ if(isset($_POST['submit'])) {
 
         // Move uploaded file to the desired directory
         if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
-            // Insert query with image path
-            $sql = "INSERT INTO manageprod (Product_Name, Description, Quantity, Price, img) VALUES ('$Product_Name', '$Description', '$Quantity', '$Price', '$target_file')";
+            // Get quantities for different sizes
+            $Quantity_Small = isset($_POST['Quantity_Small']) ? mysqli_real_escape_string($conn, $_POST['Quantity_Small']) : '';
+            $Quantity_Medium = isset($_POST['Quantity_Medium']) ? mysqli_real_escape_string($conn, $_POST['Quantity_Medium']) : '';
+            $Quantity_Large = isset($_POST['Quantity_Large']) ? mysqli_real_escape_string($conn, $_POST['Quantity_Large']) : '';
+            $Quantity_XL = isset($_POST['Quantity_XL']) ? mysqli_real_escape_string($conn, $_POST['Quantity_XL']) : '';
+
+            // Insert query with image path and quantities for different sizes
+            $sql = "INSERT INTO manageprod (Product_Name, Description, Quantity_Small, Quantity_Medium, Quantity_Large, Quantity_XL, Price, img) VALUES ('$Product_Name', '$Description', '$Quantity_Small', '$Quantity_Medium', '$Quantity_Large', '$Quantity_XL', '$Price', '$target_file')";
 
             if(mysqli_query($conn, $sql)){
                 // Redirect to prod.php if records added successfully
@@ -100,8 +105,17 @@ if(isset($_POST['submit'])) {
         <label>Description</label>
         <textarea class="Description-input" name="Description" required></textarea>
 
-        <label>Quantity</label>
-        <input type="number" class="Quantity" name="Quantity" required>
+        <label>Quantity (Small)</label>
+        <input type="number" class="Quantity" name="Quantity_Small" required>
+
+        <label>Quantity (Medium)</label>
+        <input type="number" class="Quantity" name="Quantity_Medium" required>
+
+        <label>Quantity (Large)</label>
+        <input type="number" class="Quantity" name="Quantity_Large" required>
+
+        <label>Quantity (XL)</label>
+        <input type="number" class="Quantity" name="Quantity_XL" required>
 
         <label>Price (PHP)</label>
         <input type="number" class="Price" name="Price" required>

@@ -26,12 +26,12 @@ $result = mysqli_query($conn, $sql);
     <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Website Icon -->
-    <link rel="icon" href="./LDAssets/lz logo.png"><!-- Head content -->
+    <link rel="icon" href="./LDAssets/lz logo.png">
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-  <!-- Background Image -->
+   <!-- Background Image -->
 <div class="bg">
   <!-- Navigation Bar -->
   <div class="topnav">
@@ -77,38 +77,57 @@ $result = mysqli_query($conn, $sql);
       </div>
       <div class="nav-line"></div>
     </div><!-- Navigation bar content -->
-  </div>
-  <div class="bg2"></div>
-  <div class="container">
-    <h1>Products</h1>
-    <div class="items-wrapper">
-      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-        <div class="item">
-            <img class="item-image" src="<?php echo $row['img']; ?>" alt="<?php echo $row['Product_Name']; ?>">
-              <h3 class="item-title"><?php echo $row['Product_Name']; ?></h3>
-              <div class="item-deets"><?php echo $row['Description']; ?></div>
-              <div class="item-deets">Quantity: <?php echo $row['Quantity']; ?></div>
-              <div class="item-deets">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
-              <!-- Edit Button -->
-              <a href="editprod.php?product_id=<?php echo $row['ProductID']; ?>">
-              <button class="edit-btn" type="submit" name="submit" value="check">Edit Item</button>
-              </a>
-              <!-- Remove Button -->
-              <form method="post" action="removeprod.php" onsubmit="return confirm('Are you sure you want to remove this item?');">
-              <input type="hidden" name="product_id" value="<?php echo $row['ProductID']; ?>">
-              <button type="submit" class="rm-btn" name="action" value="remove">Remove</button>
-              </form>
-        </div>
-      <?php } ?>
     </div>
-  </div>
-  <!-- Add Product Button -->
-  <div class="add-btn-container">
-    <form id="prod" method="post" action="addprod.php">
-      <button type="submit" class="add-btn" name="submit" value="add">Add a Product</button>
-    </form>
-  </div>
-</div>
+        <div class="bg2"></div>
+        <div class="container">
+            <h1>Products</h1>
+            <div class="items-wrapper">
+                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                    <div class="item">
+                        <img class="item-image" src="<?php echo $row['img']; ?>" alt="<?php echo $row['Product_Name']; ?>">
+                        <h3 class="item-title"><?php echo $row['Product_Name']; ?></h3>
+                        <div class="item-deets">Description: <?php echo $row['Description']; ?></div>
+                        <!-- Check each size individually for out of stock -->
+                        <?php if ($row['Quantity_Small'] == 0) { ?>
+                            <div class="item-deets">Small: Out of stock</div>
+                        <?php } else { ?>
+                            <div class="item-deets">Small: <?php echo $row['Quantity_Small']; ?></div>
+                        <?php } ?>
+                        <?php if ($row['Quantity_Medium'] == 0) { ?>
+                            <div class="item-deets">Medium: Out of stock</div>
+                        <?php } else { ?>
+                            <div class="item-deets">Medium: <?php echo $row['Quantity_Medium']; ?></div>
+                        <?php } ?>
+                        <?php if ($row['Quantity_Large'] == 0) { ?>
+                            <div class="item-deets">Large: Out of stock</div>
+                        <?php } else { ?>
+                            <div class="item-deets">Large: <?php echo $row['Quantity_Large']; ?></div>
+                        <?php } ?>
+                        <?php if ($row['Quantity_XL'] == 0) { ?>
+                            <div class="item-deets">XL: Out of stock</div>
+                        <?php } else { ?>
+                            <div class="item-deets">XL: <?php echo $row['Quantity_XL']; ?></div>
+                        <?php } ?>
+                        <div class="item-deets">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
+                        <!-- Edit Button -->
+                        <a href="editprod.php?product_id=<?php echo $row['ProductID']; ?>">
+                            <button class="edit-btn" type="submit" name="submit" value="check">Edit Item</button>
+                        </a>
+                        <!-- Remove Button -->
+                        <form method="post" action="removeprod.php" onsubmit="return confirm('Are you sure you want to remove this item?');">
+                            <input type="hidden" name="product_id" value="<?php echo $row['ProductID']; ?>">
+                            <button type="submit" class="rm-btn" name="action" value="remove">Remove</button>
+                        </form>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+        <div class="add-btn-container">
+            <form id="prod" method="post" action="addprod.php">
+                <button type="submit" class="add-btn" name="submit" value="add">Add a Product</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
 

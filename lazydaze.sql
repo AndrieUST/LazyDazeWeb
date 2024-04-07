@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2024 at 09:25 PM
+-- Generation Time: Apr 07, 2024 at 12:30 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -62,8 +62,7 @@ CREATE TABLE `managecart` (
 --
 
 INSERT INTO `managecart` (`id`, `Customer_Email`, `Size`, `Product_Name`, `Quantity`, `Price`, `img`) VALUES
-(92, 'johnangelo.linga.shs@ust.edu.ph', 'Second', 'Ninja Black Tee from manila 4', 1, 300, 'sample-shirt.png'),
-(96, 'doffy0949@gmail.com', 'Second', 'Ninja Black Tee from manila 4', 1, 300, 'sample-shirt.png');
+(113, 'johnangelo.linga.shs@ust.edu.ph', 'Medium', 'Ninja Black Tee from manila 2', 1, 500, 'sample-tshirt1.png');
 
 -- --------------------------------------------------------
 
@@ -131,7 +130,10 @@ CREATE TABLE `manageprod` (
   `ProductID` int(200) NOT NULL,
   `Product_Name` varchar(255) NOT NULL,
   `Description` varchar(100) NOT NULL,
-  `Quantity` int(30) NOT NULL,
+  `Quantity_Small` int(30) NOT NULL,
+  `Quantity_Medium` int(30) NOT NULL,
+  `Quantity_Large` int(30) NOT NULL,
+  `Quantity_XL` int(30) NOT NULL,
   `Price` int(200) NOT NULL,
   `img` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -140,11 +142,9 @@ CREATE TABLE `manageprod` (
 -- Dumping data for table `manageprod`
 --
 
-INSERT INTO `manageprod` (`ProductID`, `Product_Name`, `Description`, `Quantity`, `Price`, `img`) VALUES
-(48, 'Ninja Black Tee from manila ', 'blablahblah\r\n', 2, 500, 'sample-shirt2.jpg'),
-(49, 'Ninja Black Tee from manila 4', 'goods', 1, 300, 'sample-shirt.png'),
-(52, 'Ninja Black Tee from manila 1', 'guds', 5, 400, 'sample-tshirt1.png'),
-(53, 'Ninja Black Tee from manila 6', 'gege', 3, 300, 'sample-shirt2.jpg');
+INSERT INTO `manageprod` (`ProductID`, `Product_Name`, `Description`, `Quantity_Small`, `Quantity_Medium`, `Quantity_Large`, `Quantity_XL`, `Price`, `img`) VALUES
+(54, 'Ninja Black Tee from manila ', 'goods', 2, 2, 2, 1, 500, 'sample-shirt.png'),
+(55, 'Ninja Black Tee from manila 2', 'comfortable', 1, 2, 2, 0, 500, 'sample-tshirt1.png');
 
 -- --------------------------------------------------------
 
@@ -166,21 +166,8 @@ CREATE TABLE `managereview` (
 --
 
 INSERT INTO `managereview` (`ReviewID`, `Customer_Email`, `Customer_Name`, `Review_Message`, `Rating`, `Product_Name`) VALUES
-(5, 'doffy0949@gmail.com', 'kyle', 'hehe', '5', 'Ninja Black Tee from manila '),
-(6, 'doffy0949@gmail.com', 'john john', 'adada', '5', 'Ninja Black Tee from manila '),
-(7, 'doffy0949@gmail.com', '', 'hehehe', '1', 'Ninja Black Tee from manila '),
-(8, 'doffy0949@gmail.com', '', 'hehehe', '1', 'Ninja Black Tee from manila '),
-(9, 'doffy0949@gmail.com', '', 'hehehe', '1', 'Ninja Black Tee from manila '),
-(10, 'johnlinga0949@gmail.com', 'junjun', 'comfy', '4', 'Ninja Black Tee from manila 2'),
-(14, 'doffy0949@gmail.com', 'junjun', 'goods', '4', 'Ninja Black Tee from manila '),
-(15, 'doffy0949@gmail.com', 'kyle', 'hehe', '3', 'Ninja Black Tee from manila 4'),
-(17, 'johnangelo.linga.cics@ust.edu.ph', 'john ', 'very nice', '5', 'Ninja Black Tee from manila '),
-(18, 'doffy0949@gmail.com', 'john', 'good', '3', 'Ninja Black Tee from manila 7'),
-(19, 'doffy0949@gmail.com', 'john john', 'hehe', '3', 'Ninja Black Tee from manila 4'),
-(20, 'doffy0949@gmail.com', 'junjun', 'great', '4', 'Ninja Black Tee from manila 7'),
-(21, 'doffy0949@gmail.com', 'junjun', 'great', '4', 'Ninja Black Tee from manila 7'),
-(25, 'doffy0949@gmail.com', 'migz', 'hehehe', '1', 'Ninja Black Tee from manila 7'),
-(28, 'johnangelo.linga.shs@ust.edu.ph', 'mika', 'hehe', '3', 'Ninja Black Tee from manila 4');
+(32, 'doffy0949@gmail.com', 'john john', 'hehe', '1', 'Ninja Black Tee from manila 2'),
+(33, 'johnangelo.linga.shs@ust.edu.ph', 'migz', 'gehehe', '1', 'Ninja Black Tee from manila 2');
 
 -- --------------------------------------------------------
 
@@ -276,7 +263,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `managecart`
 --
 ALTER TABLE `managecart`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `manageinquiry`
@@ -300,13 +287,13 @@ ALTER TABLE `manageorders`
 -- AUTO_INCREMENT for table `manageprod`
 --
 ALTER TABLE `manageprod`
-  MODIFY `ProductID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `ProductID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `managereview`
 --
 ALTER TABLE `managereview`
-  MODIFY `ReviewID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `ReviewID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `users`

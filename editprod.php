@@ -18,7 +18,10 @@ if(isset($_GET['product_id'])) {
         $row = mysqli_fetch_assoc($result);
         $Product_Name = $row['Product_Name'];
         $Description = $row['Description'];
-        $Quantity = $row['Quantity'];
+        $Quantity_Small = $row['Quantity_Small'];
+        $Quantity_Medium = $row['Quantity_Medium'];
+        $Quantity_Large = $row['Quantity_Large'];
+        $Quantity_XL = $row['Quantity_XL'];
         $Price = $row['Price'];
         $img = $row['img'];
     } else {
@@ -35,7 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve updated product details from the form
     $new_Product_Name = isset($_POST['Prod-name']) ? mysqli_real_escape_string($conn, $_POST['Prod-name']) : '';
     $new_Description = isset($_POST['Description']) ? mysqli_real_escape_string($conn, $_POST['Description']) : '';
-    $new_Quantity = isset($_POST['Quantity']) ? mysqli_real_escape_string($conn, $_POST['Quantity']) : '';
+    $new_Quantity_Small = isset($_POST['Quantity_Small']) ? mysqli_real_escape_string($conn, $_POST['Quantity_Small']) : '';
+    $new_Quantity_Medium = isset($_POST['Quantity_Medium']) ? mysqli_real_escape_string($conn, $_POST['Quantity_Medium']) : '';
+    $new_Quantity_Large = isset($_POST['Quantity_Large']) ? mysqli_real_escape_string($conn, $_POST['Quantity_Large']) : '';
+    $new_Quantity_XL = isset($_POST['Quantity_XL']) ? mysqli_real_escape_string($conn, $_POST['Quantity_XL']) : '';
     $new_Price = isset($_POST['Price']) ? mysqli_real_escape_string($conn, $_POST['Price']) : '';
 
     // Check if a new image is uploaded
@@ -67,8 +73,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Update the product details in the database
-    $update_sql = "UPDATE manageprod SET Product_Name = '$new_Product_Name', Description = '$new_Description', Quantity = '$new_Quantity', Price = '$new_Price', img = '$img' WHERE ProductID = '$product_id'";
+    $update_sql = "UPDATE manageprod SET 
+    Product_Name = '$new_Product_Name', 
+    Description = '$new_Description', 
+    Quantity_Small = '$new_Quantity_Small', 
+    Quantity_Medium = '$new_Quantity_Medium', 
+    Quantity_Large = '$new_Quantity_Large', 
+    Quantity_XL = '$new_Quantity_XL', 
+    Price = '$new_Price', 
+    img = '$img' 
+  WHERE ProductID = '$product_id'";
 
     if (mysqli_query($conn, $update_sql)) {
         // Product details updated successfully
@@ -147,8 +161,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>Description</label>
         <textarea class="Description-input" name="Description" required><?php echo htmlspecialchars($Description); ?></textarea>
 
-        <label>Quantity</label>
-        <input type="number" class="Quantity" name="Quantity" value="<?php echo htmlspecialchars($Quantity); ?>" required>
+        <label>Quantity (Small)</label>
+        <input type="number" class="Quantity" name="Quantity_Small" value="<?php echo htmlspecialchars($Quantity_Small); ?>" required>
+
+        <label>Quantity (Medium)</label>
+        <input type="number" class="Quantity" name="Quantity_Medium" value="<?php echo htmlspecialchars($Quantity_Medium); ?>" required>
+
+        <label>Quantity (Large)</label>
+        <input type="number" class="Quantity" name="Quantity_Large" value="<?php echo htmlspecialchars($Quantity_Large); ?>" required>
+
+        <label>Quantity (XL)</label>
+        <input type="number" class="Quantity" name="Quantity_XL" value="<?php echo htmlspecialchars($Quantity_XL); ?>" required>
 
         <label>Price (PHP)</label>
         <input type="number" class="Price" name="Price" value="<?php echo htmlspecialchars($Price); ?>" required>
