@@ -152,10 +152,13 @@ a:hover {
 }
 
 .container {
-    /* Adjust padding to create space between content and top navigation */
-    padding-top: 105px; /* Adjust as needed */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 55px;
+    padding-left: 7.5%;
+    font-family: 'Open Sans', sans-serif;
 }
-
 
 .items-wrapper {
     display: grid;
@@ -189,15 +192,15 @@ a:hover {
 }
 
 .item-deets {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 20px;
     font-weight: 400;
     text-align: center;
 }
 
 .edit-btn {
-    width: 60%;
-    height: 10%;
+    width: 50%;
+    height: 9%;
     display: block;
     margin: auto;
     margin-bottom: 10px;
@@ -222,8 +225,8 @@ a:hover {
 }
 
 .rm-btn {
-    width: 60%;
-    height: 10%;
+    width: 50%;
+    height: 9%;
     display: block;
     margin: auto;
     padding-top: 12px;

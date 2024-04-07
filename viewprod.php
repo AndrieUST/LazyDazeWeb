@@ -45,16 +45,6 @@ if(isset($_GET['product_id'])) {
     exit(); // Stop further execution
 }
 
-// Fetch reviews from the database
-if (isset($_SESSION['registered_email'])) {
-    $customer_email = $_SESSION['registered_email'];
-    $reviews_query = "SELECT * FROM managereview WHERE Customer_Email = '$customer_email'";
-    $reviews_result = mysqli_query($conn, $reviews_query);
-} else {
-    // Prompt user to log in to view reviews
-    echo "Please log in to view reviews.";
-}
-
 // Check if the review form is submitted
 if(isset($_POST['submit_review'])) {
     // Get form data
@@ -178,6 +168,17 @@ if(isset($_POST['submit_cart'])) {
 </div>
     <!-- Banner -->
   <div class = "bg2"></div>
+  <?php
+// Fetch reviews from the database
+if (isset($_SESSION['registered_email'])) {
+    $customer_email = $_SESSION['registered_email'];
+    $reviews_query = "SELECT * FROM managereview WHERE Customer_Email = '$customer_email'";
+    $reviews_result = mysqli_query($conn, $reviews_query);
+} else {
+    // Prompt user to log in to view reviews
+    echo "<div class='warning'>Please log in to view reviews.</div>";
+}
+?>
   <!-- Item -->
   <div class="h-layout">
         <img class="prod-img" src="<?php echo $image; ?>" alt="<?php echo htmlspecialchars($Product_Name); ?>"/>
@@ -235,8 +236,10 @@ if(isset($_POST['submit_cart'])) {
     </form>
 
     <!-- Review Container -->
-    <div class="review-container">
+    <div class="v-layout-reviews v-flex-block-reviews">
+        <div class="reviews-grid"> 
         <!-- Reviews will be dynamically fetched and displayed here -->
+        </div>
     </div>
 </div>
 <!-- JavaScript block -->
@@ -250,7 +253,7 @@ if(isset($_POST['submit_cart'])) {
             type: 'POST',
             data: { product_name: productName },
             success: function(data) {
-                $('.review-container').html(data);
+                $('.reviews-grid').html(data);
             }
         });
     }

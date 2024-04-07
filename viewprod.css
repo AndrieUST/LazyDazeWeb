@@ -10,6 +10,10 @@
     }
 }
 
+.warning {
+    text-align: center;
+    background-color: #ff3f3f6e;
+}
 body {
     animation: appear 0.5s;
     background-color: white;
@@ -151,35 +155,50 @@ a:hover {
 }
 
 .h-layout {
-    justify-content: center; /* Center the elements horizontally */
+    flex-direction: row;
     align-items: flex-start;
     display: flex;
     margin-top: 35px;
-    margin-bottom: 35px; /* Add margin at the bottom for spacing */
+    margin-left: auto;
+    margin-right: auto;
     font-family: 'Open Sans', sans-serif;
-}
-
-.prod-img {
-    width: 25%; /* Adjust the width as needed */
-    margin-top: 15px;
 }
 
 .v-layout {
     flex-direction: column;
     align-items: flex-start;
     display: flex;
-    margin-left: 20px; /* Adjust the left margin for spacing */
+}
+
+.prod-img {
+    width: 19.5%;
+    height: 19.5%;
+    margin-top: 15px;
+    margin-left: 35rem;
+    margin-right: 17rem;
+}
+
+.h-layout h1 {
+    font-weight: 700;
+    font-size: 50px;
+    margin-left: -2px;
+}
+
+.h-layout h2 {
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
 }
 
 .form {
     margin: 0 0 15px;
-    width: 100%; /* Make the form width 100% */
-    max-width: 400px; /* Limit the maximum width of the form */
+    width: 50%;
 }
 
-
 .select-field {
-    width: 16%;
+    width: 20%;
     height: 11%;
     color: #333;
     background-color: #fff;
@@ -205,7 +224,7 @@ a:hover {
 
 .submit-btn {
 	width: 57%;
-	height: 14.5%;
+	height: 65px;
 	padding: 10px 30px;
 	cursor: pointer;
 	background: #5271FF;
@@ -219,28 +238,38 @@ a:hover {
 }
 
 .submit-btn:hover {
-	padding: 10px 30px;
-	cursor: pointer;
     background: #31449b;
-	border: 0;
-	color: black;
-	outline: none;
 	border-radius: 15px;
 	transition-duration: .4s;
 }
-.review-container {
-    margin-top: 50px;
+
+.v-layout-reviews {
+    flex-direction: column;
+    align-items: center;
     display: flex;
-    flex-wrap: wrap;
+}
+
+.v-flex-block-reviews {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-column-gap: 60px;
+    grid-row-gap: 50px;
+    grid-template-columns: 3000px;
+    grid-template-rows: auto auto;
+    margin-bottom: 30px;
 }
 
 .review {
     width: calc(50% - 20px); /* Adjust the width as needed */
     padding: 20px;
-    margin: 10px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    border-top: 1.5px solid rgba(136, 136, 136, 0.5);
+    border-bottom: 1.5px solid rgba(136, 136, 136, 0.5);
 }
 
 .review h3 {
@@ -263,14 +292,14 @@ a:hover {
 .review p.rating i {
     color: #000000; /* Golden yellow for stars */
 }
+
 /* Style for the review form container */
 .form-container1 {
     width: 60%;
     margin: 50px auto; /* Adjust margin as needed */
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    background-color: rgba(249, 249, 249, 0.363);
+    border: 1.5px solid rgba(136, 136, 136, 0.5);
 }
 
 /* Style for the form inside the review form container */
@@ -286,27 +315,33 @@ a:hover {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 2px solid #ccc;
     font-size: 16px;
     outline: none;
+    background: transparent;
+    resize: none;
 }
 
 /* Style for the submit button */
 .form-container1 button[type="submit"] {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #5271FF;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+	width: 20%;
+	height: 6%;
+	padding: 10px 30px;
+	cursor: pointer;
+	background: #5271FF;
+	border: 0;
+	color: black;
+	outline: none;
+	transition-duration: .4s;
+	font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
 }
 
-/* Hover effect for the submit button */
 .form-container1 button[type="submit"]:hover {
-    background-color: #31449b;
+    background: #31449b;
+	border: 0;	
+    border-radius: 15px;
+	transition-duration: .4s;
 }
 
 /* Style for the review form labels */

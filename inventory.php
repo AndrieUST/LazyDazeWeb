@@ -76,7 +76,6 @@ $counter = 1; // Counter for numbering items
       <div class="nav-line"></div>
     </div><!-- Navigation bar content -->
   </div>
-  <div class="bg2"></div>
   <div class="container">
     <h1>Inventory</h1>
     <div class="items-wrapper" id="itemsWrapper">
