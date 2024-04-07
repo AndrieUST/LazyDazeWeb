@@ -85,8 +85,7 @@ $counter = 1; // Counter for numbering items
         <div class="item">
         <img class="item-image" src="<?php echo $row['img']; ?>" alt="<?php echo $row['Product_Name']; ?>">
             <h3 class="item-title"><?php echo $row['Product_Name']; ?></h3>
-            <ul class="item-details">
-                <li>Description: <?php echo $row['Description']; ?></li>
+                        <div class="item-deets">Description: <?php echo $row['Description']; ?></div>
                         <!-- Check each size individually for out of stock -->
                         <?php if ($row['Quantity_Small'] == 0) { ?>
                           <div class="item-deets">Small: Out of stock</div>
@@ -108,8 +107,7 @@ $counter = 1; // Counter for numbering items
                         <?php } else { ?>
                            <div class="item-deets">XL: <?php echo $row['Quantity_XL']; ?></div>
                         <?php } ?>
-                <li>Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</li>
-            </ul>
+                          <div class="item-deets">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
         </div>
         <?php
         }
