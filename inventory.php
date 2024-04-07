@@ -87,7 +87,6 @@ $counter = 1; // Counter for numbering items
             <h3 class="item-title"><?php echo $row['Product_Name']; ?></h3>
             <ul class="item-details">
                 <li>Description: <?php echo $row['Description']; ?></li>
-                <div class="item-deets">Description: <?php echo $row['Description']; ?></div>
                         <!-- Check each size individually for out of stock -->
                         <?php if ($row['Quantity_Small'] == 0) { ?>
                           <div class="item-deets">Small: Out of stock</div>
