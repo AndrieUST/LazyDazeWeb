@@ -45,10 +45,10 @@ if(isset($_POST["confirm"])) {
                 echo "Error updating record: " . mysqli_error($conn);
             }
         } else {
-            echo "Invalid verification code. Please try again.";
+            echo "<div class='warning'>Invalid verification code. Please try again.</div>";
         }
     } else {
-        echo "User not found or multiple users with the same email. Please contact support.";
+        echo "<div class='warning'>User not found or multiple users with the same email. Please contact support.</div>";
     }
 }
 

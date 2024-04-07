@@ -7,6 +7,10 @@
 	  opacity: 1;
 	}
 }
+.warning {
+    text-align: center;
+    background-color: #ff3f3f6e;
+}
 body{
 	animation: appear 0.5s;
 	background-color: white;
@@ -97,16 +101,14 @@ input:focus {
     height: 5.5%;
     padding: 10px 30px;
     cursor: pointer;
-    display: inline-block; 
-    float: left;
+    display: block; 
     background: black;
     border: 0;
     color: white;
     outline: none;
     border-radius: 30px;
-    margin-top: 30.5px;
-    margin-bottom: 30.5px;
-    margin-right: 10px; 
+    margin: auto;
+    margin-top: 45px;
     transition-duration: .4s;
     font-family: 'Open Sans', sans-serif;
 }
@@ -116,21 +118,24 @@ input:focus {
     height: 5.5%;
     padding: 10px 30px;
     cursor: pointer;
-    display: inline-block; 
-    float: right; 
+    display: block; 
     background: black;
     border: 0;
     color: white;
     outline: none;
     border-radius: 30px;
-    margin-top: 30.5px;
-    margin-bottom: 30.5px;
-    margin-left: 10px; 
+    margin: auto;
+    margin-top: 15px;
     transition-duration: .4s;
     font-family: 'Open Sans', sans-serif;
 }
-.resend-btn:hover, .confirm-btn:hover {
-    background: #858585;
+
+.resend-btn:hover {
+    background: #239cff;
+}
+
+.confirm-btn:hover {
+    background: #6fce5c;
 }
 
 

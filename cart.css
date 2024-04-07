@@ -12,10 +12,11 @@
 }
 
 /* Body styles */
-body {
+body, html {
     animation: appear 0.5s;
     background-color: white;
     color: black;
+    height: 100%;
 }
 
 /* Navigation styles */
@@ -273,7 +274,9 @@ a:hover {
 }
 
 .total-container {
+    display: block;
     width: 100%;
+    height: 500px;
 }
 
 .h-layout-2 {
@@ -309,7 +312,7 @@ a:hover {
     display: block;
     margin: auto;
     width: 15%;
-    height: 7.1%;
+    height: 14%;
     padding: 10px 30px;
     cursor: pointer;
     background: #5271FF;
