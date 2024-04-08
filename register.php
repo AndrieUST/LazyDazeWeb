@@ -58,7 +58,8 @@ if (isset($_POST["submit"])) {
                 $mail->Body = '<p>Your verification code is: <b style="font-size: 30px;">' . $verification_code . '</b></p>';
 
                 $mail->send();
-
+                $_SESSION['registered_email'] = $Customer_Email;
+            $_SESSION['email_verified_at'] = date('Y-m-d H:i:s'); // Set to the current timestamp
                 // Insert user into the database
                 $query = "INSERT INTO users (Customer_Email, Customer_PW, Customer_Address, Customer_Number, verification_code, email_verified_at) 
                           VALUES ('$Customer_Email', '$hashedPassword', '$Customer_Address', '$Customer_Number', '$verification_code', NULL)";

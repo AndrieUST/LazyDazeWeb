@@ -1,5 +1,6 @@
 <?php
 include('connect.php');
+
 $max_attempts = 3;
 $lockout_duration = 30; // Lockout duration in seconds
 
@@ -24,7 +25,7 @@ if (isset($_POST["submit"])) {
     if (time() - $_SESSION['lockout_start_time'] < $lockout_duration) {
         $remaining_lockout_time = $lockout_duration - (time() - $_SESSION['lockout_start_time']);
         echo "<script> alert('You are currently locked out. Please try again after $remaining_lockout_time seconds.'); </script>";
-        
+       
     }
 
     // Check if lockout duration has passed since last attempt
@@ -36,7 +37,6 @@ if (isset($_POST["submit"])) {
     if ($_SESSION['login_attempts'] >= $max_attempts) {
         $_SESSION['lockout_start_time'] = time(); // Set lockout start time
         echo "<script> alert('You have exceeded the maximum number of attempts. Please try again after $lockout_duration seconds.'); </script>";
-       
     }
 
     $Customer_Email = $_POST["login_email"];
@@ -54,11 +54,15 @@ if (isset($_POST["submit"])) {
                 $_SESSION["login"] = true;
                 $_SESSION["admin"] = true; 
                 header("Location: admin_mainpage.php");
+                
            }  else {
-                echo "<script> alert('Wrong Admin Password.'); </script>";
+            echo "<script> alert('Wrong Admin Password. Attempts left: ". ($max_attempts - $_SESSION['login_attempts']) ."'); </script>";
+                $_SESSION['login_attempts']++; // Increase login attempts
+              
             }
         } else {
             echo "<script> alert('Admin account not found.'); </script>";
+           
         }
         // Admin login logic
         // Omitted for brevity
@@ -72,8 +76,10 @@ if (isset($_POST["submit"])) {
                 if (!empty($row['email_verified_at'])) { // Check if email is verified
                     $_SESSION["login"] = true;
                     $_SESSION["id"] = $row["id"];
+                    $_SESSION['registered_email'] = $Customer_Email; // Add this line
+                    $_SESSION['email_verified_at'] = date('Y-m-d H:i:s'); // Add this line
                     header("Location: mainpage.php");
-                    $_SESSION['registered_email'] = $Customer_Email;
+                    exit; // Exit after successful login
                 } else {
                     echo "<script> alert('Please verify your email to proceed.'); </script>";
                 }
@@ -137,6 +143,7 @@ if (isset($_POST["submit"])) {
                     }
                     ?>
                     <p>Don't have an account? <a href="register.php" class="sign-up-text">Sign Up</a>!</p>
+                    <p>Do you Want To Verify your Account? <a href="verify_email_again.php" class="sign-up-text">Verify Again</a>!</p>
                     <!-- new class for href="password-reset.php -->
                     <a href="password-reset.php" class="forgot-password-text">Forgot Password</a> 
                 </div>

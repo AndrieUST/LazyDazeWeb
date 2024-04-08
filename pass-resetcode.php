@@ -89,6 +89,8 @@ if(isset($_POST["resend"])) {
         
             $mail->send();
             echo 'Verification code resent successfully.';
+            $_SESSION['registered_email'] = $Customer_Email;
+            $_SESSION['email_verified_at'] = date('Y-m-d H:i:s'); // Set to the current timestamp
         } catch (Exception $e) {
             echo "Error sending verification code: {$mail->ErrorInfo}";
         }

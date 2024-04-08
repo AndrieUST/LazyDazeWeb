@@ -1,18 +1,6 @@
 <?php
 include('connect.php');
 
-// Initialize customer email and ID as null
-$customer_email = null;
-// Check if the user's email is verified before allowing access to the cart page
-
-if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
-    $cartPage = "cart.php"; // Set the cart page URL
-    $inquiriespage = "inquiries.php";
-} else {
-    $cartPage = "#"; 
-    $inquiriespage = "#";
-}
-// Check if the user is logged in and their email is verified
 if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
     // User is logged in and email is verified
     $customer_email = $_SESSION['registered_email'];
@@ -174,11 +162,11 @@ if(isset($_POST['submit_cart'])) {
         <div class="nav-line"></div>
         <!-- Cart Icon -->
         <div class="nav-icon">
-            <a href="<?php echo $cartPage; ?>">
+        <a href="cart.php">
                 <i class="fa-solid fa-cart-shopping fa-xl"></i>
                 <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
             </a>
-            </div>
+        </div>
         <div class="nav-line"></div>
         <!-- Reviews Icon -->
         <div class="nav-icon">
@@ -189,7 +177,7 @@ if(isset($_POST['submit_cart'])) {
         <div class="nav-line"></div>
         <!-- Info Icon -->
         <div class="nav-icon">
-        <a href="<?php echo $inquiriespage; ?>">
+            <a href="inquiries.php">
                 <i class="fa-solid fa-circle-info fa-xl"></i>
             </a>
         </div>
