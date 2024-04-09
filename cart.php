@@ -28,25 +28,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Ensure that the productId is properly sanitized to prevent SQL injection
         $productId = mysqli_real_escape_string($conn, $_POST['productId']);
 
-        // Get the maximum quantity for the selected size
-        $maxQuantity = $_POST["maxQuantity_$size"];
+        // Get the available quantity for the selected size
+        $availableQuantity = $_POST["availableQuantity_$size"];
 
-        // Ensure the new quantity does not exceed the maximum available quantity
-        if ($Quantity <= $maxQuantity && $Quantity > 0) { // Check if quantity is within bounds
-            // Update the quantity if it's within the maximum allowed
+        // Ensure the new quantity does not exceed the available quantity
+        if ($Quantity <= $availableQuantity && $Quantity > 0) { // Check if quantity is within bounds
+            // Update the quantity if it's within the available quantity
             $updateQuery = "UPDATE managecart SET Quantity = $Quantity, Size = '$size' WHERE id = $productId";
 
             $updateResult = mysqli_query($conn, $updateQuery);
             if ($updateResult) {
                 // Quantity updated successfully
-                header("Location: cart.php");
+                header("Location: payment.php");
                 exit();
             } else {
                 // Error updating quantity
                 echo "Error updating product quantity: " . mysqli_error($conn);
             }
         } else {
-            echo "Error: Invalid quantity or quantity exceeds maximum available for selected size.";
+            echo "Error: Invalid quantity or quantity exceeds available quantity for selected size.";
         }
     }
 }
@@ -61,9 +61,9 @@ if (isset($_SESSION['registered_email'])) {
     exit(); // Ensure no further code execution after redirection
 }
 
-// Fetch products details including the maximum quantity available for each item
+// Fetch products details including the available quantity for each item
 $query = "SELECT mc.id, mc.Customer_Email, mc.Quantity, mc.Price, mc.Product_Name, mc.img, mc.Size,
-                mp.Quantity_Small, mp.Quantity_Medium, mp.Quantity_Large, mp.Quantity_XL
+                mp.Quantity_Small, mp.Quantity_Medium, mp.Quantity_Large, mp.Quantity_XL, mp.Price, mp.ProductID, mp.Description
           FROM managecart mc
           INNER JOIN manageprod mp ON mc.Product_Name = mp.Product_Name
           WHERE mc.Customer_Email = '$customer_email'";
@@ -145,10 +145,13 @@ $result = mysqli_query($conn, $query);
                                 }
                                 ?>
                                 <div class="h-layout h-flex-block">
-                                    <input type="hidden" name="productId" value="<?php echo $row['id']; ?>">
-                                    <button type="submit" name="deleteProduct" class="rm-btn">
-                                        <i class="fa-solid fa-xmark fa-2xl"></i>
-                                    </button>
+    <form method="post" action="cart.php">
+        <input type="hidden" name="deleteProduct" value="1">
+        <input type="hidden" name="productId" value="<?php echo $row['id']; ?>">
+        <button type="submit" class="rm-btn">
+            <i class="fa-solid fa-xmark fa-2xl"></i>
+        </button>
+    </form>
                                     <img src="<?php echo $row['img']; ?>" alt="<?php echo $row['Product_Name']; ?>" class="item-image" />
                                     <div class="v-layout v-flex-block">
                                         <h3><?php echo htmlspecialchars($row['Product_Name']); ?></h3>
@@ -169,10 +172,10 @@ $result = mysqli_query($conn, $query);
                                         </div>
                                     </div>
                                     <!-- Hidden inputs for maximum quantity -->
-                                    <input type="hidden" name="maxQuantity_Small" value="<?php echo $row['Quantity_Small']; ?>">
-                                    <input type="hidden" name="maxQuantity_Medium" value="<?php echo $row['Quantity_Medium']; ?>">                                  
-                                    <input type="hidden" name="maxQuantity_Large" value="<?php echo $row['Quantity_Large']; ?>">                                 
-                                    <input type="hidden" name="maxQuantity_XL" value="<?php echo $row['Quantity_XL']; ?>">
+                                    <input type="hidden" name="availableQuantity_Small" value="<?php echo $row['Quantity_Small']; ?>">
+                                    <input type="hidden" name="availableQuantity_Medium" value="<?php echo $row['Quantity_Medium']; ?>">                                  
+                                    <input type="hidden" name="availableQuantity_Large" value="<?php echo $row['Quantity_Large']; ?>">                                 
+                                    <input type="hidden" name="availableQuantity_XL" value="<?php echo $row['Quantity_XL']; ?>">
                                   
                                 </div>
                             <?php } ?>
@@ -193,147 +196,178 @@ $result = mysqli_query($conn, $query);
 </html>
 
 
+
+
 <script>
     $(document).ready(function() {
-    // Initialize quantity buttons
-    updateQuantityButtons();
-
-    // Function to reset quantity to 1 when size is changed
-    $(".select-field").change(function() {
-        var size = $(this).val();
-        var maxQuantityElement = $(this).closest(".h-layout").find(".qty");
-        updateMaxQuantity(size, maxQuantityElement);
-        $(this).closest(".h-layout").find(".num").val(0); // Reset quantity to 1
-        updateTotalPrice(); // Update total price
-        updateQuantityButtons(); // Update quantity buttons
+        // Function to update the maximum quantity for a given size
+        function updateMaxQuantity(size, maxQuantityElement) {
+    $.ajax({
+        url: 'fetch_max_quantity.php', // Path to fetch_max_quantity.php
+        type: 'POST', // HTTP method
+        data: { size: size }, // Data to send
+        success: function(response) { // On success
+            // Update the maximum quantity element with the retrieved value
+            maxQuantityElement.attr('data-available-quantity', response);
+            // Update quantity buttons availability
+            updateQuantityButtons();
+        },
+        error: function() { // On error
+            console.log('Error fetching maximum quantity for size ' + size);
+        }
     });
-
-    // Function to update cart notification badge
-    function updateCartNotification() {
-        $.ajax({
-            url: 'fetch_cart_count.php',
-            type: 'GET',
-            success: function(response) {
-                var cartCount = JSON.parse(response);
-                $('#cart-notification').text(cartCount);
-            },
-            error: function() {
-                console.log('Error fetching cart count');
-            }
-        });
-    }
-
-    // Call updateCartNotification() when the page is loaded
-    updateCartNotification();
-
-    // Function to update total price based on quantity changes
-    function updateTotalPrice() {
-        var totalPrice = 0;
-
-        // Loop through each item in the cart
-        $(".qty").each(function() {
-            // Get the quantity and price of the current item
-            var quantity = parseInt($(this).find(".num").val());
-            var price = parseFloat($(this).closest(".h-layout").find("h4").text());
-
-            // Calculate the subtotal for the current item
-            var subtotal = quantity * price;
-
-            // Add the subtotal to the total price
-            totalPrice += subtotal;
-
-            // Log quantity and subtotal for debugging
-            console.log("Quantity:", quantity);
-            console.log("Subtotal:", subtotal);
+}
+        // Call updateMaxQuantity() when the page is loaded for each product
+        $(".select-field").each(function() {
+            var size = $(this).val();
+            var maxQuantityElement = $(this).closest(".h-layout").find(".qty");
+            updateMaxQuantity(size, maxQuantityElement);
         });
 
-        // Update the total price displayed on the page
-        $(".total-container h2").text(": " + totalPrice.toFixed(2) + " PHP");
-    }
+        // Function to handle quantity changes
+        $(document).on("click", ".qty .plus, .qty .minus", function() {
+            // Your existing code
+        });
 
-    // Call updateTotalPrice() when the page is loaded
-    updateTotalPrice();
+        // Function to reset quantity to 1 when size is changed
+        $(".select-field").change(function() {
+            var size = $(this).val();
+            var maxQuantityElement = $(this).closest(".h-layout").find(".qty");
+            updateMaxQuantity(size, maxQuantityElement);
+        });
 
-    // Function to update quantity buttons based on availability
-    function updateQuantityButtons() {
-        $(".qty").each(function() {
-            // Get the current quantity and maximum quantity
-            var quantity = parseInt($(this).find(".num").val());
-            var maxQuantity = parseInt($(this).attr('data-max-quantity'));
+        // Initialize quantity buttons
+        updateQuantityButtons();
+
+        // Function to update cart notification badge
+        function updateCartNotification() {
+            $.ajax({
+                url: 'fetch_cart_count.php',
+                type: 'GET',
+                success: function(response) {
+                    var cartCount = JSON.parse(response);
+                    $('#cart-notification').text(cartCount);
+                },
+                error: function() {
+                    console.log('Error fetching cart count');
+                }
+            });
+        }
+
+        // Call updateCartNotification() when the page is loaded
+        updateCartNotification();
+
+        // Function to update total price based on quantity changes
+        function updateTotalPrice() {
+            var totalPrice = 0;
+
+            // Loop through each item in the cart
+            $(".qty").each(function() {
+                // Get the quantity and price of the current item
+                var quantity = parseInt($(this).find(".num").val());
+                var price = parseFloat($(this).closest(".h-layout").find("h4").text());
+
+                // Calculate the subtotal for the current item
+                var subtotal = quantity * price;
+
+                // Add the subtotal to the total price
+                totalPrice += subtotal;
+
+                // Log quantity and subtotal for debugging
+                console.log("Quantity:", quantity);
+                console.log("Subtotal:", subtotal);
+            });
+
+            // Update the total price displayed on the page
+            $(".total-container h2").text(": " + totalPrice.toFixed(2) + " PHP");
+        }
+
+        // Call updateTotalPrice() when the page is loaded
+        updateTotalPrice();
+
+        // Function to update quantity buttons based on availability
+        function updateQuantityButtons() {
+            $(".qty").each(function() {
+                // Get the current quantity and maximum quantity
+                var quantity = parseInt($(this).find(".num").val());
+                var maxQuantity = parseInt($(this).attr('data-max-quantity'));
+
+                // Log quantity and maxQuantity for debugging
+                console.log("Quantity:", quantity);
+                console.log("Max Quantity:", maxQuantity);
+
+                // Disable the plus button if maximum quantity is reached
+                if (quantity >= maxQuantity) {
+                    $(this).find(".plus").addClass("disabled");
+                } else {
+                    $(this).find(".plus").removeClass("disabled");
+                }
+            });
+        }
+        // Function to handle size change
+$(".select-field").change(function() {
+    var size = $(this).val();
+    var maxQuantityElement = $(this).closest(".h-layout").find(".qty");
+    updateMaxQuantity(size, maxQuantityElement);
+});
+
+        // Function to handle quantity changes
+        $(document).on("click", ".qty .plus, .qty .minus", function() {
+            // Find the quantity element within the same item
+            var quantityField = $(this).closest(".qty").find(".num");
+
+            // Get the current quantity as an integer
+            var quantity = parseInt(quantityField.val());
+
+            // Get the maximum quantity available for this item
+            var maxQuantity = parseInt($(this).closest(".qty").attr('data-max-quantity'));
 
             // Log quantity and maxQuantity for debugging
             console.log("Quantity:", quantity);
             console.log("Max Quantity:", maxQuantity);
 
-            // Disable the plus button if maximum quantity is reached
-            if (quantity >= maxQuantity) {
-                $(this).find(".plus").addClass("disabled");
+            // Determine if the button clicked was the plus or minus
+            if ($(this).hasClass("plus")) {
+                // Increment the quantity by 1 if it's less than the maximum quantity
+                if (quantity < maxQuantity) {
+                    quantity++;
+                } else {
+                    // Display an alert if the maximum quantity is reached
+                    alert("Maximum quantity reached for this item.");
+                    return; // Stop further execution
+                }
             } else {
-                $(this).find(".plus").removeClass("disabled");
+                // Ensure the quantity is not less than 1 before decrementing
+                if (quantity > 1) {
+                    quantity--;
+                }
             }
+
+            // Update the quantity text with the new value
+            quantityField.val(quantity);
+
+            // Update the total price based on the new quantity
+            updateTotalPrice();
+
+            // Update quantity buttons availability
+            updateQuantityButtons();
         });
+
+        function updateMaxQuantity(size, maxQuantityElement) {
+    var availableQuantityInput = $('[name="availableQuantity_' + size + '"]');
+    var availableQuantity = availableQuantityInput.val();
+    maxQuantityElement.attr('data-available-quantity', availableQuantity);
+
+    // Reset quantity if it exceeds the new maximum
+    var quantityField = maxQuantityElement.find(".num");
+    var quantity = parseInt(quantityField.val());
+    if (quantity > availableQuantity) {
+        quantityField.val(availableQuantity); // Update displayed quantity
+        updateTotalPrice(); // Update total price
     }
 
-    // Function to handle quantity changes
-    $(document).on("click", ".qty .plus, .qty .minus", function() {
-        // Find the quantity element within the same item
-        var quantityField = $(this).closest(".qty").find(".num");
-
-        // Get the current quantity as an integer
-        var quantity = parseInt(quantityField.val());
-
-        // Get the maximum quantity available for this item
-        var maxQuantity = parseInt($(this).closest(".qty").attr('data-max-quantity'));
-
-        // Log quantity and maxQuantity for debugging
-        console.log("Quantity:", quantity);
-        console.log("Max Quantity:", maxQuantity);
-
-        // Determine if the button clicked was the plus or minus
-        if ($(this).hasClass("plus")) {
-            // Increment the quantity by 1 if it's less than the maximum quantity
-            if (quantity < maxQuantity) {
-                quantity++;
-            } else {
-                // Display an alert if the maximum quantity is reached
-                alert("Maximum quantity reached for this item.");
-                return; // Stop further execution
-            }
-        } else {
-            // Ensure the quantity is not less than 1 before decrementing
-            if (quantity > 1) {
-                quantity--;
-            }
-        }
-
-        // Update the quantity text with the new value
-        quantityField.val(quantity);
-
-        // Update the total price based on the new quantity
-        updateTotalPrice();
-
-        // Update quantity buttons availability
-        updateQuantityButtons();
+    // Update quantity buttons availability
+    updateQuantityButtons();
+}
     });
-
-    // Function to update the maximum quantity for a given size
-    function updateMaxQuantity(size, maxQuantityElement) {
-        var maxQuantityInput = $('[name="maxQuantity_' + size + '"]');
-        var maxQuantity = maxQuantityInput.val();
-        maxQuantityElement.attr('data-max-quantity', maxQuantity);
-
-        // Reset quantity if it exceeds the new maximum
-        var quantityField = maxQuantityElement.find(".num");
-        var quantity = parseInt(quantityField.val());
-        if (quantity > maxQuantity) {
-            quantityField.val(maxQuantity); // Update displayed quantity
-            updateTotalPrice(); // Update total price
-        }
-
-        // Update quantity buttons availability
-        updateQuantityButtons();
-    }
-});
-
 </script>
-

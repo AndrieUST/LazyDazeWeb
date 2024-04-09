@@ -106,10 +106,10 @@ if(isset($_POST['submit_cart'])) {
         // Calculate the total price based on quantity
         $total_price = $base_price * $quantity;
         // Query to fetch the maximum quantity available for the selected size
-        $maxQuantityQuery = "SELECT Quantity_$size FROM manageprod WHERE ProductID = $product_id";
+        $maxQuantityQuery = "SELECT `Quantity_$size` FROM manageprod WHERE ProductID = $product_id";
         $maxQuantityResult = mysqli_query($conn, $maxQuantityQuery);
         $maxQuantityRow = mysqli_fetch_assoc($maxQuantityResult);
-        $maxQuantity = $maxQuantityRow["Quantity_$size"];
+        $maxQuantity = $maxQuantityRow["`Quantity_$size`"];
 
         // Insert data into managecart table with user's email and ID
         $insert_cart_query = "INSERT INTO managecart (Customer_Email,  Size, Quantity, Product_Name, Price, img) VALUES ('$customer_email',  '$size', $quantity, '$product_name', $total_price, '$image')";
@@ -312,29 +312,28 @@ if(isset($_POST['submit_cart'])) {
 
       // Function to update quantity dropdown options based on the selected size
       $('#size-field').change(function() {
-    var selectedSize = $(this).val();
-    var quantityOptions = [];
+        var selectedSize = $(this).val();
+        var quantityOptions = [];
 
-    // Clear previous options
-    $('#quantity-field').empty();
+        // Clear previous options
+        $('#quantity-field').empty();
 
-    // Determine quantity options based on the selected size
-    // The options are dynamically generated based on the maximum available quantity for each size
-    if (selectedSize === "Small") {
-        quantityOptions = <?php echo $Quantity_Small > 0 ? json_encode(range(1, $Quantity_Small)) : '["Out of Stock"]'; ?>;
-    } else if (selectedSize === "Medium") {
-        quantityOptions = <?php echo $Quantity_Medium > 0 ? json_encode(range(1, $Quantity_Medium)) : '["Out of Stock"]'; ?>;
-    } else if (selectedSize === "Large") {
-        quantityOptions = <?php echo $Quantity_Large > 0 ? json_encode(range(1, $Quantity_Large)) : '["Out of Stock"]'; ?>;
-    } else if (selectedSize === "XL") {
-        quantityOptions = <?php echo $Quantity_XL > 0 ? json_encode(range(1, $Quantity_XL)) : '["Out of Stock"]'; ?>;
-    }
+        // Determine quantity options based on the selected size
+        if (selectedSize === "Small") {
+            quantityOptions = <?php echo $Quantity_Small > 0 ? json_encode(range(1, $Quantity_Small)) : '["Out of Stock"]'; ?>;
+        } else if (selectedSize === "Medium") {
+          quantityOptions = <?php echo $Quantity_Medium > 0 ? json_encode(range(1, $Quantity_Medium)) : '["Out of Stock"]'; ?>;
+        } else if (selectedSize === "Large") {
+          quantityOptions = <?php echo $Quantity_Large > 0 ? json_encode(range(1, $Quantity_Large)) : '["Out of Stock"]'; ?>;
+        } else if (selectedSize === "XL") {
+          quantityOptions = <?php echo $Quantity_XL > 0 ? json_encode(range(1, $Quantity_XL)) : '["Out of Stock"]'; ?>;
+        }
 
-    // Add quantity options to the dropdown
-    $.each(quantityOptions, function(index, value) {
-        $('#quantity-field').append($('<option>').text(value).attr('value', value));
-    });
-});
+        // Add quantity options to the dropdown
+        $.each(quantityOptions, function(index, value) {
+          $('#quantity-field').append($('<option>').text(value).attr('value', value));
+        });
+      });
     });
   </script>
 

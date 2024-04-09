@@ -8,7 +8,7 @@ if(isset($_POST['size'])) {
     $size = mysqli_real_escape_string($conn, $_POST['size']);
 
     // Query to fetch the maximum quantity for the selected size from the manageprod table
-    $query = "SELECT Quantity_$size FROM manageprod";
+    $query = "SELECT Quantity_$size FROM manageprod WHERE Size = '$size'";
     $result = mysqli_query($conn, $query);
 
     if($result) {

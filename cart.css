@@ -240,7 +240,7 @@ a:hover {
     user-select: none;
 }
 
-.qty input.num {
+.qty span.num {
     vertical-align: middle;
     padding-top: 3%;
     padding-bottom: 3%;
