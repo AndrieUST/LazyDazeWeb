@@ -4,37 +4,72 @@ include('connect.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['deleteProduct'])) {
         $productId = $_POST['productId'];
+        
+        // Ensure that the productId is properly sanitized to prevent SQL injection
+        $productId = mysqli_real_escape_string($conn, $_POST['productId']);
+        
+        // Delete the product from the cart based on its unique ID
         $query = "DELETE FROM managecart WHERE id = $productId";
         $result = mysqli_query($conn, $query);
+        
         if ($result) {
+            // Product deleted successfully, redirect to the cart page
             header("Location: cart.php");
             exit();
         } else {
+            // Error occurred while deleting the product
             echo "Error deleting product: " . mysqli_error($conn);
         }
+    } elseif (isset($_POST['updateProduct'])) {
+        $productId = $_POST['productId'];
+        $Quantity = $_POST['Quantity'];
+        $size = $_POST['size'];
+
+        // Ensure that the productId is properly sanitized to prevent SQL injection
+        $productId = mysqli_real_escape_string($conn, $_POST['productId']);
+
+        // Get the maximum quantity for the selected size
+        $maxQuantity = $_POST["maxQuantity_$size"];
+
+        // Ensure the new quantity does not exceed the maximum available quantity
+        if ($Quantity <= $maxQuantity && $Quantity > 0) { // Check if quantity is within bounds
+            // Update the quantity if it's within the maximum allowed
+            $updateQuery = "UPDATE managecart SET Quantity = $Quantity, Size = '$size' WHERE id = $productId";
+
+            $updateResult = mysqli_query($conn, $updateQuery);
+            if ($updateResult) {
+                // Quantity updated successfully
+                header("Location: cart.php");
+                exit();
+            } else {
+                // Error updating quantity
+                echo "Error updating product quantity: " . mysqli_error($conn);
+            }
+        } else {
+            echo "Error: Invalid quantity or quantity exceeds maximum available for selected size.";
+        }
     }
-} 
+}
 
 // Check if 'registered_email' is set in the $_SESSION array
 if (isset($_SESSION['registered_email'])) {
     $customer_email = $_SESSION['registered_email'];
     $totalPrice = 0; // Initialize total price here
-
-    // Fetch products details including the maximum quantity available for each item
-    $query = "SELECT mc.id, mc.Customer_Email, mc.Quantity, mc.Price, mc.Product_Name, mc.img, mc.Size,
-                    mp.Quantity_Small, mp.Quantity_Medium, mp.Quantity_Large, mp.Quantity_XL
-              FROM managecart mc
-              INNER JOIN manageprod mp ON mc.Product_Name = mp.Product_Name
-              WHERE mc.Customer_Email = '$customer_email'";
-    $result = mysqli_query($conn, $query);
 } else {
     // If 'registered_email' is not set in the $_SESSION array, redirect the user to the login page
-    // You can change 'login.php' to the actual login page URL
     header("Location: login.php");
     exit(); // Ensure no further code execution after redirection
 }
-?>
 
+// Fetch products details including the maximum quantity available for each item
+$query = "SELECT mc.id, mc.Customer_Email, mc.Quantity, mc.Price, mc.Product_Name, mc.img, mc.Size,
+                mp.Quantity_Small, mp.Quantity_Medium, mp.Quantity_Large, mp.Quantity_XL
+          FROM managecart mc
+          INNER JOIN manageprod mp ON mc.Product_Name = mp.Product_Name
+          WHERE mc.Customer_Email = '$customer_email'";
+$result = mysqli_query($conn, $query);
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +123,7 @@ if (isset($_SESSION['registered_email'])) {
                                 <?php
                                 $productPrice = $row['Price'];
                                 $totalPrice += $productPrice;
-                                
+
                                 // Determine the maximum quantity based on size
                                 $maxQuantity = 0;
                                 switch ($row['Size']) {
@@ -117,22 +152,28 @@ if (isset($_SESSION['registered_email'])) {
                                     <img src="<?php echo $row['img']; ?>" alt="<?php echo $row['Product_Name']; ?>" class="item-image" />
                                     <div class="v-layout v-flex-block">
                                         <h3><?php echo htmlspecialchars($row['Product_Name']); ?></h3>
-                                        <select class="select-field" id="size-field" name="s-field">
+                                        <select class="select-field" name="size">
                                             <option value="Small" <?php if ($row['Size'] == "Small") echo "selected"; ?>>S</option>
                                             <option value="Medium" <?php if ($row['Size'] == "Medium") echo "selected"; ?>>M</option>
                                             <option value="Large" <?php if ($row['Size'] == "Large") echo "selected"; ?>>L</option>
-                                            <option value="XL" <?php if ($row['Size'] == "Fourth") echo "XL"; ?>>XL</option>
+                                            <option value="XL" <?php if ($row['Size'] == "XL") echo "selected"; ?>>XL</option>
                                         </select>
                                         <h4><?php echo $row['Price']; ?> PHP</h4>
                                     </div>
                                     <div class="v-layout-2 v-flex-block-2">
                                         <h4>Quantity</h4>
                                         <div class="qty" data-max-quantity="<?php echo $maxQuantity; ?>">
-                                           <span class="minus"><i class="fa-solid fa-minus fa-xl"></i></span>
-                                           <span class="num"><?php echo min($row['Quantity'], $row['Quantity']); ?></span>
-                                           <span class="plus"><i class="fa-solid fa-plus fa-xl"></i></span>
-                                          </div>
+                                            <span class="minus"><i class="fa-solid fa-minus fa-xl"></i></span>
+                                            <input type="number" class="num" name="Quantity" value="<?php echo min($row['Quantity'], $maxQuantity); ?>" max="<?php echo $maxQuantity; ?>">
+                                            <span class="plus"><i class="fa-solid fa-plus fa-xl"></i></span>
+                                        </div>
                                     </div>
+                                    <!-- Hidden inputs for maximum quantity -->
+                                    <input type="hidden" name="maxQuantity_Small" value="<?php echo $row['Quantity_Small']; ?>">
+                                    <input type="hidden" name="maxQuantity_Medium" value="<?php echo $row['Quantity_Medium']; ?>">                                  
+                                    <input type="hidden" name="maxQuantity_Large" value="<?php echo $row['Quantity_Large']; ?>">                                 
+                                    <input type="hidden" name="maxQuantity_XL" value="<?php echo $row['Quantity_XL']; ?>">
+                                  
                                 </div>
                             <?php } ?>
                         </div>
@@ -142,7 +183,7 @@ if (isset($_SESSION['registered_email'])) {
                             <h1>TOTAL</h1>
                             <h2>: <?php echo $totalPrice; ?> PHP</h2>
                         </div>
-                        <input type="submit" class="submit-btn" value="Proceed to payment."/>
+                        <input type="submit" class="submit-btn" name="updateProduct" value="Proceed to Payment">
                     </section>
                 </section>
             </form>
@@ -151,83 +192,148 @@ if (isset($_SESSION['registered_email'])) {
 </body>
 </html>
 
+
 <script>
     $(document).ready(function() {
-        // Function to update cart notification badge
-        function updateCartNotification() {
-            $.ajax({
-                url: 'fetch_cart_count.php',
-                type: 'GET',
-                success: function(response) {
-                    var cartCount = JSON.parse(response);
-                    $('#cart-notification').text(cartCount);
-                },
-                error: function() {
-                    console.log('Error fetching cart count');
-                }
-            });
+    // Initialize quantity buttons
+    updateQuantityButtons();
+
+    // Function to reset quantity to 1 when size is changed
+    $(".select-field").change(function() {
+        var size = $(this).val();
+        var maxQuantityElement = $(this).closest(".h-layout").find(".qty");
+        updateMaxQuantity(size, maxQuantityElement);
+        $(this).closest(".h-layout").find(".num").val(0); // Reset quantity to 1
+        updateTotalPrice(); // Update total price
+        updateQuantityButtons(); // Update quantity buttons
+    });
+
+    // Function to update cart notification badge
+    function updateCartNotification() {
+        $.ajax({
+            url: 'fetch_cart_count.php',
+            type: 'GET',
+            success: function(response) {
+                var cartCount = JSON.parse(response);
+                $('#cart-notification').text(cartCount);
+            },
+            error: function() {
+                console.log('Error fetching cart count');
+            }
+        });
+    }
+
+    // Call updateCartNotification() when the page is loaded
+    updateCartNotification();
+
+    // Function to update total price based on quantity changes
+    function updateTotalPrice() {
+        var totalPrice = 0;
+
+        // Loop through each item in the cart
+        $(".qty").each(function() {
+            // Get the quantity and price of the current item
+            var quantity = parseInt($(this).find(".num").val());
+            var price = parseFloat($(this).closest(".h-layout").find("h4").text());
+
+            // Calculate the subtotal for the current item
+            var subtotal = quantity * price;
+
+            // Add the subtotal to the total price
+            totalPrice += subtotal;
+
+            // Log quantity and subtotal for debugging
+            console.log("Quantity:", quantity);
+            console.log("Subtotal:", subtotal);
+        });
+
+        // Update the total price displayed on the page
+        $(".total-container h2").text(": " + totalPrice.toFixed(2) + " PHP");
+    }
+
+    // Call updateTotalPrice() when the page is loaded
+    updateTotalPrice();
+
+    // Function to update quantity buttons based on availability
+    function updateQuantityButtons() {
+        $(".qty").each(function() {
+            // Get the current quantity and maximum quantity
+            var quantity = parseInt($(this).find(".num").val());
+            var maxQuantity = parseInt($(this).attr('data-max-quantity'));
+
+            // Log quantity and maxQuantity for debugging
+            console.log("Quantity:", quantity);
+            console.log("Max Quantity:", maxQuantity);
+
+            // Disable the plus button if maximum quantity is reached
+            if (quantity >= maxQuantity) {
+                $(this).find(".plus").addClass("disabled");
+            } else {
+                $(this).find(".plus").removeClass("disabled");
+            }
+        });
+    }
+
+    // Function to handle quantity changes
+    $(document).on("click", ".qty .plus, .qty .minus", function() {
+        // Find the quantity element within the same item
+        var quantityField = $(this).closest(".qty").find(".num");
+
+        // Get the current quantity as an integer
+        var quantity = parseInt(quantityField.val());
+
+        // Get the maximum quantity available for this item
+        var maxQuantity = parseInt($(this).closest(".qty").attr('data-max-quantity'));
+
+        // Log quantity and maxQuantity for debugging
+        console.log("Quantity:", quantity);
+        console.log("Max Quantity:", maxQuantity);
+
+        // Determine if the button clicked was the plus or minus
+        if ($(this).hasClass("plus")) {
+            // Increment the quantity by 1 if it's less than the maximum quantity
+            if (quantity < maxQuantity) {
+                quantity++;
+            } else {
+                // Display an alert if the maximum quantity is reached
+                alert("Maximum quantity reached for this item.");
+                return; // Stop further execution
+            }
+        } else {
+            // Ensure the quantity is not less than 1 before decrementing
+            if (quantity > 1) {
+                quantity--;
+            }
         }
 
-        // Call updateCartNotification() when the page is loaded
-        updateCartNotification();
+        // Update the quantity text with the new value
+        quantityField.val(quantity);
 
-        // Function to update total price based on quantity changes
-        function updateTotalPrice() {
-            var totalPrice = 0;
-
-            // Loop through each item in the cart
-            $(".qty").each(function() {
-                // Get the quantity and price of the current item
-                var quantity = parseInt($(this).find(".num").text());
-                var price = parseFloat($(this).closest(".h-layout").find("h4").text());
-
-                // Calculate the subtotal for the current item
-                var subtotal = quantity * price;
-
-                // Add the subtotal to the total price
-                totalPrice += subtotal;
-            });
-
-            // Update the total price displayed on the page
-            $(".total-container h2").text(": " + totalPrice.toFixed(2) + " PHP");
-        }
-
-        // Call updateTotalPrice() when the page is loaded
+        // Update the total price based on the new quantity
         updateTotalPrice();
 
-        // Function to handle quantity changes
-        $(document).on("click", ".qty .plus, .qty .minus", function() {
-            // Find the quantity element within the same item
-            var quantityField = $(this).siblings(".num");
-
-            // Get the current quantity as an integer
-            var quantity = parseInt(quantityField.text());
-
-            // Get the maximum quantity available for this item
-            var maxQuantity = parseInt(quantityField.parent().attr('data-max-quantity'));
-
-            // Determine if the button clicked was the plus or minus
-            if ($(this).hasClass("plus")) {
-                // Increment the quantity by 1 if it's less than the maximum quantity
-                if (quantity < maxQuantity) {
-                    quantity++;
-                } else {
-                    // Display an alert if the maximum quantity is reached
-                    alert("Maximum quantity reached for this item.");
-                    return; // Stop further execution
-                }
-            } else {
-                // Ensure the quantity is not less than 1 before decrementing
-                if (quantity > 1) {
-                    quantity--;
-                }
-            }
-
-            // Update the quantity text with the new value
-            quantityField.text(quantity);
-
-            // Update the total price based on the new quantity
-            updateTotalPrice();
-        });
+        // Update quantity buttons availability
+        updateQuantityButtons();
     });
+
+    // Function to update the maximum quantity for a given size
+    function updateMaxQuantity(size, maxQuantityElement) {
+        var maxQuantityInput = $('[name="maxQuantity_' + size + '"]');
+        var maxQuantity = maxQuantityInput.val();
+        maxQuantityElement.attr('data-max-quantity', maxQuantity);
+
+        // Reset quantity if it exceeds the new maximum
+        var quantityField = maxQuantityElement.find(".num");
+        var quantity = parseInt(quantityField.val());
+        if (quantity > maxQuantity) {
+            quantityField.val(maxQuantity); // Update displayed quantity
+            updateTotalPrice(); // Update total price
+        }
+
+        // Update quantity buttons availability
+        updateQuantityButtons();
+    }
+});
+
 </script>
+
