@@ -1,13 +1,3 @@
-<?php
-include('connect.php');
-
-
-?>
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,14 +24,12 @@ include('connect.php');
                         <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
                     </a>
                 </div>
-                 <!-- Cart Icon -->
-                 <div class="nav-line"></div>
-            <div class="nav-icon">
-            <a href="cart.php">
-                <i class="fa-solid fa-cart-shopping fa-xl"></i>
-            
-                        </a>
-               </div>
+                <div class="nav-line"></div>
+                <div class="nav-icon">
+                    <a href="cart.php">
+                        <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                    </a>
+                </div>
                 <div class="nav-line"></div>
                 <div class="nav-icon">
                     <a href="reviews.php">
@@ -57,23 +45,22 @@ include('connect.php');
                 <div class="nav-line"></div>
             </div>
         </div>
-        <section class="section-2"></section>
+       
         <section class="container">
-            <form method="post" action="cart.php">
+            <form method="post" action="">
                 <section class="container">
-                    <div class="grid">
-                        <div class="row">                  
-                        </div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                          </div>
+                    <div class="form-group">
+                        <label for="image">Image:</label>
+                        <input type="file" class="form-control" id="image" name="image">
                     </div>
-                    <section class="total-container">
-                           
-                        </div>
-                        <input type="submit" class="submit-btn" value="Proceed to payment."/>
-                    </section>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </section>
             </form>
         </section>
     </div>
 </body>
 </html>
-
