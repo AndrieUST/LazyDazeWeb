@@ -100,19 +100,19 @@ if(isset($_POST['submit_cart'])) {
         $Quantity_Large = $product_row['Quantity_Large'];
         $Quantity_XL = $product_row['Quantity_XL'];
         $product_name = $_POST['product_name'];
-        $base_price = $_POST['price']; // Fetch the base price
+        $base_price = $product_row['Price'];
         $image = $_POST['image'];
 
+       
+
         // Calculate the total price based on quantity
-        $total_price = $base_price * $quantity;
-        // Query to fetch the maximum quantity available for the selected size
-        $maxQuantityQuery = "SELECT `Quantity_$size` FROM manageprod WHERE ProductID = $product_id";
-        $maxQuantityResult = mysqli_query($conn, $maxQuantityQuery);
-        $maxQuantityRow = mysqli_fetch_assoc($maxQuantityResult);
-        $maxQuantity = $maxQuantityRow["`Quantity_$size`"];
+        $TotalPrice = $base_price * $quantity;
+       
+       
 
         // Insert data into managecart table with user's email and ID
-        $insert_cart_query = "INSERT INTO managecart (Customer_Email,  Size, Quantity, Product_Name, Price, img) VALUES ('$customer_email',  '$size', $quantity, '$product_name', $total_price, '$image')";
+        $insert_cart_query = "INSERT INTO managecart (Customer_Email, Size, Quantity, Product_Name, Price, TotalPrice, img) 
+                      VALUES ('$customer_email', '$size', $quantity, '$product_name', $base_price, $TotalPrice, '$image')";
         $insert_cart_result = mysqli_query($conn, $insert_cart_query);
         if($insert_cart_result) {
             // Redirect to viewprod.php to prevent form resubmission prompt

@@ -1,74 +1,5 @@
 <?php
 include('connect.php');
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['deleteProduct'])) {
-        $productId = $_POST['productId'];
-        
-        // Ensure that the productId is properly sanitized to prevent SQL injection
-        $productId = mysqli_real_escape_string($conn, $_POST['productId']);
-        
-        // Delete the product from the cart based on its unique ID
-        $query = "DELETE FROM managecart WHERE id = $productId";
-        $result = mysqli_query($conn, $query);
-        
-        if ($result) {
-            // Product deleted successfully, redirect to the cart page
-            header("Location: cart.php");
-            exit();
-        } else {
-            // Error occurred while deleting the product
-            echo "Error deleting product: " . mysqli_error($conn);
-        }
-    } elseif (isset($_POST['updateProduct'])) {
-        $productId = $_POST['productId'];
-        $Quantity = $_POST['Quantity'];
-        $size = $_POST['size'];
-
-        // Ensure that the productId is properly sanitized to prevent SQL injection
-        $productId = mysqli_real_escape_string($conn, $_POST['productId']);
-
-        // Get the available quantity for the selected size
-        $availableQuantity = $_POST["availableQuantity_$size"];
-
-        // Ensure the new quantity does not exceed the available quantity
-        if ($Quantity <= $availableQuantity && $Quantity > 0) { // Check if quantity is within bounds
-            // Update the quantity if it's within the available quantity
-            $updateQuery = "UPDATE managecart SET Quantity = $Quantity, Size = '$size' WHERE id = $productId";
-
-            $updateResult = mysqli_query($conn, $updateQuery);
-            if ($updateResult) {
-                // Quantity updated successfully
-                header("Location: payment.php");
-                exit();
-            } else {
-                // Error updating quantity
-                echo "Error updating product quantity: " . mysqli_error($conn);
-            }
-        } else {
-            echo "Error: Invalid quantity or quantity exceeds available quantity for selected size.";
-        }
-    }
-}
-
-// Check if 'registered_email' is set in the $_SESSION array
-if (isset($_SESSION['registered_email'])) {
-    $customer_email = $_SESSION['registered_email'];
-    $totalPrice = 0; // Initialize total price here
-} else {
-    // If 'registered_email' is not set in the $_SESSION array, redirect the user to the login page
-    header("Location: login.php");
-    exit(); // Ensure no further code execution after redirection
-}
-
-// Fetch products details including the available quantity for each item
-$query = "SELECT mc.id, mc.Customer_Email, mc.Quantity, mc.Price, mc.Product_Name, mc.img, mc.Size,
-                mp.Quantity_Small, mp.Quantity_Medium, mp.Quantity_Large, mp.Quantity_XL, mp.Price, mp.ProductID, mp.Description
-          FROM managecart mc
-          INNER JOIN manageprod mp ON mc.Product_Name = mp.Product_Name
-          WHERE mc.Customer_Email = '$customer_email'";
-$result = mysqli_query($conn, $query);
-
 ?>
 
 <!DOCTYPE html>
@@ -114,260 +45,225 @@ $result = mysqli_query($conn, $query);
         </div>
         <section class="section-2"></section>
         <section class="container">
-            <form method="post" action="cart.php">
+            <form method="post" action="Payment.php">
                 <section class="container">
                     <div class="grid">
-                        <div class="row">
-                            <?php
-                            while ($row = mysqli_fetch_assoc($result)) {?>
-                                <?php
-                                $productPrice = $row['Price'];
-                                $totalPrice += $productPrice;
+                        <?php
+                        // Check if the user is logged in
+                        if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+                            // User is logged in and email is verified
+                            $customer_email = $_SESSION['registered_email'];
+                            $total_price = 0; // Initialize total price
 
-                                // Determine the maximum quantity based on size
-                                $maxQuantity = 0;
-                                switch ($row['Size']) {
-                                    case 'Small':
-                                        $maxQuantity = $row['Quantity_Small'];
-                                        break;
-                                    case 'Medium':
-                                        $maxQuantity = $row['Quantity_Medium'];
-                                        break;
-                                    case 'Large':
-                                        $maxQuantity = $row['Quantity_Large'];
-                                        break;
-                                    case 'XL':
-                                        $maxQuantity = $row['Quantity_XL'];
-                                        break;
-                                    default:
-                                        $maxQuantity = $row['Quantity'];
-                                        break;
+                            // Fetch products from managecart table for the logged-in user
+                            $cart_query = "SELECT id, Product_Name, Size, Quantity, img FROM managecart WHERE Customer_Email = '$customer_email'";
+                            $cart_result = mysqli_query($conn, $cart_query);
+
+                            // Check if there are products in the cart
+                            if(mysqli_num_rows($cart_result) > 0) {
+                                // Display cart items
+                                while($row = mysqli_fetch_assoc($cart_result)) {
+                                    $id = $row['id']; // Retrieve the id
+                                    $product_name = $row['Product_Name'];
+                                    $size = $row['Size'];
+                                    $quantity = $row['Quantity'];
+                                    $image = $row['img'];
+
+                                    // Fetch price from manageprod table based on product name
+                                    if ($size == 'XL') {
+                                        $price_query = "SELECT Price, Quantity_XL as AvailableQuantity FROM manageprod WHERE Product_Name = '$product_name'";
+                                    } else {
+                                        $price_query = "SELECT Price, Quantity_$size as AvailableQuantity FROM manageprod WHERE Product_Name = '$product_name'";
+                                    }
+                                    $price_result = mysqli_query($conn, $price_query);
+                                    $price_row = mysqli_fetch_assoc($price_result);
+                                    $price = $price_row['Price'];
+                                    $available_quantity = $price_row['AvailableQuantity'];
+
+                                    // Calculate total price for each product
+                                    $total_price += $price * $quantity;
+
+                                    // Check if the quantity exceeds the available quantity
+                                    if($quantity > $available_quantity) {
+                                        echo "<p style='color: red;'>Maximum quantity has been reached for $product_name!</p>";
+                                    }
+
+                                    // Output cart item HTML
+                                    echo "<div class='row'>";
+                                    echo "<div class='col-md-4'>";
+                                    echo "<div class='cart-item'>";
+                                    echo "<img src='$image' alt='$product_name' class='cart-item-image'>";
+                                    echo "</div>";
+                                    echo "</div>";
+                                    echo "<div class='col-md-8'>";
+                                    echo "<div class='cart-item-details'>";
+                                    echo "<h3>$product_name</h3>";
+                                    echo "<div class='row'>";
+                                    echo "<div class='col-md-6'>";
+                                    echo "<p>Size: $size</p>";
+                                    echo "<p>Quantity: $quantity</p>";
+                                    echo "</div>";
+                                    echo "<div class='col-md-6'>";
+                                    echo "<p>Price: $price PHP</p>";
+                                    // Add button to trigger modal
+                                    echo "<button type='button' class='btn btn-primary edit-btn' data-toggle='modal' data-target='#editModal_$id' data-product='$product_name' data-size='$size' data-quantity='$quantity' data-id='$id'>Edit</button>";
+                                    echo "</div>";
+                                    echo "</div>";
+                                    echo "</div>";
+                                    echo "</div>";
+                                    echo "</div>";
+
+                                    // Add modal template for each product
+                                    echo "<div id='editModal_$id' class='modal fade' role='dialog' data-product-name='$product_name'>"; // Add data attribute for product name
+                                    echo "<div class='modal-dialog'>";
+                                    echo "<div class='modal-content'>";
+                                    echo "<div class='modal-header'>";
+                                    echo "<button type='button' class='close' data-dismiss='modal'>&times;</button>";
+                                    echo "<h4 class='modal-title'>Edit Product</h4>";
+                                    echo "</div>";
+                                    echo "<div class='modal-body'>";
+                                    echo "<label for='edit_size_$id'>Size:</label>";
+                                    echo "<select id='edit_size_$id' class='edit-size'>";
+                                    echo "<option value='Small'>Small</option>";
+                                    echo "<option value='Medium'>Medium</option>";
+                                    echo "<option value='Large'>Large</option>";
+                                    echo "<option value='XL'>XL</option>";
+                                    echo "</select>";
+                                    echo "<label for='edit_quantity_$id'>Quantity:</label>";
+                                    echo "<input type='number' id='edit_quantity_$id' class='edit-quantity'>";
+                                    echo "<div id='available-quantity-$id'></div>"; // Display available quantity for each size here
+                                    echo "<button type='button' class='btn btn-success save-btn' data-id='$id'>Save Changes</button>";
+                                    echo "<button type='button' class='btn btn-danger delete-btn' data-id='$id'>Delete</button>";
+                                    echo "</div>";
+                                    echo "</div>";
+                                    echo "</div>";
+                                    echo "</div>";
                                 }
-                                ?>
-                                <div class="h-layout h-flex-block">
-    <form method="post" action="cart.php">
-        <input type="hidden" name="deleteProduct" value="1">
-        <input type="hidden" name="productId" value="<?php echo $row['id']; ?>">
-        <button type="submit" class="rm-btn">
-            <i class="fa-solid fa-xmark fa-2xl"></i>
-        </button>
-    </form>
-                                    <img src="<?php echo $row['img']; ?>" alt="<?php echo $row['Product_Name']; ?>" class="item-image" />
-                                    <div class="v-layout v-flex-block">
-                                        <h3><?php echo htmlspecialchars($row['Product_Name']); ?></h3>
-                                        <select class="select-field" name="size">
-                                            <option value="Small" <?php if ($row['Size'] == "Small") echo "selected"; ?>>S</option>
-                                            <option value="Medium" <?php if ($row['Size'] == "Medium") echo "selected"; ?>>M</option>
-                                            <option value="Large" <?php if ($row['Size'] == "Large") echo "selected"; ?>>L</option>
-                                            <option value="XL" <?php if ($row['Size'] == "XL") echo "selected"; ?>>XL</option>
-                                        </select>
-                                        <h4><?php echo $row['Price']; ?> PHP</h4>
-                                    </div>
-                                    <div class="v-layout-2 v-flex-block-2">
-                                        <h4>Quantity</h4>
-                                        <div class="qty" data-max-quantity="<?php echo $maxQuantity; ?>">
-                                            <span class="minus"><i class="fa-solid fa-minus fa-xl"></i></span>
-                                            <input type="number" class="num" name="Quantity" value="<?php echo min($row['Quantity'], $maxQuantity); ?>" max="<?php echo $maxQuantity; ?>">
-                                            <span class="plus"><i class="fa-solid fa-plus fa-xl"></i></span>
-                                        </div>
-                                    </div>
-                                    <!-- Hidden inputs for maximum quantity -->
-                                    <input type="hidden" name="availableQuantity_Small" value="<?php echo $row['Quantity_Small']; ?>">
-                                    <input type="hidden" name="availableQuantity_Medium" value="<?php echo $row['Quantity_Medium']; ?>">                                  
-                                    <input type="hidden" name="availableQuantity_Large" value="<?php echo $row['Quantity_Large']; ?>">                                 
-                                    <input type="hidden" name="availableQuantity_XL" value="<?php echo $row['Quantity_XL']; ?>">
-                                  
-                                </div>
-                            <?php } ?>
-                        </div>
+
+                                // Display total price
+                                echo "<p>Total Price: $total_price PHP</p>";
+
+                                echo "<form method='post' action='Payment.php'>";
+                                
+                                echo "<button type='submit' class='btn btn-success'>Proceed to Payment</button>";
+                                echo "</form>";
+                            } else {
+                                echo "<p>No items in the cart</p>";
+                            }
+                        } else {
+                            // User is not logged in or email is not verified
+                            echo "<p>Please log in to view your cart</p>";
+                        }
+                        ?>
                     </div>
-                    <section class="total-container">
-                        <div class="h-layout-2 h-flex-block-2">
-                            <h1>TOTAL</h1>
-                            <h2>: <?php echo $totalPrice; ?> PHP</h2>
-                        </div>
-                        <input type="submit" class="submit-btn" name="updateProduct" value="Proceed to Payment">
-                    </section>
                 </section>
             </form>
         </section>
     </div>
+
 </body>
 </html>
 
-
-
-
 <script>
-    $(document).ready(function() {
-        // Function to update the maximum quantity for a given size
-        function updateMaxQuantity(size, maxQuantityElement) {
-    $.ajax({
-        url: 'fetch_max_quantity.php', // Path to fetch_max_quantity.php
-        type: 'POST', // HTTP method
-        data: { size: size }, // Data to send
-        success: function(response) { // On success
-            // Update the maximum quantity element with the retrieved value
-            maxQuantityElement.attr('data-available-quantity', response);
-            // Update quantity buttons availability
-            updateQuantityButtons();
-        },
-        error: function() { // On error
-            console.log('Error fetching maximum quantity for size ' + size);
-        }
+$(document).ready(function() {
+    // Function to handle size change
+    $('.edit-size').on('change', function() {
+        var id = $(this).closest('.modal').attr('id').split('_')[1]; // Get product ID from modal ID
+        var selectedSize = $(this).val(); // Get selected size
+        var productName = $('#editModal_' + id).data('product-name'); // Get product name
+        var modal = $(this).closest('.modal'); // Get the current modal
+
+        // Fetch available quantity for the selected size and product name using AJAX
+        $.ajax({
+            url: 'fetch_available_quantity.php',
+            method: 'POST',
+            data: {
+                productName: productName,
+                size: selectedSize
+            },
+            success: function(response) {
+                // Clear the content of the available quantity element
+                $('#available-quantity-' + id).empty();
+                // Update available quantity in the modal
+                $('#available-quantity-' + id).text('Available Quantity (' + selectedSize + '): ' + response);
+            },
+            error: function() {
+                console.log('Error fetching available quantity');
+            }
+        });
     });
-}
-        // Call updateMaxQuantity() when the page is loaded for each product
-        $(".select-field").each(function() {
-            var size = $(this).val();
-            var maxQuantityElement = $(this).closest(".h-layout").find(".qty");
-            updateMaxQuantity(size, maxQuantityElement);
+
+    // Function to handle edit button click
+    $('.edit-btn').on('click', function(event) {
+        var id = $(this).data('id'); // Get product ID
+        var size = $(this).data('size'); // Get product size
+        var quantity = $(this).data('quantity'); // Get product quantity
+        // Set modal fields with product details
+        $('#edit_size_' + id).val(size);
+        $('#edit_quantity_' + id).val(quantity);
+    });
+
+    // Function to handle save button click
+    $('.save-btn').on('click', function(event) {
+        var id = $(this).data('id'); // Get product ID
+        var size = $('#edit_size_' + id).val(); // Get selected size
+        var quantity = $('#edit_quantity_' + id).val(); // Get entered quantity
+        var availableQuantity = $('#editModal_' + id).data('available-quantity'); // Get available quantity
+        // Check if quantity exceeds available quantity
+        if (quantity > availableQuantity) {
+            alert('The requested quantity exceeds the available stock.');
+            return; // Stop execution if quantity exceeds available quantity
+        }
+        // Send AJAX request to edit_cart.php
+        $.ajax({
+            url: 'editcart.php',
+            method: 'POST',
+            data: {
+                id: id,
+                size: size,
+                quantity: quantity
+            },
+            success: function(response) {
+                // Handle success response
+                alert('Product updated successfully.'); // Display success message or perform any necessary actions
+                // Redirect to cart page or update the display as needed
+                window.location.reload(); // Reload the page after successful edit
+            },
+            error: function() {
+                // Handle error
+                alert('Failed to edit product. Please try again.');
+            }
         });
+    });
 
-        // Function to handle quantity changes
-        $(document).on("click", ".qty .plus, .qty .minus", function() {
-            // Your existing code
-        });
-
-        // Function to reset quantity to 1 when size is changed
-        $(".select-field").change(function() {
-            var size = $(this).val();
-            var maxQuantityElement = $(this).closest(".h-layout").find(".qty");
-            updateMaxQuantity(size, maxQuantityElement);
-        });
-
-        // Initialize quantity buttons
-        updateQuantityButtons();
-
-        // Function to update cart notification badge
-        function updateCartNotification() {
+    // Function to handle delete button click
+    $('.delete-btn').on('click', function(event) {
+        var id = $(this).data('id'); // Get product ID
+        // Show confirmation dialog
+        if (confirm('Are you sure you want to delete this product?')) {
+            // User confirmed, send AJAX request to remove_cart.php
             $.ajax({
-                url: 'fetch_cart_count.php',
-                type: 'GET',
+                url: 'remove_cart.php',
+                method: 'POST',
+                data: {
+                    id: id
+                },
                 success: function(response) {
-                    var cartCount = JSON.parse(response);
-                    $('#cart-notification').text(cartCount);
+                    // Handle success response
+                    alert(response); // Display success message or perform any necessary actions
+                    // Refresh the page or update the cart display as needed
+                    window.location.reload(); // Reload the page after successful deletion
                 },
                 error: function() {
-                    console.log('Error fetching cart count');
+                    // Handle error
+                    alert('Failed to delete product. Please try again.');
                 }
             });
+        } else {
+            // User canceled, do nothing
+            // Optionally, you can close any related modals or perform other actions here
         }
-
-        // Call updateCartNotification() when the page is loaded
-        updateCartNotification();
-
-        // Function to update total price based on quantity changes
-        function updateTotalPrice() {
-            var totalPrice = 0;
-
-            // Loop through each item in the cart
-            $(".qty").each(function() {
-                // Get the quantity and price of the current item
-                var quantity = parseInt($(this).find(".num").val());
-                var price = parseFloat($(this).closest(".h-layout").find("h4").text());
-
-                // Calculate the subtotal for the current item
-                var subtotal = quantity * price;
-
-                // Add the subtotal to the total price
-                totalPrice += subtotal;
-
-                // Log quantity and subtotal for debugging
-                console.log("Quantity:", quantity);
-                console.log("Subtotal:", subtotal);
-            });
-
-            // Update the total price displayed on the page
-            $(".total-container h2").text(": " + totalPrice.toFixed(2) + " PHP");
-        }
-
-        // Call updateTotalPrice() when the page is loaded
-        updateTotalPrice();
-
-        // Function to update quantity buttons based on availability
-        function updateQuantityButtons() {
-            $(".qty").each(function() {
-                // Get the current quantity and maximum quantity
-                var quantity = parseInt($(this).find(".num").val());
-                var maxQuantity = parseInt($(this).attr('data-max-quantity'));
-
-                // Log quantity and maxQuantity for debugging
-                console.log("Quantity:", quantity);
-                console.log("Max Quantity:", maxQuantity);
-
-                // Disable the plus button if maximum quantity is reached
-                if (quantity >= maxQuantity) {
-                    $(this).find(".plus").addClass("disabled");
-                } else {
-                    $(this).find(".plus").removeClass("disabled");
-                }
-            });
-        }
-        // Function to handle size change
-$(".select-field").change(function() {
-    var size = $(this).val();
-    var maxQuantityElement = $(this).closest(".h-layout").find(".qty");
-    updateMaxQuantity(size, maxQuantityElement);
+    });
 });
 
-        // Function to handle quantity changes
-        $(document).on("click", ".qty .plus, .qty .minus", function() {
-            // Find the quantity element within the same item
-            var quantityField = $(this).closest(".qty").find(".num");
-
-            // Get the current quantity as an integer
-            var quantity = parseInt(quantityField.val());
-
-            // Get the maximum quantity available for this item
-            var maxQuantity = parseInt($(this).closest(".qty").attr('data-max-quantity'));
-
-            // Log quantity and maxQuantity for debugging
-            console.log("Quantity:", quantity);
-            console.log("Max Quantity:", maxQuantity);
-
-            // Determine if the button clicked was the plus or minus
-            if ($(this).hasClass("plus")) {
-                // Increment the quantity by 1 if it's less than the maximum quantity
-                if (quantity < maxQuantity) {
-                    quantity++;
-                } else {
-                    // Display an alert if the maximum quantity is reached
-                    alert("Maximum quantity reached for this item.");
-                    return; // Stop further execution
-                }
-            } else {
-                // Ensure the quantity is not less than 1 before decrementing
-                if (quantity > 1) {
-                    quantity--;
-                }
-            }
-
-            // Update the quantity text with the new value
-            quantityField.val(quantity);
-
-            // Update the total price based on the new quantity
-            updateTotalPrice();
-
-            // Update quantity buttons availability
-            updateQuantityButtons();
-        });
-
-        function updateMaxQuantity(size, maxQuantityElement) {
-    var availableQuantityInput = $('[name="availableQuantity_' + size + '"]');
-    var availableQuantity = availableQuantityInput.val();
-    maxQuantityElement.attr('data-available-quantity', availableQuantity);
-
-    // Reset quantity if it exceeds the new maximum
-    var quantityField = maxQuantityElement.find(".num");
-    var quantity = parseInt(quantityField.val());
-    if (quantity > availableQuantity) {
-        quantityField.val(availableQuantity); // Update displayed quantity
-        updateTotalPrice(); // Update total price
-    }
-
-    // Update quantity buttons availability
-    updateQuantityButtons();
-}
-    });
 </script>
