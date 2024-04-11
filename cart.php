@@ -97,17 +97,13 @@ include('connect.php');
                                     echo "</div>";
                                     echo "<div class='col-md-8'>";
                                     echo "<div class='cart-item-details'>";
-                                    echo "<h3>$product_name</h3>";
+                                    echo "<p>$product_name</p>";
                                     echo "<div class='row'>";
-                                    echo "<div class='col-md-6'>";
                                     echo "<p>Size: $size</p>";
                                     echo "<p>Quantity: $quantity</p>";
-                                    echo "</div>";
-                                    echo "<div class='col-md-6'>";
                                     echo "<p>Price: $price PHP</p>";
                                     // Add button to trigger modal
                                     echo "<button type='button' class='btn btn-primary edit-btn' data-toggle='modal' data-target='#editModal_$id' data-product='$product_name' data-size='$size' data-quantity='$quantity' data-id='$id'>Edit</button>";
-                                    echo "</div>";
                                     echo "</div>";
                                     echo "</div>";
                                     echo "</div>";

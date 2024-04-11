@@ -143,7 +143,7 @@ if (isset($_POST["submit"])) {
                     }
                     ?>
                     <p>Don't have an account? <a href="register.php" class="sign-up-text">Sign Up</a>!</p>
-                    <p>Do you Want To Verify your Account? <a href="verify_email_again.php" class="sign-up-text">Verify Again</a>!</p>
+                    <p>Do you want to verify your account? <a href="verify_email_again.php" class="sign-up-text">Click here</a>!</p>
                     <!-- new class for href="password-reset.php -->
                     <a href="password-reset.php" class="forgot-password-text">Forgot Password</a> 
                 </div>

@@ -104,8 +104,6 @@ a:hover {
     border: 1px solid #ccc;
     background-color: white;
     border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     display: flex; /* Added */
 }
@@ -128,6 +126,7 @@ a:hover {
 .cart-item-details p {
     margin: 5px 0;
 }
+
 .edit-btn,
 .remove-btn {
     margin-top: 5px;

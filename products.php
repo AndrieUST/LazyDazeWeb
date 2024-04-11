@@ -99,30 +99,11 @@ $result = mysqli_query($conn, $sql);
                 <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                     <div class="item">
                         <img class="item-image" src="<?php echo $row['img']; ?>" alt="<?php echo htmlspecialchars($row['Product_Name']); ?>">
+                        <div class="item-details">
                         <h3 class="item-title"><?php echo htmlspecialchars($row['Product_Name']); ?></h3>
-                        <div class="item-deets"><?php echo htmlspecialchars($row['Description']); ?></div>
-                         <!-- Check each size individually for out of stock -->
-                         <?php if ($row['Quantity_Small'] == 0) { ?>
-                            <div class="item-deets">Small: Out of stock</div>
-                        <?php } else { ?>
-                            <div class="item-deets">Small: <?php echo $row['Quantity_Small']; ?></div>
-                        <?php } ?>
-                        <?php if ($row['Quantity_Medium'] == 0) { ?>
-                            <div class="item-deets">Medium: Out of stock</div>
-                        <?php } else { ?>
-                            <div class="item-deets">Medium: <?php echo $row['Quantity_Medium']; ?></div>
-                        <?php } ?>
-                        <?php if ($row['Quantity_Large'] == 0) { ?>
-                            <div class="item-deets">Large: Out of stock</div>
-                        <?php } else { ?>
-                            <div class="item-deets">Large: <?php echo $row['Quantity_Large']; ?></div>
-                        <?php } ?>
-                        <?php if ($row['Quantity_XL'] == 0) { ?>
-                            <div class="item-deets">XL: Out of stock</div>
-                        <?php } else { ?>
-                            <div class="item-deets">XL: <?php echo $row['Quantity_XL']; ?></div>
-                        <?php } ?>
-                        <div class="item-deets">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
+                        <div class="item-desc"><?php echo htmlspecialchars($row['Description']); ?></div>
+                        <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP
+                        </div>
                         <form method="get" action="viewprod.php">
                             <!-- get the value and pass to the viewprod.php -->
                             <input type="hidden" name="product_id" value="<?php echo $row['ProductID']; ?>">
