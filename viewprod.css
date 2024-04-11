@@ -43,7 +43,7 @@ a:hover {
 }
 
 .bg2 {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.027), rgba(255, 255, 255, 0)), url("./LDAssets/products\ bg.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.027), rgba(255, 255, 255, 0)), url("./LDAssets/viewprod_bg.png");
     background-color: white;
     margin-top: -9.8%;
     height: 51.6%;

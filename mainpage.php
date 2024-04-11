@@ -91,12 +91,12 @@ if(isset($_GET['search'])) {
         echo '<h1>PLACEHOLDER</h1>';
     }
     ?>
-    <div id="itemsWrapper"></div> <!-- Add this line -->
     <a href="products.php">
         <button class="go-products" name="go-to-products" value="Go-Products">View Products</button>
     </a>
 </div>
-</div> 
+<img class="biglogo" src="LDAssets/biglogo.png" alt="Big Lazy Logo"/>
+</div>
 </body>
 </html>
 

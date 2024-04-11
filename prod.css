@@ -37,17 +37,6 @@ a:hover {
     overflow-x: hidden;
 }
 
-.bg2 {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.027), rgba(255, 255, 255, 0)), url("./LDAssets/products\ bg.png");
-    background-color: white;
-    margin-top: -9.5%;
-    height: 61.5%;
-    width: 100%;
-    background-size: 100%;
-    position: relative;
-    z-index: -1;
-}
-
 .topnav {
     overflow: hidden;
     background-color: rgba(255, 255, 255, 0.829);
@@ -160,6 +149,14 @@ a:hover {
     font-family: 'Open Sans', sans-serif;
 }
 
+.item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 2px solid rgba(166, 166, 166, 0.5);
+    border-bottom: 2px solid rgba(166, 166, 166, 0.5);
+    background-color: rgba(233, 233, 233, 0.288);
+}
+
 .items-wrapper {
     display: grid;
     padding-top: 80px;
@@ -173,9 +170,9 @@ a:hover {
 }
 
 .item-image {
-    width: 50%;
+    width: 80%;
     display: block;
-    margin-bottom: 60px;
+    margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
     object-fit: cover;
@@ -214,8 +211,8 @@ a:hover {
 }
 
 .edit-btn {
-    width: 50%;
-    height: 9%;
+    width: 150px;
+    height: 50px;
     display: block;
     margin: auto;
     margin-bottom: 10px;
@@ -240,8 +237,8 @@ a:hover {
 }
 
 .rm-btn {
-    width: 50%;
-    height: 9%;
+    width: 150px;
+    height: 50px;
     display: block;
     margin: auto;
     padding-top: 12px;

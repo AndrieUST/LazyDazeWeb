@@ -65,9 +65,10 @@ a:hover {
 }
 
 .go-login {
-	width: 9%;
-	height: 5.5%;
+	width: 190px;
+	height: 55px;
 	padding: 10px 30px;
+	margin-right: 105px;
 	cursor: pointer;
 	background: black;
 	border: 0;
@@ -79,22 +80,16 @@ a:hover {
 }
 
 .go-login:hover {
-	width: 9%;
-	height: 5.5%;
-	padding: 10px 30px;
-	cursor: pointer;
 	background: #858585;
-	border: 0;
-	color: white;
-	outline: none;
 	border-radius: 30px;
 	transition-duration: .4s;
 }
 
 .go-mainpage {
-	width: 12%;
-	height: 5.5%;
+	width: 190px;
+	height: 55px;
 	padding: 10px 30px;
+	margin-left: 105px;
 	cursor: pointer;
 	background: black;
 	border: 0;
@@ -106,14 +101,7 @@ a:hover {
 }
 
 .go-mainpage:hover {
-	width: 12%;
-	height: 5.5%;
-	padding: 10px 30px;
-	cursor: pointer;
 	background: #858585;
-	border: 0;
-	color: white;
-	outline: none;
 	border-radius: 30px;
 	transition-duration: .4s;
 }
@@ -133,7 +121,7 @@ a:hover {
 
 .intro h2{
 	margin-bottom: -15px;
-	font-size: 15px;
+	font-size: 20px;
 }
 
 .intro h3{

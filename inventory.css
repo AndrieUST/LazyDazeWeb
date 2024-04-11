@@ -174,21 +174,21 @@ a:hover {
     flex-direction: column;
     width: 100%;
     margin-top: 55px;
-    padding-left: 7.5%;
+    padding-left: 8%;
     font-family: 'Open Sans', sans-serif;
 }
 
 .item {
     padding-top: 10px;
     padding-bottom: 10px;
-    border-top: 1px solid rgba(166, 166, 166, 0.5);
-    border-bottom: 1px solid rgba(166, 166, 166, 0.5);
-    background-color: rgba(233, 233, 233, 0.171);
+    border-top: 2px solid rgba(166, 166, 166, 0.5);
+    border-bottom: 2px solid rgba(166, 166, 166, 0.5);
+    background-color: rgba(233, 233, 233, 0.288);
 }
 
 .items-wrapper {
     display: grid;
-    padding-top: 80px;
+    padding-top: 65px;
     padding-bottom: 80px;
     align-items: center;
     grid-auto-columns: 1fr;
@@ -199,9 +199,9 @@ a:hover {
 }
 
 .item-image {
-    width: 50%;
+    width: 80%;
     display: block;
-    margin-bottom: 60px;
+    margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
     object-fit: cover;

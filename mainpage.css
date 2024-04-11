@@ -137,8 +137,8 @@ a:hover {
 }
 
 .go-products {
-	width: 12%;
-	height: 5.5%;
+	width: 205px;
+	height: 55px;
 	padding: 10px 30px;
 	cursor: pointer;
 	background: #5271FF;
@@ -151,14 +151,7 @@ a:hover {
 }
 
 .go-products:hover {
-	width: 12%;
-	height: 5.5%;
-	padding: 10px 30px;
-	cursor: pointer;
     background: #31449b;
-	border: 0;
-	color: black;
-	outline: none;
 	border-radius: 15px;
 	transition-duration: .4s;
 }
@@ -179,4 +172,10 @@ a:hover {
 .intro h2{
 	margin-bottom: -15px;
 	font-size: 15px;
+}
+
+.biglogo {
+	float: right;
+	margin-top: -10%;
+	margin-right: 8.5%;
 }
