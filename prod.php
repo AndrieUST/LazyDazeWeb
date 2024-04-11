@@ -78,7 +78,6 @@ $result = mysqli_query($conn, $sql);
       <div class="nav-line"></div>
     </div><!-- Navigation bar content -->
     </div>
-        <div class="bg2"></div>
         <div class="container">
             <h1>Products</h1>
             <div class="items-wrapper">

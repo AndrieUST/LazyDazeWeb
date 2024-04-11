@@ -89,11 +89,7 @@ $result = mysqli_query($conn, $sql);
             </div>
         </div>
         <!-- Banner -->
-        <div class="bg2"></div>
-        <div class="intro">
-            <h1>Ninja X Manila</h1>
-            <h2>2024 Summer Collab Limited Collection</h2>
-        </div>
+        <img class="logo-image" src="./LDAssets/products bg.png">
         <div class="container">
             <div class="items-wrapper">
                 <?php while ($row = mysqli_fetch_assoc($result)) { ?>

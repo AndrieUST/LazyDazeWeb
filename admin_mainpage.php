@@ -65,12 +65,13 @@ include('connect.php');
   <h2>2024 Summer Collection</h2>
   <h1>New Arrivals</h1>
   <a href="prod.php">
-  <button class = "add-products" name = "add-products" value = "Add-Products">Add Products</button>
+  <button class = "main-btn" name = "add-products" value = "Add-Products">Add Products</button>
 </a>
 <a href="inventory.php">
-  <button class = "add-products" name = "add-products" value = "Add-Products">Inventory</button>
+  <button class = "main-btn" name = "add-products" value = "Add-Products">Inventory</button>
 </a>
 </div>
+<img class="biglogo" src="LDAssets/biglogo.png" alt="Big Lazy Logo"/>
 </div>	
 </body>
 </html>

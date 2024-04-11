@@ -26,11 +26,10 @@
   </div>
   <div class="intro">
   <h2>What are you waiting for?</h2>
-  <h1>Get your Lazy Daze now</h1>
+  <h1>Get your LazyDaze now!</h1>
   <a href="login.php">
   <button class = "go-login" name = "go-to-login" value = "Go-Login">Login</button>
 </a>
-<h3>or</h3>
 <a href="mainpage.php">
   <button class = "go-mainpage" name = "go-to-mainpage" value = "Go-Mainpage">View Products</button>
 </a>
