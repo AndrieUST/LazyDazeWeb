@@ -33,22 +33,9 @@ include('connect.php');
                 </div>
                  <!-- Cart Icon -->
                  <div class="nav-line"></div>
-            <div class="nav-icon">
-            <a href="cart.php">
-                <i class="fa-solid fa-cart-shopping fa-xl"></i>
-            
-                        </a>
-               </div>
-                <div class="nav-line"></div>
                 <div class="nav-icon">
                     <a href="reviews.php">
                         <i class="fa-solid fa-star fa-xl"></i>
-                    </a>
-                </div>
-                <div class="nav-line"></div>
-                <div class="nav-icon">
-                    <a href="inquiries.php">
-                        <i class="fa-solid fa-circle-info fa-xl"></i>
                     </a>
                 </div>
                 <div class="nav-line"></div>

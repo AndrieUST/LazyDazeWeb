@@ -116,8 +116,6 @@ a:hover {
     transition-duration: 0.3s;
 }
 
-
-
 .fa-star:hover {
     color: rgb(253, 233, 146);
     transition-duration: 0.3s;
@@ -129,7 +127,10 @@ a:hover {
 }
 
 .main-btn {
-	width: 205px;
+	display: block;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 170px;
 	height: 55px;
 	padding: 10px 30px;
 	cursor: pointer;

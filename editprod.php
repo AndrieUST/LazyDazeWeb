@@ -128,8 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </a>
             </div>
             <div class="nav-line"></div>
-          
-            <div class="nav-line"></div>
             <!-- Reviews Icon -->
             <div class="nav-icon">
                 <a href="reviews.php">
