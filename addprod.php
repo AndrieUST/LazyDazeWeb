@@ -72,12 +72,7 @@ if(isset($_POST['submit'])) {
                 </a>
             </div>
             <div class="nav-line"></div>
-            <!-- Cart Icon -->
-            <div class="nav-icon">
-                <a href="">
-                    <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                </a>
-            </div>
+          
             <div class="nav-line"></div>
             <!-- Reviews Icon -->
             <div class="nav-icon">

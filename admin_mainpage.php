@@ -37,12 +37,7 @@ include('connect.php');
                 </a>
             </div>
             <div class="nav-line"></div>
-            <!-- Cart Icon -->
-            <div class="nav-icon">
-                <a href="">
-                    <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                </a>
-            </div>
+           
             <div class="nav-line"></div>
             <!-- Reviews Icon -->
             <div class="nav-icon">
@@ -68,7 +63,10 @@ include('connect.php');
   <button class = "main-btn" name = "add-products" value = "Add-Products">Add Products</button>
 </a>
 <a href="inventory.php">
-  <button class = "main-btn" name = "add-products" value = "Add-Products">Inventory</button>
+  <button class = "main-btn" name = "Inventory" value = "Inventory">Inventory</button>
+</a>
+<a href="Admin_transaction.php">
+  <button class = "main-btn" name = "Transaction" value = "Transaction">Transaction</button>
 </a>
 </div>
 <img class="biglogo" src="LDAssets/biglogo.png" alt="Big Lazy Logo"/>

@@ -124,10 +124,7 @@ a:hover {
 	transition-duration: 0.3s;
 }
 
-.fa-cart-shopping:hover {
-	color: rgb(91, 255, 118);
-	transition-duration: 0.3s;
-}
+
 
 .fa-star:hover {
 	color: rgb(253, 233, 146);
