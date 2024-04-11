@@ -183,7 +183,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2>Your Orders</h2>
             <table class="table">
                 <thead>
-                    <tr>
+                    <tr class="order-headers">
+                        <th></th>
                         <th>Product Name</th>
                         <th>Size</th>
                         <th>Quantity</th>
@@ -195,12 +196,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Fetch data from managecart table
                 mysqli_data_seek($cart_result, 0);
                 while ($row = mysqli_fetch_assoc($cart_result)) {
-                    echo "<tr>";
+                    echo "<tr class='orders'>";
+                    echo '<td><img src="' . $row['img'] . '" class="item-image" alt="Product Image"></td>';
                     echo "<td>" . $row['Product_Name'] . "</td>";
                     echo "<td>" . $row['Size'] . "</td>";
                     echo "<td>" . $row['Quantity'] . "</td>";
                     echo "<td>" . $row['TotalPrice'] . "</td>";
-                    echo '<td><img src="' . $row['img'] . '" alt="Product Image" style="max-width: 100px;"></td>'; // Display the image
                     echo "</tr>";
                 }
                 ?>
@@ -210,7 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <section class="container">
             <form method="post" action="" enctype="multipart/form-data">
-                <section class="container">
+                <section class="form-container">
                     <div class="form-group">
                         <label for="name">Customer Name:</label>
                         <input type="text" class="form-control" id="name" name="Customer_Name">
@@ -227,19 +228,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="number">Customer Number:</label>
                         <input type="number" class="form-control" id="number" name="Customer_Number" value="<?php echo $customer_number; ?>" required>
                     </div>
-                    
+                    <div class="form-group">
+                        <div class="qr-title">Click to enlarge image.</div>
+                        <img id="qr" src="LDAssets/gcash-qr.png" class="qr-image" alt="Pay here!" style="width:100%;max-width:100px">
+                        <div id="myModal" class="modal">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="img01">
+                            <div id="caption"></div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="receiptImg">Upload Receipt Image:</label>
-                        <input type="file" class="form-control" id="receiptImg" name="Receipt_img">
+                        <input type="file" class="form-control-receipt" id="receiptImg" name="Receipt_img">
                     </div>
-                    <button type="submit" class="btn btn-primary" name="submit">Submit Payment</button>
+                    
                     <div class="form-group">
                         <label for="totalPrice">Overall Total Price:</label>
                         <input type="text" class="form-control" id="totalPrice" value="<?php echo $total_price; ?>" readonly>
                     </div>
+                    <button type="submit" class="submit-btn" name="submit">Submit Payment</button>
                 </section>
             </form>
         </section>
     </div>
+    <script>
+        var modal = document.getElementById("myModal");
+
+        var img = document.getElementById("qr");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        img.onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
