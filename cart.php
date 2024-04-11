@@ -43,221 +43,188 @@ include('connect.php');
                 <div class="nav-line"></div>
             </div>
         </div>
-        <section class="section-2"></section>
+
         <section class="container">
-            <form method="post" action="Payment.php">
-                <section class="container">
-                    <div class="grid">
-                        <?php
-                        // Check if the user is logged in
-                        if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
-                            // User is logged in and email is verified
-                            $customer_email = $_SESSION['registered_email'];
-                            $total_price = 0; // Initialize total price
+            <div class="grid">
+                <?php
+                // Check if the user is logged in
+                if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+                    // User is logged in and email is verified
+                    $customer_email = $_SESSION['registered_email'];
+                    $total_price = 0; // Initialize total price
 
-                            // Fetch products from managecart table for the logged-in user
-                            $cart_query = "SELECT id, Product_Name, Size, Quantity, img FROM managecart WHERE Customer_Email = '$customer_email'";
-                            $cart_result = mysqli_query($conn, $cart_query);
+                    // Fetch products from managecart table for the logged-in user
+                    $cart_query = "SELECT * FROM managecart WHERE Customer_Email = '$customer_email'";
+                    $cart_result = mysqli_query($conn, $cart_query);
 
-                            // Check if there are products in the cart
-                            if(mysqli_num_rows($cart_result) > 0) {
-                                // Display cart items
-                                while($row = mysqli_fetch_assoc($cart_result)) {
-                                    $id = $row['id']; // Retrieve the id
-                                    $product_name = $row['Product_Name'];
-                                    $size = $row['Size'];
-                                    $quantity = $row['Quantity'];
-                                    $image = $row['img'];
+                    // Check if there are products in the cart
+                    if(mysqli_num_rows($cart_result) > 0) {
+                        // Display cart items
+                        while($row = mysqli_fetch_assoc($cart_result)) {
+                            $product_id = $row['id'];
+                            $product_name = $row['Product_Name'];
+                            $size = $row['Size'];
+                            $quantity = $row['Quantity'];
+                            $price = $row['Price'];
+                            $image = $row['img'];
+                            
+                            // Calculate total price for this item
+                            $total_item_price = $price * $quantity;
+                            $total_price += $total_item_price; // Accumulate total price
 
-                                    // Fetch price from manageprod table based on product name
-                                    
-                                        $price_query = "SELECT Price, Quantity_$size as AvailableQuantity FROM manageprod WHERE Product_Name = '$product_name'";
-                                    
-                                    $price_result = mysqli_query($conn, $price_query);
-                                    $price_row = mysqli_fetch_assoc($price_result);
-                                    $price = $price_row['Price'];
-                                    $available_quantity = $price_row['AvailableQuantity'];
+                            // Output cart item HTML
+                            echo "<div class='row'>";
+                            echo "<div class='col-md-4'>";
+                            echo "<div class='cart-item'>";
+                            echo "<img src='$image' alt='$product_name' class='cart-item-image'>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "<div class='col-md-8'>";
+                            echo "<div class='cart-item-details'>";
+                            echo "<p>$product_name</p>";
+                            echo "<div class='row'>";
+                            echo "<p>Size: $size</p>";
+                            echo "<p>Quantity: $quantity</p>";
+                            echo "<p>Price: $price PHP</p>";
+                            echo "<p>Total Price: $total_item_price PHP</p>"; // Display total price for this item
+                            echo "<button class='edit-button' data-toggle='modal' data-target='#editModal$product_id'>Edit</button>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</div>";
 
-                                    // Calculate total price for each product
-                                    $total_price += $price * $quantity;
+                           // Edit Modal
+                            echo "<div class='modal fade' id='editModal$product_id' tabindex='-1' role='dialog' aria-labelledby='editModalLabel$product_id'>";
+                            echo "<div class='modal-dialog' role='document'>";
+                            echo "<div class='modal-content'>";
+                            echo "<div class='modal-header'>";
+                            echo "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
+                            echo "<h4 class='modal-title' id='editModalLabel$product_id'>Edit Product</h4>";
+                            echo "</div>";
+                            echo "<div class='modal-body'>";
 
-                                    // Check if the quantity exceeds the available quantity
-                                    if($quantity > $available_quantity) {
-                                        echo "<p style='color: red;'>Maximum quantity has been reached for $product_name!</p>";
-                                    }
+                            // Note to display in the modal
+                            echo "<p class='note'>Please refer to the following Quantity per Sizes. Thank you.</p>";
 
-                                    // Output cart item HTML
-                                    echo "<div class='row'>";
-                                    echo "<div class='col-md-4'>";
-                                    echo "<div class='cart-item'>";
-                                    echo "<img src='$image' alt='$product_name' class='cart-item-image'>";
-                                    echo "</div>";
-                                    echo "</div>";
-                                    echo "<div class='col-md-8'>";
-                                    echo "<div class='cart-item-details'>";
-                                    echo "<p>$product_name</p>";
-                                    echo "<div class='row'>";
-                                    echo "<p>Size: $size</p>";
-                                    echo "<p>Quantity: $quantity</p>";
-                                    echo "<p>Price: $price PHP</p>";
-                                    // Add button to trigger modal
-                                    echo "<button type='button' class='btn btn-primary edit-btn' data-toggle='modal' data-target='#editModal_$id' data-product='$product_name' data-size='$size' data-quantity='$quantity' data-id='$id'>Edit</button>";
-                                    echo "</div>";
-                                    echo "</div>";
-                                    echo "</div>";
-                                    echo "</div>";
+                            echo "<form action='editcart.php' method='post'>";
+                            echo "<div class='form-group'>";
+                            echo "<label for='size'>Size:</label>";
+                            echo "<select name='size' id='size' class='form-control'>";
+                            echo "<option value='Small' ". ($size == 'Small' ? 'selected' : '') .">Small</option>";
+                            echo "<option value='Medium' ". ($size == 'Medium' ? 'selected' : '') .">Medium</option>";
+                            echo "<option value='Large' ". ($size == 'Large' ? 'selected' : '') .">Large</option>";
+                            echo "<option value='XL' ". ($size == 'XL' ? 'selected' : '') .">XL</option>";
+                            echo "</select>";
+                            echo "</div>";
+                            echo "<div class='form-group'>";
+                            echo "<label for='quantity'>Quantity:</label>";
+                            echo "<input type='number' name='quantity' id='quantity' value='$quantity' min='1' class='form-control'>";
+                            echo "</div>";
 
-                                    // Add modal template for each product
-                                    echo "<div id='editModal_$id' class='modal fade' role='dialog' data-product-name='$product_name'>"; // Add data attribute for product name
-                                    echo "<div class='modal-dialog'>";
-                                    echo "<div class='modal-content'>";
-                                    echo "<div class='modal-header'>";
-                                    echo "<button type='button' class='close' data-dismiss='modal'>&times;</button>";
-                                    echo "<h4 class='modal-title'>Edit Product</h4>";
-                                    echo "</div>";
-                                    echo "<div class='modal-body'>";
-                                    echo "<label for='edit_size_$id'>Size:</label>";
-                                    echo "<select id='edit_size_$id' class='edit-size'>";
-                                    echo "<option value='Small'>Small</option>";
-                                    echo "<option value='Medium'>Medium</option>";
-                                    echo "<option value='Large'>Large</option>";
-                                    echo "<option value='XL'>XL</option>";
-                                    echo "</select>";
-                                    echo "<label for='edit_quantity_$id'>Quantity:</label>";
-                                    echo "<input type='number' id='edit_quantity_$id' class='edit-quantity'>";
-                                    echo "<div id='available-quantity-$id'></div>"; // Display available quantity for each size here
-                                    echo "<button type='button' class='btn btn-success save-btn' data-id='$id'>Save Changes</button>";
-                                    echo "<button type='button' class='btn btn-danger delete-btn' data-id='$id'>Delete</button>";
-                                    echo "</div>";
-                                    echo "</div>";
-                                    echo "</div>";
-                                    echo "</div>";
-                                }
+                            // Fetch quantity sizes per product from manageprod table
+                            $manageprod_query = "SELECT Quantity_Small, Quantity_Medium, Quantity_Large, Quantity_XL FROM manageprod WHERE Product_Name = '$product_name'";
+                            $manageprod_result = mysqli_query($conn, $manageprod_query);
+                            $manageprod_row = mysqli_fetch_assoc($manageprod_result);
+                            $quantity_small = $manageprod_row['Quantity_Small'];
+                            $quantity_medium = $manageprod_row['Quantity_Medium'];
+                            $quantity_large = $manageprod_row['Quantity_Large'];
+                            $quantity_xl = $manageprod_row['Quantity_XL'];
 
-                                // Display total price
-                                echo "<p>Total Price: $total_price PHP</p>";
-
-                                echo "<form method='post' action='Payment.php'>";
-                                
-                                echo "<button type='submit' class='btn btn-success'>Proceed to Payment</button>";
-                                echo "</form>";
+                            // Display quantity sizes per product inside the modal
+                            echo "<div class='quantity-per-size'>";
+                            echo "<label>Quantity per Size:</label>";
+                            echo "<ul class='list-unstyled'>";
+                            if ($quantity_small == 0) {
+                                echo "<li>Small: Out of Stock</li>";
                             } else {
-                                echo "<p>No items in the cart</p>";
+                                echo "<li>Small: $quantity_small</li>";
                             }
-                        } else {
-                            // User is not logged in or email is not verified
-                            echo "<p>Please log in to view your cart</p>";
+                            if ($quantity_medium == 0) {
+                                echo "<li>Medium: Out of Stock</li>";
+                            } else {
+                                echo "<li>Medium: $quantity_medium</li>";
+                            }
+                            if ($quantity_large == 0) {
+                                echo "<li>Large: Out of Stock</li>";
+                            } else {
+                                echo "<li>Large: $quantity_large</li>";
+                            }
+                            if ($quantity_xl == 0) {
+                                echo "<li>XL: Out of Stock</li>";
+                            } else {
+                                echo "<li>XL: $quantity_xl</li>";
+                            }
+                            echo "</ul>";
+                            echo "</div>";
+
+                            echo "<input type='hidden' name='product_id' value='$product_id'>";
+                            echo "<button type='submit' class='btn btn-primary'>Save Changes</button>";
+                            echo "<button type='button' class='btn btn-danger remove-button' data-product-id='$product_id' data-dismiss='modal'>Remove</button>"; // Remove button
+                            echo "</form>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</div>";
                         }
-                        ?>
-                    </div>
-                </section>
-            </form>
+                    } else {
+                        echo "<p>No items in the cart</p>";
+                    }
+
+                    // Display total price for all items in the cart
+                    echo "<p>Total Price for all items: $total_price PHP</p>";
+                } else {
+                    // User is not logged in or email is not verified
+                    echo "<p>Please log in to view your cart</p>";
+                }
+                ?>
+                <button class="submit-btn" onclick="proceedToPayment()">Proceed to Payment</button>
+            </div>
         </section>
     </div>
-
 </body>
 </html>
-
 <script>
-$(document).ready(function() {
-    // Function to handle size change
-    $('.edit-size').on('change', function() {
-        var id = $(this).closest('.modal').attr('id').split('_')[1]; // Get product ID from modal ID
-        var selectedSize = $(this).val(); // Get selected size
-        var productName = $('#editModal_' + id).data('product-name'); // Get product name
-        var modal = $(this).closest('.modal'); // Get the current modal
+function proceedToPayment() {
+    // Redirect to payment.php
+    window.location.href = 'Payment.php';
+}
 
-        // Fetch available quantity for the selected size and product name using AJAX
+$(document).ready(function(){
+    // Add click event listener to remove buttons
+    $(".remove-button").click(function(){
+        var product_id = $(this).data('product-id');
+        // Send AJAX request to remove_cart.php
         $.ajax({
-            url: 'fetch_available_quantity.php',
-            method: 'POST',
-            data: {
-                productName: productName,
-                size: selectedSize
+            url: 'remove_cart.php',
+            type: 'POST',
+            data: { product_id: product_id },
+            success: function(response){
+                // Reload the page after successful removal
+                location.reload();
             },
-            success: function(response) {
-                // Clear the content of the available quantity element
-                $('#available-quantity-' + id).empty();
-                // Update available quantity in the modal
-                $('#available-quantity-' + id).text('Available Quantity (' + selectedSize + '): ' + response);
-            },
-            error: function() {
-                console.log('Error fetching available quantity');
+            error: function(xhr, status, error){
+                // Handle errors
+                console.error(error);
             }
         });
-    });
-
-    // Function to handle edit button click
-    $('.edit-btn').on('click', function(event) {
-        var id = $(this).data('id'); // Get product ID
-        var size = $(this).data('size'); // Get product size
-        var quantity = $(this).data('quantity'); // Get product quantity
-        // Set modal fields with product details
-        $('#edit_size_' + id).val(size);
-        $('#edit_quantity_' + id).val(quantity);
-    });
-
-    // Function to handle save button click
-    $('.save-btn').on('click', function(event) {
-        var id = $(this).data('id'); // Get product ID
-        var size = $('#edit_size_' + id).val(); // Get selected size
-        var quantity = $('#edit_quantity_' + id).val(); // Get entered quantity
-        var availableQuantity = $('#editModal_' + id).data('available-quantity'); // Get available quantity
-        // Check if quantity exceeds available quantity
-        if (quantity > availableQuantity) {
-            alert('The requested quantity exceeds the available stock.');
-            return; // Stop execution if quantity exceeds available quantity
-        }
-        // Send AJAX request to edit_cart.php
-        $.ajax({
-            url: 'editcart.php',
-            method: 'POST',
-            data: {
-                id: id,
-                size: size,
-                quantity: quantity
-            },
-            success: function(response) {
-                // Handle success response
-                alert('Product updated successfully.'); // Display success message or perform any necessary actions
-                // Redirect to cart page or update the display as needed
-                window.location.reload(); // Reload the page after successful edit
-            },
-            error: function() {
-                // Handle error
-                alert('Failed to edit product. Please try again.');
-            }
-        });
-    });
-
-    // Function to handle delete button click
-    $('.delete-btn').on('click', function(event) {
-        var id = $(this).data('id'); // Get product ID
-        // Show confirmation dialog
-        if (confirm('Are you sure you want to delete this product?')) {
-            // User confirmed, send AJAX request to remove_cart.php
-            $.ajax({
-                url: 'remove_cart.php',
-                method: 'POST',
-                data: {
-                    id: id
-                },
-                success: function(response) {
-                    // Handle success response
-                    alert(response); // Display success message or perform any necessary actions
-                    // Refresh the page or update the cart display as needed
-                    window.location.reload(); // Reload the page after successful deletion
-                },
-                error: function() {
-                    // Handle error
-                    alert('Failed to delete product. Please try again.');
-                }
-            });
-        } else {
-            // User canceled, do nothing
-            // Optionally, you can close any related modals or perform other actions here
-        }
     });
 });
+// Function to update cart notification badge
+function updateCartNotification() {
+            $.ajax({
+                url: 'fetch_cart_count.php',
+                type: 'GET',
+                success: function(response) {
+                    var cartCount = JSON.parse(response);
+                    $('#cart-notification').text(cartCount);
+                },
+                error: function() {
+                    console.log('Error fetching cart count');
+                }
+            });
+        }
+
+        // Call updateCartNotification() when the page is loaded
+        updateCartNotification();
 
 </script>
