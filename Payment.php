@@ -1,3 +1,25 @@
+<?php
+// Include the database connection file
+include('connect.php');
+
+// Query to retrieve all data from managecart table
+$sql = "SELECT * FROM managecart";
+$result = $conn->query($sql);
+
+// Check if any rows were returned
+if ($result->num_rows > 0) {
+    // Output data of each row
+    while($row = $result->fetch_assoc()) {
+        // Echo retrieved data
+        echo "ID: " . $row["id"]. " - Customer Email: " . $row["Customer_Email"]. " - Size: " . $row["Size"]. " - Product Name: " . $row["Product_Name"]. "<br>";
+    }
+} else {
+    echo "0 results";
+}
+
+// Close connection (optional, PHP will automatically close the connection when the script ends)
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
