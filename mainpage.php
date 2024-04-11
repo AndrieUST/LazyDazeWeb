@@ -88,7 +88,7 @@ if(isset($_GET['search'])) {
         $display_name = $email_parts[0];
         echo '<h1>' . htmlspecialchars($display_name) . '</h1>';
     } else {
-        echo '<h1>PLACEHOLDER</h1>';
+        echo '<h1>Get your apparel now!</h1>';
     }
     ?>
     <a href="products.php">
