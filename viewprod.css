@@ -198,8 +198,8 @@ a:hover {
 }
 
 .select-field {
-    width: 7.5%;
-    height: 11%;
+    width: 85px;
+    height: 50px;
     color: #333;
     background-color: #fff;
     border: 2px solid #ccc;
@@ -223,8 +223,8 @@ a:hover {
 }
 
 .submit-btn {
-	width: 25%;
-	height: 65px;
+	width: 200px;
+	height: 60px;
 	padding: 10px 30px;
 	cursor: pointer;
 	background: #5271FF;
@@ -324,8 +324,8 @@ a:hover {
 
 /* Style for the submit button */
 .form-container1 button[type="submit"] {
-	width: 20%;
-	height: 6%;
+	width: 180px;
+	height: 60px;
 	padding: 10px 30px;
 	cursor: pointer;
 	background: #5271FF;

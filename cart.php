@@ -43,8 +43,7 @@ include('connect.php');
                 <div class="nav-line"></div>
             </div>
         </div>
-
-        <section class="container">
+        <div class="container">
             <div class="grid">
                 <?php
                 // Check if the user is logged in
@@ -73,24 +72,20 @@ include('connect.php');
                             $total_price += $total_item_price; // Accumulate total price
 
                             // Output cart item HTML
-                            echo "<div class='row'>";
+                            echo "<div class='row-item'>";
                             echo "<div class='col-md-4'>";
                             echo "<div class='cart-item'>";
                             echo "<img src='$image' alt='$product_name' class='cart-item-image'>";
                             echo "</div>";
                             echo "</div>";
-                            echo "<div class='col-md-8'>";
-                            echo "<div class='cart-item-details'>";
-                            echo "<p>$product_name</p>";
-                            echo "<div class='row'>";
-                            echo "<p>Size: $size</p>";
-                            echo "<p>Quantity: $quantity</p>";
-                            echo "<p>Price: $price PHP</p>";
-                            echo "<p>Total Price: $total_item_price PHP</p>"; // Display total price for this item
-                            echo "<button class='edit-button' data-toggle='modal' data-target='#editModal$product_id'>Edit</button>";
+                            echo "<div class='row-details'>";
+                            echo "<div class='cart-item-name'>$product_name</div>";
+                            echo "<div class='cart-item-size'>SIZE: <div class='size'>$size</div></div>";
+                            echo "<div class='cart-item-quantity'>QTY: <div class='qty'>$quantity</div></div>";
+                            echo "<div class='cart-item-price'>$price PHP</div>";
+                            echo "<div class='cart-item-total-price'>Total Price: <div class='total-item-price'>$total_item_price PHP</div></div>"; // Display total price for this item
                             echo "</div>";
-                            echo "</div>";
-                            echo "</div>";
+                            echo "<button class='edit-btn' data-toggle='modal' data-target='#editModal$product_id'>Edit</button>";
                             echo "</div>";
 
                            // Edit Modal
@@ -158,8 +153,10 @@ include('connect.php');
                             echo "</div>";
 
                             echo "<input type='hidden' name='product_id' value='$product_id'>";
-                            echo "<button type='submit' class='btn btn-primary'>Save Changes</button>";
-                            echo "<button type='button' class='btn btn-danger remove-button' data-product-id='$product_id' data-dismiss='modal'>Remove</button>"; // Remove button
+                            echo "<div class='buttons'>";
+                            echo "<button type='submit' class='save-changes-btn'>Save Changes</button>";
+                            echo "<button type='button' class='remove-btn' data-product-id='$product_id' data-dismiss='modal'>Remove</button>";
+                            echo "</div>";
                             echo "</form>";
                             echo "</div>";
                             echo "</div>";
@@ -171,7 +168,7 @@ include('connect.php');
                     }
 
                     // Display total price for all items in the cart
-                    echo "<p>Total Price for all items: $total_price PHP</p>";
+                    echo "<div class='cart-total-price'><p>Total Price for all items: $total_price PHP</p></div>";
                 } else {
                     // User is not logged in or email is not verified
                     echo "<p>Please log in to view your cart</p>";
@@ -179,7 +176,7 @@ include('connect.php');
                 ?>
                 <button class="submit-btn" onclick="proceedToPayment()">Proceed to Payment</button>
             </div>
-        </section>
+        </div>
     </div>
 </body>
 </html>
