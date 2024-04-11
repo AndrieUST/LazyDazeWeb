@@ -80,7 +80,7 @@ if(isset($_GET['search'])) {
             <div class="nav-line"></div>
         </div>
   </header>
-  <<div class="intro">
+  <div class="intro">
     <h2>Welcome to LazyDaze!</h2>
     <?php
     if (isset($_SESSION['registered_email'])) {

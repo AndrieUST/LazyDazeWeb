@@ -110,7 +110,7 @@ $result = mysqli_query($conn, $sql);
                             <div class="item-quantity">XL: <?php echo $row['Quantity_XL']; ?></div>
                         <?php } ?>
                         <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP
-                        </div
+                        </div>
                         <!-- Edit Button -->
                         <a href="editprod.php?product_id=<?php echo $row['ProductID']; ?>">
                             <button class="edit-btn" type="submit" name="submit" value="check">Edit Item</button>

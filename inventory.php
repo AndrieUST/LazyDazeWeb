@@ -77,37 +77,39 @@ $counter = 1; // Counter for numbering items
     </div><!-- Navigation bar content -->
   </div>
   <div class="container">
-    <h1>Inventory</h1>
-    <div class="items-wrapper" id="itemsWrapper">
+  <h1>Inventory</h1>
+    <div class="items-wrapper">
         <?php
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
         <div class="item">
         <img class="item-image" src="<?php echo $row['img']; ?>" alt="<?php echo $row['Product_Name']; ?>">
-            <h3 class="item-title"><?php echo $row['Product_Name']; ?></h3>
-                        <div class="item-deets">Description: <?php echo $row['Description']; ?></div>
+            <div class="item-details">
+                        <h3 class="item-title"><?php echo $row['Product_Name']; ?></h3>
+                        <div class="item-desc"><?php echo $row['Description']; ?></div>
                         <!-- Check each size individually for out of stock -->
                         <?php if ($row['Quantity_Small'] == 0) { ?>
-                          <div class="item-deets">Small: Out of stock</div>
+                            <div class="item-quantity">S: Out of stock</div>
                         <?php } else { ?>
-                           <div class="item-deets">Small: <?php echo $row['Quantity_Small']; ?></div>
+                            <div class="item-quantity">S: <?php echo $row['Quantity_Small']; ?></div>
                         <?php } ?>
                         <?php if ($row['Quantity_Medium'] == 0) { ?>
-                          <div class="item-deets">Medium: Out of stock</div>
+                            <div class="item-quantity">M: Out of stock</div>
                         <?php } else { ?>
-                           <div class="item-deets">Medium: <?php echo $row['Quantity_Medium']; ?></div>
+                            <div class="item-quantity">M: <?php echo $row['Quantity_Medium']; ?></div>
                         <?php } ?>
                         <?php if ($row['Quantity_Large'] == 0) { ?>
-                           <div class="item-deets">Large: Out of stock</div>
+                            <div class="item-quantity">L: Out of stock</div>
                         <?php } else { ?>
-                           <div class="item-deets">Large: <?php echo $row['Quantity_Large']; ?></div>
+                            <div class="item-quantity">L: <?php echo $row['Quantity_Large']; ?></div>
                         <?php } ?>
                         <?php if ($row['Quantity_XL'] == 0) { ?>
-                           <div class="item-deets">XL: Out of stock</div>
+                            <div class="item-quantity">XL: Out of stock</div>
                         <?php } else { ?>
-                           <div class="item-deets">XL: <?php echo $row['Quantity_XL']; ?></div>
+                            <div class="item-quantity">XL: <?php echo $row['Quantity_XL']; ?></div>
                         <?php } ?>
-                          <div class="item-deets">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
+                        <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP
+                        </div>
         </div>
         <?php
         }

@@ -120,7 +120,7 @@ if (isset($_POST["submit"])) {
         <input type = "number" class = "number-input"  name ="Number" required>
         <label>Password</label>
         <input type = "password" class = "password-input"  name ="register_password" required>
-        <label>ConfirmPassword</label>
+        <label>Confirm Password</label>
         <input type = "password" class = "password-input"   name ="Confirmpassword" minlength="8" required>
         <button type= "submit" class = "submit-btn" name = "submit" value = "Login">Sign Up</button>
         <div class = "center">
