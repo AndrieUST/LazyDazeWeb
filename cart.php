@@ -70,11 +70,9 @@ include('connect.php');
                                     $image = $row['img'];
 
                                     // Fetch price from manageprod table based on product name
-                                    if ($size == 'XL') {
-                                        $price_query = "SELECT Price, Quantity_XL as AvailableQuantity FROM manageprod WHERE Product_Name = '$product_name'";
-                                    } else {
+                                    
                                         $price_query = "SELECT Price, Quantity_$size as AvailableQuantity FROM manageprod WHERE Product_Name = '$product_name'";
-                                    }
+                                    
                                     $price_result = mysqli_query($conn, $price_query);
                                     $price_row = mysqli_fetch_assoc($price_result);
                                     $price = $price_row['Price'];
