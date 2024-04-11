@@ -1,25 +1,60 @@
 <?php
-// Include the database connection file
-include('connect.php');
+// Database configuration
+$servername = "localhost"; // Change this if your database server is hosted elsewhere
+$username = "your_username"; // Replace with your database username
+$password = "your_password"; // Replace with your database password
+$database = "lazydaze"; // Replace with your database name
 
-// Query to retrieve all data from managecart table
-$sql = "SELECT * FROM managecart";
-$result = $conn->query($sql);
+// Create connection
+$connection = mysqli_connect($servername, $username, $password, $database);
 
-// Check if any rows were returned
-if ($result->num_rows > 0) {
-    // Output data of each row
-    while($row = $result->fetch_assoc()) {
-        // Echo retrieved data
-        echo "ID: " . $row["id"]. " - Customer Email: " . $row["Customer_Email"]. " - Size: " . $row["Size"]. " - Product Name: " . $row["Product_Name"]. "<br>";
+// Fetch email from the managecart table
+$manageCartQuery = "SELECT DISTINCT Customer_Email FROM managecart";
+$manageCartResult = mysqli_query($connection, $manageCartQuery);
+
+// Fetch the first email address from the result set
+$row = mysqli_fetch_assoc($manageCartResult);
+$customerEmail = $row['Customer_Email'];
+
+// Fetch data from the managecart table based on Customer_Email
+$manageCartQuery = "SELECT * FROM managecart WHERE Customer_Email = '$customerEmail'";
+$manageCartResult = mysqli_query($connection, $manageCartQuery);
+
+
+// Check if any rows are returned
+if (mysqli_num_rows($manageCartResult) > 0) {
+    // Fetch the data from the users table
+    $userDetailsQuery = "SELECT Customer_Number, Customer_Address FROM users WHERE Customer_Email = '$customerEmail'";
+    $userDetailsResult = mysqli_query($connection, $userDetailsQuery);
+
+    // Check if the query executed successfully
+    if ($userDetailsResult === false) {
+        die("ERROR: Could not execute query. " . mysqli_error($connection));
+    }
+
+    // Check if user details are found
+    if (mysqli_num_rows($userDetailsResult) > 0) {
+        // Fetch and display Customer_Number and Customer_Address
+        $userDetails = mysqli_fetch_assoc($userDetailsResult);
+        $customerNumber = $userDetails['Customer_Number'];
+        $customerAddress = $userDetails['Customer_Address'];
+
+        // Output the Customer_Number and Customer_Address
+        echo "Customer Email: $customerEmail <br>";
+        echo "Customer Number: $customerNumber <br>";
+        echo "Customer Address: $customerAddress <br>";
+    } else {
+        echo "User details not found for email: $customerEmail";
     }
 } else {
-    echo "0 results";
+    echo "No items found in the cart for email: $customerEmail";
 }
 
-// Close connection (optional, PHP will automatically close the connection when the script ends)
-$conn->close();
+// Close the database connection
+mysqli_close($connection);
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
