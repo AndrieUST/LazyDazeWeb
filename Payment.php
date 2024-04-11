@@ -1,11 +1,135 @@
 <?php
-// Database configuration
+
 include('connect.php');
+// Import PHPMailer classes into the global namespace
 
+// Load Composer's autoloader
+require 'vendor/autoload.php';
+$adminEmail = "johnlinga0949@gmail.com";
 
+// Fetch data from managecart table
+if (isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+    $customer_email = $_SESSION['registered_email'];
+    $cart_query = "SELECT * FROM managecart WHERE Customer_Email = '$customer_email'";
+    $cart_result = mysqli_query($conn, $cart_query);
+}
+
+// Fetch customer details from users table
+$customer_query = "SELECT Customer_Email, Customer_Address, Customer_Number FROM users WHERE Customer_Email = '$customer_email'";
+$customer_result = mysqli_query($conn, $customer_query);
+$customer_row = mysqli_fetch_assoc($customer_result);
+$customer_address = $customer_row['Customer_Address'];
+$customer_number = $customer_row['Customer_Number'];
+
+// Initialize total price variable
+$total_price = 0;
+
+// Calculate total price
+while ($row = mysqli_fetch_assoc($cart_result)) {
+    $total_price += $row['TotalPrice'];
+}
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $customer_name = $_POST['Customer_Name'];
+    $customer_email = $_POST['Customer_Email'];
+    $customer_address = $_POST['Customer_Address'];
+    $customer_number = $_POST['Customer_Number'];
+    $receipt_img = $_FILES['Receipt_img']['name']; // Retrieve receipt image file name
+
+    // File upload handling
+    if (isset($_FILES["Receipt_img"])) {
+        $target_dir = "uploads/"; // Specify the directory where you want to store uploaded files
+        $target_file = $target_dir . basename($_FILES["Receipt_img"]["name"]);
+
+        // Move uploaded file to the desired directory
+        if (move_uploaded_file($_FILES["Receipt_img"]["tmp_name"], $target_file)) {
+            // File uploaded successfully
+            // Continue processing the form data
+
+            // Create a flag to check if email sending is successful
+            $emailSent = false;
+
+            // Send email
+            $mail = new PHPMailer\PHPMailer\PHPMailer();
+            // SMTP configuration
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com'; // Specify SMTP server
+            $mail->SMTPAuth = true;
+            $mail->Username = 'johnlinga0949@gmail.com'; // SMTP username
+            $mail->Password = 'vhyp kqbj ewaq igdr'; // SMTP password
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            // Set email parameters
+            $mail->setFrom('johnlinga0949@gmail.com', 'Lazy Daze Admin');
+            $mail->addAddress($adminEmail, 'Lazy Daze');
+            $mail->addReplyTo($customer_email); // Customer's email address for reply
+            $mail->isHTML(true);
+            $mail->Subject = 'New Order Received';
+            // Construct email body with inserted data
+            $emailBody = '<p>A new order has been received:</p>';
+            $emailBody .= '<p><strong>Customer Name:</strong> ' . $customer_name . '</p>';
+            $emailBody .= '<p><strong>Customer Email:</strong> ' . $customer_email . '</p>';
+            $emailBody .= '<p><strong>Customer Address:</strong> ' . $customer_address . '</p>';
+            $emailBody .= '<p><strong>Customer Number:</strong> ' . $customer_number . '</p>';
+            $emailBody .= '<p><strong>Total Price:</strong> ' . $total_price . '</p>';
+            $emailBody .= '<p><strong>Products:</strong></p>';
+            $emailBody .= '<ul>';
+
+            // Fetch data from managecart table
+            mysqli_data_seek($cart_result, 0);
+            while ($row = mysqli_fetch_assoc($cart_result)) {
+                $emailBody .= '<li>';
+                $emailBody .= 'Product Name: ' . $row['Product_Name'] . ', ';
+                $emailBody .= 'Size: ' . $row['Size'] . ', ';
+                $emailBody .= 'Quantity: ' . $row['Quantity'] . ', ';
+                $emailBody .= 'Price: ' . $row['Price'];
+                $emailBody .= '</li>';
+            }
+
+            $emailBody .= '</ul>';
+            
+            
+            // Set email body
+            $mail->Body = $emailBody;
+            $mail->AltBody = 'A new order has been received. Please check the admin panel for details.';
+
+            // Attempt to send email
+            if ($mail->send()) {
+                $emailSent = true;
+                echo 'Message has been sent';
+            } else {
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+
+            // If email sent successfully, insert data into manageorders table
+            if ($emailSent) {
+                // Reset pointer of cart_result
+                mysqli_data_seek($cart_result, 0);
+                while ($row = mysqli_fetch_assoc($cart_result)) {
+                    $product_name = $row['Product_Name'];
+                    $size = $row['Size'];
+                    $quantity = $row['Quantity'];
+                    $total_price = $row['TotalPrice'];
+                    $img = $row['img']; // Fetch 'img' field from managecart
+                    $insert_query = "INSERT INTO manageorders (Customer_Email, Customer_Name, Customer_Address, Customer_Number, Product_Name, Size, Quantity, TotalPrice, img, Receipt_img) VALUES ('$customer_email', '$customer_name', '$customer_address', '$customer_number', '$product_name', '$size', '$quantity', '$total_price', '$img', '$target_file')";
+                    mysqli_query($conn, $insert_query);
+                }
+
+                // Redirect to another page after successful insertion
+                header("Location: success.php");
+                exit();
+            }
+        } else {
+            // Error occurred while moving the file
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
+}
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,18 +179,64 @@ include('connect.php');
             </div>
         </div>
        
+        <div class="container">
+            <h2>Your Orders</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Size</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                // Fetch data from managecart table
+                mysqli_data_seek($cart_result, 0);
+                while ($row = mysqli_fetch_assoc($cart_result)) {
+                    echo "<tr>";
+                    echo "<td>" . $row['Product_Name'] . "</td>";
+                    echo "<td>" . $row['Size'] . "</td>";
+                    echo "<td>" . $row['Quantity'] . "</td>";
+                    echo "<td>" . $row['TotalPrice'] . "</td>";
+                    echo '<td><img src="' . $row['img'] . '" alt="Product Image" style="max-width: 100px;"></td>'; // Display the image
+                    echo "</tr>";
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+
         <section class="container">
-            <form method="post" action="">
+            <form method="post" action="" enctype="multipart/form-data">
                 <section class="container">
                     <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" class="form-control" id="name" name="name">
-                          </div>
-                    <div class="form-group">
-                        <label for="image">Image:</label>
-                        <input type="file" class="form-control" id="image" name="image">
+                        <label for="name">Customer Name:</label>
+                        <input type="text" class="form-control" id="name" name="Customer_Name">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="form-group">
+                        <label for="email">Customer Email:</label>
+                        <input type="email" class="form-control" id="email" name="Customer_Email" value="<?php echo $customer_email; ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Customer Address:</label>
+                        <input type="text" class="form-control" id="address" name="Customer_Address" value="<?php echo $customer_address; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="number">Customer Number:</label>
+                        <input type="number" class="form-control" id="number" name="Customer_Number" value="<?php echo $customer_number; ?>" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="receiptImg">Upload Receipt Image:</label>
+                        <input type="file" class="form-control" id="receiptImg" name="Receipt_img">
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="submit">Submit Payment</button>
+                    <div class="form-group">
+                        <label for="totalPrice">Overall Total Price:</label>
+                        <input type="text" class="form-control" id="totalPrice" value="<?php echo $total_price; ?>" readonly>
+                    </div>
                 </section>
             </form>
         </section>
