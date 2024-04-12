@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // Check if the confirm button is clicked
-if (isset($_POST['confirm'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm'])) {
     // Get the order ID
     $orderID = $_POST['confirm'];
 
@@ -50,12 +50,19 @@ if (isset($_POST['confirm'])) {
         $mail->Body = $emailBody;
 
         $mail->send();
+        // Update the database to mark the order as confirmed
+$update_query = "UPDATE manageorders SET Confirmed = 1 WHERE OrderRefID = $orderID";
+mysqli_query($conn, $update_query);
         
-        // Append status to URL
+        // Redirect back to the admin transaction page after sending the email
         header('Location: Admin_transaction.php');
         exit();
     } catch (Exception $e) {
         echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
+} else {
+    // If the "confirm" button is not clicked, redirect back to the admin transaction page
+    header('Location: Admin_transaction.php');
+    exit();
 }
 ?>

@@ -117,6 +117,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Insert order into manageorders table
                     $insert_query = "INSERT INTO manageorders (Customer_Email, Customer_Name, Customer_Address, Customer_Number, Product_Name, Size, Quantity, TotalPrice, img, Receipt_img) VALUES ('$customer_email', '$customer_name', '$customer_address', '$customer_number', '$product_name', '$size', '$quantity', '$total_price', '$img', '$target_file')";
                     mysqli_query($conn, $insert_query);
+
+                    // Update Quantity in manageprod table
+                    $update_query = "UPDATE manageprod SET Quantity_$size = Quantity_$size - $quantity WHERE Product_Name = '$product_name'";
+                    mysqli_query($conn, $update_query);
                 }
 
                 // Delete orders from managecart table

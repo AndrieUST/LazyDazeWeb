@@ -167,3 +167,7 @@ td {
     border-radius: 0px;
     transition-duration: .4s;
 }
+
+.confirmed {
+    opacity: 0.5; /* Adjust the opacity level as needed */
+}

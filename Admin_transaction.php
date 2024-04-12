@@ -58,33 +58,42 @@ $order_result = mysqli_query($conn, $order_query);
                 </thead>
                 <tbody>
                     <?php
-                    // Display each order as a row in the table
-                    while ($row = mysqli_fetch_assoc($order_result)) {
-                        echo "<tr class='orders'>"; 
-                        // Echo order details in each column
-                        echo "<td>" . $row['OrderRefID'] . "</td>";
-                        echo "<td>" . $row['Customer_Email'] . "</td>";
-                        echo "<td>" . $row['Customer_Name'] . "</td>";
-                        echo "<td>" . $row['Customer_Address'] . "</td>";
-                        echo "<td>" . $row['Customer_Number'] . "</td>";
-                        echo "<td>" . $row['Product_Name'] . "</td>";
-                        echo "<td>" . $row['Size'] . "</td>";
-                        echo "<td>" . $row['Quantity'] . "</td>";
-                        echo "<td>" . $row['TotalPrice'] . "</td>";
-                        echo "<td><img src='" . $row['img'] . "' alt='Product Image' width='135px'></td>";
-                        echo "<td><img src='" . $row['Receipt_img'] . "' width='100' onclick='showLargerImage(this.src)' style='cursor:pointer'></td>"; 
-                        echo "<td>
-                        <form class='confirm-form' action='Confirm_Order.php' method='post'onsubmit='return confirmOrder()'>
-                        
-                        <button type='submit' class='confirm-btn' value='" . $row['OrderRefID'] . "'>Confirm</button>
-                    </form>
-                            <form action='Deny_Order.php' method='post' onsubmit='return confirmDeny()'>
-    <button type='submit' class='deny-btn' name='deny' value='" . $row['OrderRefID'] . "'>Deny</button>
-</form>                    
-                        </td>";
-                       
-                        echo "</tr>";
+                   while ($row = mysqli_fetch_assoc($order_result)) {
+                    // Add the class 'confirmed' if the order is confirmed
+                    $class = ($row['Confirmed'] == 1) ? 'confirmed' : '';
+                
+                    echo "<tr class='orders $class'>"; 
+                    // Echo order details in each column
+                    echo "<td>" . $row['OrderRefID'] . "</td>";
+                    echo "<td>" . $row['Customer_Email'] . "</td>";
+                    echo "<td>" . $row['Customer_Name'] . "</td>";
+                    echo "<td>" . $row['Customer_Address'] . "</td>";
+                    echo "<td>" . $row['Customer_Number'] . "</td>";
+                    echo "<td>" . $row['Product_Name'] . "</td>";
+                    echo "<td>" . $row['Size'] . "</td>";
+                    echo "<td>" . $row['Quantity'] . "</td>";
+                    echo "<td>" . $row['TotalPrice'] . "</td>";
+                    echo "<td><img src='" . $row['img'] . "' alt='Product Image' width='135px'></td>";
+                    echo "<td><img src='" . $row['Receipt_img'] . "' width='100' onclick='showLargerImage(this.src)' style='cursor:pointer'></td>"; 
+                    echo "<td>";
+                    
+                    // Check if the order is confirmed
+                    if ($row['Confirmed'] == 1) {
+                        // If confirmed, disable the buttons
+                        echo "<button type='button' class='confirm-btn' disabled>Confirm</button>";
+                        echo "<button type='button' class='deny-btn' disabled>Deny</button>";
+                    } else {
+                        // If not confirmed, display the buttons with form submission
+                        echo "<form action='Confirm_Order.php' method='post' onsubmit='return confirmOrder()'>";
+                        echo "<button type='submit' name='confirm' class='confirm-btn' value='" . $row['OrderRefID'] . "'>Confirm</button>";
+                        echo "</form>";
+                        echo "<form action='Deny_Order.php' method='post' onsubmit='return confirmDeny()'>";
+                        echo "<button type='submit' class='deny-btn' name='deny' value='" . $row['OrderRefID'] . "'>Deny</button>";
+                        echo "</form>";
                     }
+                    echo "</td>";
+                    echo "</tr>";
+                }
                     ?>
                 </tbody>
             </table>
@@ -127,33 +136,24 @@ $order_result = mysqli_query($conn, $order_query);
         }
         
         // Add click event listener to all confirm buttons
-      o
-      function confirmOrder() {
-    if (confirm('Are you sure you want to confirm this order?')) {
-        var input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'confirm'; // Set the name attribute
-       
-        
-        document.forms[0].appendChild(input);
-        return true;
-    }
-    return false; // Cancel submission if Admin cancels the prompt or provides no reason
-}
-
-        function confirmDeny() {
-        if (confirm('Do you want to Deny the Order of this User?')) {
+        function confirmOrder() {
             
                 var input = document.createElement('input');
                 input.type = 'hidden';
-                
-              
                 document.forms[0].appendChild(input);
                 return true;
-            
+            }
+        
+
+        function confirmDeny() {
+            if (confirm('Do you want to Deny the Order of this User?')) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                document.forms[0].appendChild(input);
+                return true;
+            }
+            return false; // Cancel submission if Admin cancels the prompt or provides no reason
         }
-        return false; // Cancel submission if Admin cancels the prompt or provides no reason
-    }
     </script>
 </body>
 </html>
