@@ -155,7 +155,9 @@ include('connect.php');
                             echo "<input type='hidden' name='product_id' value='$product_id'>";
                             echo "<div class='buttons'>";
                             echo "<button type='submit' class='save-changes-btn'>Save Changes</button>";
-                            echo "<button type='button' class='remove-btn' data-product-id='$product_id' data-dismiss='modal'>Remove</button>";
+                            echo "<button type='button' class='remove-btn' data-product-id='$product_id' data-dismiss='modal'>Remove</button>";   
+                         
+   
                             echo "</div>";
                             echo "</form>";
                             echo "</div>";
@@ -188,7 +190,7 @@ function proceedToPayment() {
 
 $(document).ready(function(){
     // Add click event listener to remove buttons
-    $(".remove-button").click(function(){
+    $(".remove-btn").click(function(){
         var product_id = $(this).data('product-id');
         // Send AJAX request to remove_cart.php
         $.ajax({
