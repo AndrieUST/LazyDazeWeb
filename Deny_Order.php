@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Content
         $mail->isHTML(true);
         $mail->Subject = 'Order Denial Notification';
-        $mail->Body = 'Dear customer,<br><br>Your order with OrderRefID ' . $orderID . ' has been denied due to the following reason: Did not Follow the Availability Of Quantity Per size<br>Did not match the Receipt.<br>If you have any questions, please send us an inquiry from our page. Thank you!<br><br>Order Details:<br>';
+        $mail->Body = 'Dear customer,<br><br>Your order with OrderRefID: ' . $orderID . ' has been denied due to the following reason/s:<br>Did not follow the availability of Quantity per Size.<br>Did not match the Receipt.<br>If you have any questions, please send us an inquiry from our inquiry page. Thank you!<br><br>Order Details:<br>';
         $mail->Body .= '<ul>';
         $mail->Body .= '<li>Customer Name: ' . $order['Customer_Name'] . '</li>';
         $mail->Body .= '<li>Customer Email: ' . $order['Customer_Email'] . '</li>';
