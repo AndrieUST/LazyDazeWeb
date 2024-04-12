@@ -208,22 +208,4 @@ $(document).ready(function(){
         });
     });
 });
-// Function to update cart notification badge
-function updateCartNotification() {
-            $.ajax({
-                url: 'fetch_cart_count.php',
-                type: 'GET',
-                success: function(response) {
-                    var cartCount = JSON.parse(response);
-                    $('#cart-notification').text(cartCount);
-                },
-                error: function() {
-                    console.log('Error fetching cart count');
-                }
-            });
-        }
-
-        // Call updateCartNotification() when the page is loaded
-        updateCartNotification();
-
 </script>

@@ -1,5 +1,4 @@
 <?php
-
 include('connect.php');
 // Import PHPMailer classes into the global namespace
 
@@ -90,8 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             $emailBody .= '</ul>';
-            
-            
+
             // Set email body
             $mail->Body = $emailBody;
             $mail->AltBody = 'A new order has been received. Please check the admin panel for details.';
@@ -109,14 +107,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Reset pointer of cart_result
                 mysqli_data_seek($cart_result, 0);
                 while ($row = mysqli_fetch_assoc($cart_result)) {
+                    // Fetch necessary data
                     $product_name = $row['Product_Name'];
                     $size = $row['Size'];
                     $quantity = $row['Quantity'];
                     $total_price = $row['TotalPrice'];
                     $img = $row['img']; // Fetch 'img' field from managecart
+
+                    // Insert order into manageorders table
                     $insert_query = "INSERT INTO manageorders (Customer_Email, Customer_Name, Customer_Address, Customer_Number, Product_Name, Size, Quantity, TotalPrice, img, Receipt_img) VALUES ('$customer_email', '$customer_name', '$customer_address', '$customer_number', '$product_name', '$size', '$quantity', '$total_price', '$img', '$target_file')";
                     mysqli_query($conn, $insert_query);
                 }
+
+                // Delete orders from managecart table
+                $delete_query = "DELETE FROM managecart WHERE Customer_Email = '$customer_email'";
+                mysqli_query($conn, $delete_query);
+
+                // Reset cart count to 0
+                $_SESSION['cart_count'] = 0;
 
                 // Redirect to another page after successful insertion
                 header("Location: success.php");
@@ -128,8 +136,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -274,6 +282,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 modal.style.display = "none";
             }
         }
+        
     </script>
 </body>
 </html>
