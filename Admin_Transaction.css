@@ -130,7 +130,10 @@ td {
 }
 
 .confirm-btn {
+    display: block;
     margin-bottom: 2.5px;
+    margin-left: auto;
+    margin-right: auto;
     width: 100px;
     height: 45px;
     border-radius: 10px;
@@ -149,6 +152,9 @@ td {
 }
 
 .deny-btn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 2.5px;
     width: 100px;
     height: 45px;
