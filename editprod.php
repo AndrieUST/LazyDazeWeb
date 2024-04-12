@@ -3,7 +3,7 @@ include('connect.php');
 
 // Function to get the dynamic path for the uploads folder
 function getUploadsPath() {
-    return './uploads/';
+    return './';
 }
 
 // Check if product_id is provided in the URL
