@@ -45,7 +45,7 @@ if (isset($_POST['confirm'])) {
         $emailBody .= '<li>Quantity: ' . $order['Quantity'] . '</li>';
         $emailBody .= '<li>Total Price: ' . $order['TotalPrice'] . '</li>';
         $emailBody .= '</ul>';
-        $emailBody .= '<br>Please Check your emails for updates regarding shipping your order<br><br>Best regards,<br>Lazy Daze';
+        $emailBody .= '<br>Please check your email for updates regarding your order<br><br>Best regards,<br>Lazy Daze';
         
         $mail->Body = $emailBody;
 
