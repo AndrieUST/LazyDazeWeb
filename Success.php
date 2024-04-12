@@ -28,10 +28,10 @@
   <div class="intro">
   <h1>Thank you!</h1>
   <h2>Your payment has been received and is being processed.</h2>
-  <a href="login.php">
+  <a href="mainpage.php">
   <button class = "go-homepage" name = "go-to-homepage" value = "Go-Homepage">Go back to main page.</button>
 </a>
-<a href="mainpage.php">
+<a href="products.php">
   <button class = "go-products" name = "go-to-products" value = "Go-Products">Check out more products.</button>
 </a>
 </div>
