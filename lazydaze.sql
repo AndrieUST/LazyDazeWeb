@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2024 at 09:43 PM
+-- Generation Time: Apr 12, 2024 at 04:25 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -63,7 +63,9 @@ CREATE TABLE `managecart` (
 --
 
 INSERT INTO `managecart` (`id`, `Customer_Email`, `Size`, `Product_Name`, `Quantity`, `Price`, `TotalPrice`, `img`) VALUES
-(259, 'doffy0949@gmail.com', 'Medium', 'Ninja Black Tee from manila ', 2, 300, 700, 'sample-shirt.png');
+(280, 'johnangelo.linga.cics@ust.edu.ph', 'Small', 'Ninja white', 2, 500, 1000, 'Shirt (3).png'),
+(281, 'johnangelo.linga.cics@ust.edu.ph', 'Large', 'White- Tshirt', 4, 200, 800, 'Shirt (5).png'),
+(282, 'johnangelo.linga.cics@ust.edu.ph', 'Large', 'Long tee', 3, 300, 900, 'Shirt (7).png');
 
 -- --------------------------------------------------------
 
@@ -117,12 +119,13 @@ CREATE TABLE `manageorders` (
   `Customer_Email` varchar(200) NOT NULL,
   `Customer_Name` varchar(200) NOT NULL,
   `Customer_Address` varchar(200) NOT NULL,
-  `Customer_Number` int(200) NOT NULL,
+  `Customer_Number` varchar(200) NOT NULL,
   `Product_Name` varchar(200) NOT NULL,
   `Size` varchar(200) NOT NULL,
   `Quantity` int(200) NOT NULL,
   `TotalPrice` int(200) NOT NULL,
-  `img` varchar(200) NOT NULL
+  `img` varchar(200) NOT NULL,
+  `Receipt_img` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -148,8 +151,9 @@ CREATE TABLE `manageprod` (
 --
 
 INSERT INTO `manageprod` (`ProductID`, `Product_Name`, `Description`, `Quantity_Small`, `Quantity_Medium`, `Quantity_Large`, `Quantity_XL`, `Price`, `img`) VALUES
-(58, 'Ninja Black Tee from manila 1', 'good', 5, 3, 4, 1, 350, 'sample-shirt2.jpg'),
-(59, 'Ninja Black Tee from manila ', 'hehe', 3, 2, 1, 3, 300, 'sample-shirt.png');
+(66, 'White- Tshirt', 'goodies ', 3, 2, 4, 0, 200, 'Shirt (5).png'),
+(67, 'Ninja white', 'bettererrrr', 3, 2, 1, 4, 500, 'Shirt (3).png'),
+(68, 'Long tee', 'hehe', 5, 3, 3, 2, 300, 'Shirt (7).png');
 
 -- --------------------------------------------------------
 
@@ -173,7 +177,8 @@ CREATE TABLE `managereview` (
 INSERT INTO `managereview` (`ReviewID`, `Customer_Email`, `Customer_Name`, `Review_Message`, `Rating`, `Product_Name`) VALUES
 (32, 'doffy0949@gmail.com', 'john john', 'hehe', '1', 'Ninja Black Tee from manila 2'),
 (33, 'johnangelo.linga.shs@ust.edu.ph', 'migz', 'gehehe', '1', 'Ninja Black Tee from manila 2'),
-(41, 'johnangelo.linga.cics@ust.edu.ph', 'john', 'hehe', '5', 'Ninja Black Tee from manila ');
+(41, 'johnangelo.linga.cics@ust.edu.ph', 'john', 'hehe', '5', 'Ninja Black Tee from manila '),
+(42, 'johnangelo.linga.shs@ust.edu.ph', '', 'hello', '2', 'Black shirt from Manila');
 
 -- --------------------------------------------------------
 
@@ -269,7 +274,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `managecart`
 --
 ALTER TABLE `managecart`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=261;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=286;
 
 --
 -- AUTO_INCREMENT for table `manageinquiry`
@@ -287,19 +292,19 @@ ALTER TABLE `manageinventory`
 -- AUTO_INCREMENT for table `manageorders`
 --
 ALTER TABLE `manageorders`
-  MODIFY `OrderRefID` int(200) NOT NULL AUTO_INCREMENT;
+  MODIFY `OrderRefID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `manageprod`
 --
 ALTER TABLE `manageprod`
-  MODIFY `ProductID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `ProductID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `managereview`
 --
 ALTER TABLE `managereview`
-  MODIFY `ReviewID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `ReviewID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `users`
