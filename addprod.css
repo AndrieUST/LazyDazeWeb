@@ -39,8 +39,6 @@ a:hover {
 	overflow-x: hidden;
 }
 
-
-
 .topnav {
 	overflow: hidden;
 	background-color: rgba(255, 255, 255, 0.829);
@@ -124,15 +122,8 @@ a:hover {
 	transition-duration: 0.3s;
 }
 
-
-
 .fa-star:hover {
 	color: rgb(253, 233, 146);
-	transition-duration: 0.3s;
-}
-
-.fa-circle-info:hover {
-	color: rgb(96, 178, 255);
 	transition-duration: 0.3s;
 }
 

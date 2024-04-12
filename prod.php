@@ -47,24 +47,10 @@ $result = mysqli_query($conn, $sql);
         </a>
       </div>
       <div class="nav-line"></div>
-      <!-- Cart Icon -->
-      <div class="nav-icon">
-        <a href="">
-          <i class="fa-solid fa-cart-shopping fa-xl"></i>
-        </a>
-      </div>
-      <div class="nav-line"></div>
       <!-- Reviews Icon -->
       <div class="nav-icon">
         <a href="reviews.php">
           <i class="fa-solid fa-star fa-xl"></i>
-        </a>
-      </div>
-      <div class="nav-line"></div>
-      <!-- Info Icon -->
-      <div class="nav-icon">
-        <a href="inquiries.php">
-          <i class="fa-solid fa-circle-info fa-xl"></i>
         </a>
       </div>
       <div class="nav-line"></div>

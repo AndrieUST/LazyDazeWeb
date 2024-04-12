@@ -96,23 +96,6 @@ a:hover {
     transition-duration: 0.3s;
 }
 
-
-
-.fa-circle-info:hover {
-    color: rgb(96, 178, 255);
-    transition-duration: 0.3s;
-}
-.modal-content img {
-    width: 100%;
-    height: auto;
-    cursor: pointer;
-}
-   /* Add zoom effect */
-   .product-image {
-    width: 100px;
-    height: auto;
-}
-
 .receipt-image {
     width: 100px;
     height: auto;

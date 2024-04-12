@@ -33,17 +33,11 @@ $order_result = mysqli_query($conn, $order_query);
                         <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
                     </a>
                 </div>
-                <!-- Cart Icon -->
-                <div class="nav-line"></div>
+                 <!-- Cart Icon -->
+                 <div class="nav-line"></div>
                 <div class="nav-icon">
                     <a href="reviews.php">
                         <i class="fa-solid fa-star fa-xl"></i>
-                    </a>
-                </div>
-                <div class="nav-line"></div>
-                <div class="nav-icon">
-                    <a href="inquiries.php">
-                        <i class="fa-solid fa-circle-info fa-xl"></i>
                     </a>
                 </div>
                 <div class="nav-line"></div>
