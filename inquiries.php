@@ -33,7 +33,7 @@ if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at'])
 <div class="bg">
     <!-- Navigation Bar -->
     <div class="topnav">
-        <a href="homepage.php">
+        <a href="mainpage.php">
             <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->

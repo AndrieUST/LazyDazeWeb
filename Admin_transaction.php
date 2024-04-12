@@ -12,7 +12,7 @@ $order_result = mysqli_query($conn, $order_query);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Lazy Daze!</title>
+    <title>Check out your orders!</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="./Admin_Transaction.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -24,7 +24,7 @@ $order_result = mysqli_query($conn, $order_query);
 <body>
     <div class="bg">
         <div class="topnav">
-            <a href="homepage.php">
+            <a href="admin_mainpage.php">
                 <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
             </a>
             <div class="nav-h-layout">
@@ -33,23 +33,15 @@ $order_result = mysqli_query($conn, $order_query);
                         <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
                     </a>
                 </div>
-                 <!-- Cart Icon -->
                  <div class="nav-line"></div>
-                <div class="nav-icon">
-                    <a href="reviews.php">
-                        <i class="fa-solid fa-star fa-xl"></i>
-                    </a>
-                </div>
-                <div class="nav-line"></div>
             </div>
         </div>
         <div class="container">
             <h2>All Orders</h2>
             <form action="Confirm_Order.php" method="post">
-            <table class="table table-striped">
+            <table class="table">
                 <thead>
-                    <tr>
-                       
+                    <tr class="order-headers">
                         <th>OrderRefID</th>
                         <th>Customer Email</th>
                         <th>Customer Name</th>
@@ -62,14 +54,13 @@ $order_result = mysqli_query($conn, $order_query);
                         <th>Image</th>
                         <th>Receipt Image</th>
                         <th>Action</th> <!-- Header for action buttons -->
-                        <th colspan="2">Status</th> <!-- Header for status -->
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     // Display each order as a row in the table
                     while ($row = mysqli_fetch_assoc($order_result)) {
-                        echo "<tr>"; 
+                        echo "<tr class='orders'>"; 
                         // Echo order details in each column
                         echo "<td>" . $row['OrderRefID'] . "</td>";
                         echo "<td>" . $row['Customer_Email'] . "</td>";
@@ -80,15 +71,15 @@ $order_result = mysqli_query($conn, $order_query);
                         echo "<td>" . $row['Size'] . "</td>";
                         echo "<td>" . $row['Quantity'] . "</td>";
                         echo "<td>" . $row['TotalPrice'] . "</td>";
-                        echo "<td><img src='" . $row['img'] . "' alt='Product Image' width='100'></td>";
+                        echo "<td><img src='" . $row['img'] . "' alt='Product Image' width='135px'></td>";
                         echo "<td><img src='" . $row['Receipt_img'] . "' width='100' onclick='showLargerImage(this.src)' style='cursor:pointer'></td>"; 
                         echo "<td>
                         <form class='confirm-form' action='Confirm_Order.php' method='post'onsubmit='return confirmOrder()'>
                         
-                        <button type='submit' class='confirm-btn'value='" . $row['OrderRefID'] . "'>Confirm</button>
+                        <button type='submit' class='confirm-btn' value='" . $row['OrderRefID'] . "'>Confirm</button>
                     </form>
                             <form action='Deny_Order.php' method='post' onsubmit='return confirmDeny()'>
-    <button type='submit' name='deny' value='" . $row['OrderRefID'] . "'>Deny</button>
+    <button type='submit' class='deny-btn' name='deny' value='" . $row['OrderRefID'] . "'>Deny</button>
 </form>                    
                         </td>";
                        

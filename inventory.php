@@ -40,7 +40,7 @@ $counter = 1; // Counter for numbering items
 <div class="bg">
   <!-- Navigation Bar -->
   <div class="topnav">
-    <a href="homepage.php">
+    <a href="admin_mainpage.php">
       <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
     </a>
     <!-- Icons -->
@@ -49,13 +49,6 @@ $counter = 1; // Counter for numbering items
       <div class="nav-icon">
         <a href="./homepage.php">
           <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
-        </a>
-      </div>
-      <div class="nav-line"></div>
-      <!-- Reviews Icon -->
-      <div class="nav-icon">
-        <a href="reviews.php">
-          <i class="fa-solid fa-star fa-xl"></i>
         </a>
       </div>
       <div class="nav-line"></div>

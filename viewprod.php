@@ -147,13 +147,14 @@ if(isset($_POST['submit_cart'])) {
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Website Icon --> 
+    <link rel="icon" href="./LDAssets/lz logo.png">
 </head>
 <body>
   <!-- Background Image -->
 <div class = "bg">
   <!-- Navigation Bar -->
   <div class="topnav">
-    <a href="homepage.php"> <!-- Updated href attribute here -->
+    <a href="products.php"> <!-- Updated href attribute here -->
         <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
     </a>
     <!-- Icons -->

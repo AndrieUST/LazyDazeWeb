@@ -10,11 +10,11 @@
     }
 }
 
-body {
+body, html {
     animation: appear 0.5s;
     background-color: white;
     color: black;
-    overflow-x: hidden;
+    height: 100%;
 }
 
 a {
@@ -163,7 +163,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-top: 55px;
+    margin-top: 30px;
     padding-left: 8%;
     font-family: 'Open Sans', sans-serif;
 }
@@ -178,7 +178,7 @@ a:hover {
 
 .items-wrapper {
     display: grid;
-    padding-top: 65px;
+    padding-top: 50px;
     padding-bottom: 80px;
     align-items: center;
     grid-auto-columns: 1fr;

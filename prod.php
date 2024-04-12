@@ -18,7 +18,7 @@ $result = mysqli_query($conn, $sql);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Product</title>
+    <title>Your products!</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Homepage CSS -->
@@ -35,7 +35,7 @@ $result = mysqli_query($conn, $sql);
 <div class="bg">
   <!-- Navigation Bar -->
   <div class="topnav">
-    <a href="homepage.php">
+    <a href="admin_mainpage.php">
       <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
     </a>
     <!-- Icons -->
@@ -44,13 +44,6 @@ $result = mysqli_query($conn, $sql);
       <div class="nav-icon">
         <a href="./homepage.php">
           <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
-        </a>
-      </div>
-      <div class="nav-line"></div>
-      <!-- Reviews Icon -->
-      <div class="nav-icon">
-        <a href="reviews.php">
-          <i class="fa-solid fa-star fa-xl"></i>
         </a>
       </div>
       <div class="nav-line"></div>

@@ -6,7 +6,7 @@ include('connect.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Lazy Daze!</title>
+    <title>Welcome to LazyDaze!</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Homepage CSS -->
@@ -37,28 +37,13 @@ include('connect.php');
                 </a>
             </div>   
             <div class="nav-line"></div>
-            <!-- Reviews Icon -->
-            <div class="nav-icon">
-                <a href="reviews.php">
-                    <i class="fa-solid fa-star fa-xl"></i>
-                </a>
-            </div>
-            <div class="nav-line"></div>
-            <!-- Search -->
-            <div class="nav-search">
-            <form method="get">
-                <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-                <input type="text" class="search-input" name="search" value="" placeholder="Search Product">
-            </form>
-            </div>
-            <div class="nav-line"></div>
         </div>
   </div>
   <div class="intro">
-  <h2>2024 Summer Collection</h2>
-  <h1>New Arrivals</h1>
+  <h2>Welcome!</h2>
+  <h1>Have any changes?</h1>
   <a href="prod.php">
-  <button class = "main-btn" name = "add-products" value = "Add-Products">Add Products</button>
+  <button class = "main-btn" name = "add-products" value = "Add-Products">Products</button>
 </a>
 <a href="inventory.php">
   <button class = "main-btn" name = "Inventory" value = "Inventory">Inventory</button>

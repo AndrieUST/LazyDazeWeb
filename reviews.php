@@ -63,7 +63,7 @@ mysqli_data_seek($result, 0);
 <div class="bg">
   <!-- Navigation Bar -->
 <div class="topnav">
-        <a href="homepage.php">
+        <a href="mainpage.php">
           <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
