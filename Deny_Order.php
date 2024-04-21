@@ -6,16 +6,15 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve the order ID and reason for denial from the form submission
-    $orderID = $_POST['deny'];
-    // Check if 'reason' key exists in $_POST array
-  
+// Retrieve the order ID and reason for denial from the form submission
+$orderID = $_POST['deny'];
+// Retrieve reason value properly from the form submission
+$reason = isset($_POST['reason']) ? $_POST['reason'] : 'No reason provided';
 
     // Fetch the order details from the database
     $order_query = "SELECT * FROM manageorders WHERE OrderRefID = '$orderID'";
     $order_result = mysqli_query($conn, $order_query);
     $order = mysqli_fetch_assoc($order_result);
-
     // Send email notification to the user
     // Replace the placeholders with your SMTP credentials and appropriate email content
     $mail = new PHPMailer(true);
@@ -36,11 +35,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Content
         $mail->isHTML(true);
         $mail->Subject = 'Order Denial Notification';
-        $mail->Body = 'Dear customer,<br><br>Your order with OrderRefID: ' . $orderID . ' has been denied due to the following reason/s:<br>Did not follow the availability of Quantity per Size.<br>Did not match the Receipt.<br>If you have any questions, please send us an inquiry from our inquiry page. Thank you!<br><br>Order Details:<br>';
+        $mail->Body = 'Dear customer,<br><br>Your order with OrderRefID: ' . $orderID . ' has been denied due to the following reason/s:<br>' . $reason . '<br>Your Payment will be refunded immediately. If you have any questions, please send us an inquiry from our inquiry page. Thank you!<br><br>Order Details:<br>';
         $mail->Body .= '<ul>';
         $mail->Body .= '<li>Customer Name: ' . $order['Customer_Name'] . '</li>';
         $mail->Body .= '<li>Customer Email: ' . $order['Customer_Email'] . '</li>';
-        $mail->Body .= '<li>Customer Address: ' . $order['Customer_Address'] . '</li>';
+        $mail->Body .= '<li>Customer House Number: ' . $order['Customer_HouseNumber'] . '</li>';
+        $mail->Body .= '<li>Customer Street: ' . $order['Customer_Street'] . '</li>';
+        $mail->Body .= '<li>Customer Barangay: ' . $order['Customer_Barangay'] . '</li>';
+        $mail->Body .= '<li>Customer City: ' . $order['Customer_City'] . '</li>';
+        $mail->Body .= '<li>Customer Postal: ' . $order['Customer_Postal'] . '</li>';
         $mail->Body .= '<li>Customer Number: ' . $order['Customer_Number'] . '</li>';
         $mail->Body .= '<li>Product Name: ' . $order['Product_Name'] . '</li>';
         $mail->Body .= '<li>Size: ' . $order['Size'] . '</li>';
@@ -64,4 +67,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo 'Error deleting order data: ' . mysqli_error($conn);
     }
 }
+
 ?>

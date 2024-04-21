@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2024 at 10:05 AM
+-- Generation Time: Apr 21, 2024 at 05:49 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -39,7 +39,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `Admin_Email`, `Admin_PW`, `verification_code`) VALUES
-(29, 'johnlinga0949@gmail.com', '$2y$10$C9X7pVAL9OJ3lEDriNLqS.euV.CX3HO1z6cZWCLZZjnhrEax1RQM.', '354033');
+(29, 'johnlinga0949@gmail.com', '$2y$10$14VyaSCxka2vA185gB.WB.tzUQQvEAgN6L709/Fig.wqG3BkdEiy6', '266768');
 
 -- --------------------------------------------------------
 
@@ -109,7 +109,11 @@ CREATE TABLE `manageorders` (
   `OrderRefID` int(200) NOT NULL,
   `Customer_Email` varchar(200) NOT NULL,
   `Customer_Name` varchar(200) NOT NULL,
-  `Customer_Address` varchar(200) NOT NULL,
+  `Customer_HouseNumber` varchar(200) NOT NULL,
+  `Customer_Street` varchar(200) NOT NULL,
+  `Customer_Barangay` varchar(200) NOT NULL,
+  `Customer_City` varchar(200) NOT NULL,
+  `Customer_Postal` int(200) NOT NULL,
   `Customer_Number` varchar(200) NOT NULL,
   `Product_Name` varchar(200) NOT NULL,
   `Size` varchar(200) NOT NULL,
@@ -124,17 +128,8 @@ CREATE TABLE `manageorders` (
 -- Dumping data for table `manageorders`
 --
 
-INSERT INTO `manageorders` (`OrderRefID`, `Customer_Email`, `Customer_Name`, `Customer_Address`, `Customer_Number`, `Product_Name`, `Size`, `Quantity`, `TotalPrice`, `img`, `Receipt_img`, `Confirmed`) VALUES
-(56, 'johnangelo.linga.shs@ust.edu.ph', 'Linga', '1263 Don Quijote street sampaloc manila', '09950240166', 'Long tee', 'XL', 2, 600, 'Shirt (7).png', 'uploads/receipt.png', 1),
-(57, 'johnangelo.linga.shs@ust.edu.ph', '', '1263 Don Quijote street sampaloc manila', '09950240166', 'Long tee', 'Small', 4, 1200, 'Shirt (7).png', 'uploads/receipt.png', 1),
-(58, 'johnangelo.linga.shs@ust.edu.ph', '', '1263 Don Quijote street sampaloc manila', '09950240166', 'White- Tshirt', 'Large', 2, 400, 'Shirt (5).png', 'uploads/receipt.png', 1),
-(59, 'johnangelo.linga.shs@ust.edu.ph', 'janjan', '1263 Don Quijote street sampaloc manila', '09950240166', 'White- Tshirt', 'Medium', 2, 400, 'Shirt (5).png', 'uploads/receipt.png', 1),
-(61, 'johnangelo.linga.shs@ust.edu.ph', '', '1263 Don Quijote street sampaloc manila', '09950240166', 'Long tee', 'Medium', 1, 300, 'Shirt (7).png', 'uploads/receipt.png', 1),
-(62, 'johnangelo.linga.shs@ust.edu.ph', '', '1263 Don Quijote street sampaloc manila', '09950240166', 'Ninja white', 'XL', 3, 1500, 'Shirt (3).png', 'uploads/receipt.png', 1),
-(64, 'johnangelo.linga.cics@ust.edu.ph', '', '1263 Don Quijote street sampaloc manila', '09950240166', 'White- Tshirt', 'Large', 1, 200, 'Shirt (5).png', 'uploads/receipt.png', 1),
-(65, 'johnangelo.linga.cics@ust.edu.ph', '', '1263 Don Quijote street sampaloc manila', '09950240166', 'Ninja white', 'Small', 2, 1000, 'Shirt (3).png', 'uploads/receipt.png', 1),
-(66, 'johnangelo.linga.cics@ust.edu.ph', '', '1263 Don Quijote street sampaloc manila', '09950240166', 'Long tee', 'Medium', 1, 300, 'Shirt (7).png', 'uploads/receipt.png', 1),
-(68, 'johnangelo.linga.cics@ust.edu.ph', '', '1263 Don Quijote street sampaloc manila', '09950240166', 'Ninja white', 'Small', 1, 500, 'Shirt (3).png', 'uploads/receipt.png', 1);
+INSERT INTO `manageorders` (`OrderRefID`, `Customer_Email`, `Customer_Name`, `Customer_HouseNumber`, `Customer_Street`, `Customer_Barangay`, `Customer_City`, `Customer_Postal`, `Customer_Number`, `Product_Name`, `Size`, `Quantity`, `TotalPrice`, `img`, `Receipt_img`, `Confirmed`) VALUES
+(73, 'johnangelo.linga.cics@ust.edu.ph', '', '1263', 'Don Quijote street sampaloc manila', '489', 'MANILA CITY', 1008, '9950240166', 'Ninja white', 'Large', 1, 500, 'Shirt (3).png', 'uploads/receipt.png', 1);
 
 -- --------------------------------------------------------
 
@@ -159,9 +154,9 @@ CREATE TABLE `manageprod` (
 --
 
 INSERT INTO `manageprod` (`ProductID`, `Product_Name`, `Description`, `Quantity_Small`, `Quantity_Medium`, `Quantity_Large`, `Quantity_XL`, `Price`, `img`) VALUES
-(66, 'White- Tshirt', 'goodies ', 3, 0, 0, 0, 200, 'Shirt (5).png'),
-(67, 'Ninja white', 'bettererrrr', 0, 0, 1, 1, 500, 'Shirt (3).png'),
-(68, 'Long tee', 'hehe', 1, 1, -1, 0, 300, 'Shirt (7).png');
+(66, 'White- Tshirt', 'goodies ', 0, 0, 0, 0, 200, 'Shirt (5).png'),
+(67, 'Ninja white', 'bettererrrr', 0, 0, 0, 1, 500, 'Shirt (3).png'),
+(68, 'Long tee', 'hehe', 0, 0, -1, 0, 300, 'Shirt (7).png');
 
 -- --------------------------------------------------------
 
@@ -178,16 +173,26 @@ CREATE TABLE `managereview` (
   `Product_Name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `managereview`
+-- Table structure for table `payment_methods`
 --
 
-INSERT INTO `managereview` (`ReviewID`, `Customer_Email`, `Customer_Name`, `Review_Message`, `Rating`, `Product_Name`) VALUES
-(32, 'doffy0949@gmail.com', 'john john', 'hehe', '1', 'Ninja Black Tee from manila 2'),
-(33, 'johnangelo.linga.shs@ust.edu.ph', 'migz', 'gehehe', '1', 'Ninja Black Tee from manila 2'),
-(41, 'johnangelo.linga.cics@ust.edu.ph', 'john', 'hehe', '5', 'Ninja Black Tee from manila '),
-(42, 'johnangelo.linga.shs@ust.edu.ph', '', 'hello', '2', 'Black shirt from Manila'),
-(43, 'johnangelo.linga.cics@ust.edu.ph', 'kyle', 'very very good', '3', 'Long tee');
+CREATE TABLE `payment_methods` (
+  `id` int(11) NOT NULL,
+  `payment_method` varchar(255) NOT NULL,
+  `qr_code` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payment_methods`
+--
+
+INSERT INTO `payment_methods` (`id`, `payment_method`, `qr_code`) VALUES
+(13, 'gcash', 'qr_codes/gcash-qr.png'),
+(14, 'paymaya', 'qr_codes/paymaya-qr.png'),
+(15, 'BPI', 'qr_codes/BPI-qr.jpg');
 
 -- --------------------------------------------------------
 
@@ -198,7 +203,11 @@ INSERT INTO `managereview` (`ReviewID`, `Customer_Email`, `Customer_Name`, `Revi
 CREATE TABLE `users` (
   `id` int(9) NOT NULL,
   `Customer_Email` varchar(255) NOT NULL,
-  `Customer_Address` varchar(255) NOT NULL,
+  `Customer_HouseNumber` varchar(200) NOT NULL,
+  `Customer_Street` varchar(200) NOT NULL,
+  `Customer_Barangay` varchar(200) NOT NULL,
+  `Customer_City` varchar(200) NOT NULL,
+  `Customer_Postal` int(200) NOT NULL,
   `Customer_Number` varchar(20) NOT NULL,
   `Customer_PW` varchar(255) NOT NULL,
   `verification_code` text NOT NULL,
@@ -209,13 +218,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `Customer_Email`, `Customer_Address`, `Customer_Number`, `Customer_PW`, `verification_code`, `email_verified_at`) VALUES
-(57, 'doffy0949@gmail.com', '123', '123', '$2y$10$EsHWzCuSopG30PQh2wKQZuCefYOD3wrd7qXLmKxBkp5suXSSBOaBW', '142394', '2024-03-31 02:51:54'),
-(60, 'torontondo08@gmail.com', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$/XfGpG/Y4EYdz3L/fk.PiuKiQA.mVvu87Yliyf/eXZMbqbsQRrYPy', '303211', '2024-03-06 19:23:59'),
-(61, 'kylehernandez2002@gmail.com', '1212121', '1213121', '$2y$10$kf8WanedMGBZPXTuNyiP.uFn736Jqn6kpp9fr5xsHkW.BNvsAKKiq', '299992', '2024-03-06 23:26:23'),
-(62, 'mikafeliiix@gmail.com', '21213', '09950240166', '$2y$10$NE4cG2MVpkZtdkhk7oKE1OvqoLZOa2unsJMhx./j5pimsaFncUoOy', '356111', '2024-03-06 23:45:23'),
-(98, 'johnangelo.linga.cics@ust.edu.ph', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$7M05R25E/89IHi.kngQmXug6zvRpY4kif/8XJFRbTbmBYOf4mQTb2', '185518', '2024-04-08 22:03:40'),
-(99, 'johnangelo.linga.shs@ust.edu.ph', '1263 Don Quijote street sampaloc manila', '09950240166', '$2y$10$5SDhFXNES88VkgXB265ODeUKQEOx80j9dCrCBqw94xCrJtMEIIwxu', '336041', '2024-04-08 22:08:33');
+INSERT INTO `users` (`id`, `Customer_Email`, `Customer_HouseNumber`, `Customer_Street`, `Customer_Barangay`, `Customer_City`, `Customer_Postal`, `Customer_Number`, `Customer_PW`, `verification_code`, `email_verified_at`) VALUES
+(105, 'johnangelo.linga.cics@ust.edu.ph', '1263', 'Don Quijote street sampaloc manila', '489', 'MANILA CITY', 1008, '9950240166', '$2y$10$v6YNnUpBpI77P1lFpfLM7u.NeBXpfBfdS6zfE0Lh/HFvaxwjvD8ym', '125872', '2024-04-21 21:12:23');
 
 --
 -- Indexes for dumped tables
@@ -264,6 +268,12 @@ ALTER TABLE `managereview`
   ADD PRIMARY KEY (`ReviewID`);
 
 --
+-- Indexes for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -283,7 +293,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `managecart`
 --
 ALTER TABLE `managecart`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=306;
 
 --
 -- AUTO_INCREMENT for table `manageinquiry`
@@ -301,7 +311,7 @@ ALTER TABLE `manageinventory`
 -- AUTO_INCREMENT for table `manageorders`
 --
 ALTER TABLE `manageorders`
-  MODIFY `OrderRefID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `OrderRefID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `manageprod`
@@ -316,10 +326,16 @@ ALTER TABLE `managereview`
   MODIFY `ReviewID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
+-- AUTO_INCREMENT for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -14,10 +14,14 @@ if (isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']
 }
 
 // Fetch customer details from users table
-$customer_query = "SELECT Customer_Email, Customer_Address, Customer_Number FROM users WHERE Customer_Email = '$customer_email'";
+$customer_query = "SELECT Customer_Email, Customer_HouseNumber, Customer_Street, Customer_Barangay, Customer_City, Customer_Postal, Customer_Number FROM users WHERE Customer_Email = '$customer_email'";
 $customer_result = mysqli_query($conn, $customer_query);
 $customer_row = mysqli_fetch_assoc($customer_result);
-$customer_address = $customer_row['Customer_Address'];
+$customer_house_number = $customer_row['Customer_HouseNumber'];
+$customer_street = $customer_row['Customer_Street'];
+$customer_barangay = $customer_row['Customer_Barangay'];
+$customer_city = $customer_row['Customer_City'];
+$customer_postal = $customer_row['Customer_Postal'];
 $customer_number = $customer_row['Customer_Number'];
 
 // Initialize total price variable
@@ -33,9 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $customer_name = $_POST['Customer_Name'];
     $customer_email = $_POST['Customer_Email'];
-    $customer_address = $_POST['Customer_Address'];
+    $customer_house_number = $_POST['Customer_HouseNumber'];
+    $customer_street = $_POST['Customer_Street'];
+    $customer_barangay = $_POST['Customer_Barangay'];
+    $customer_city = $_POST['Customer_City'];
+    $customer_postal = $_POST['Customer_Postal'];
     $customer_number = $_POST['Customer_Number'];
-    $receipt_img = $_FILES['Receipt_img']['name']; // Retrieve receipt image file name
+    $receipt_img = $_FILES['Receipt_img']['name'];
 
     // File upload handling
     if (isset($_FILES["Receipt_img"])) {
@@ -71,7 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $emailBody = '<p>A new order has been received:</p>';
             $emailBody .= '<p><strong>Customer Name:</strong> ' . $customer_name . '</p>';
             $emailBody .= '<p><strong>Customer Email:</strong> ' . $customer_email . '</p>';
-            $emailBody .= '<p><strong>Customer Address:</strong> ' . $customer_address . '</p>';
+            $emailBody .= '<p><strong>Customer House Number:</strong> ' . $customer_house_number . '</p>';
+            $emailBody .= '<p><strong>Customer Street:</strong> ' . $customer_street . '</p>';
+            $emailBody .= '<p><strong>Customer Barangay:</strong> ' . $customer_barangay . '</p>';
+            $emailBody .= '<p><strong>Customer City:</strong> ' . $customer_city . '</p>';
+            $emailBody .= '<p><strong>Customer Postal:</strong> ' . $customer_postal . '</p>';
             $emailBody .= '<p><strong>Customer Number:</strong> ' . $customer_number . '</p>';
             $emailBody .= '<p><strong>Total Price:</strong> ' . $total_price . '</p>';
             $emailBody .= '<p><strong>Products:</strong></p>';
@@ -115,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $img = $row['img']; // Fetch 'img' field from managecart
 
                     // Insert order into manageorders table
-                    $insert_query = "INSERT INTO manageorders (Customer_Email, Customer_Name, Customer_Address, Customer_Number, Product_Name, Size, Quantity, TotalPrice, img, Receipt_img) VALUES ('$customer_email', '$customer_name', '$customer_address', '$customer_number', '$product_name', '$size', '$quantity', '$total_price', '$img', '$target_file')";
+                    $insert_query = "INSERT INTO manageorders (Customer_Email, Customer_Name, Customer_HouseNumber, Customer_Street, Customer_Barangay, Customer_City, Customer_Postal, Customer_Number, Product_Name, Size, Quantity, TotalPrice, img, Receipt_img) VALUES ('$customer_email', '$customer_name', '$customer_house_number', '$customer_street', '$customer_barangay', '$customer_city', '$customer_postal', '$customer_number', '$product_name', '$size', '$quantity', '$total_price', '$img', '$target_file')";
                     mysqli_query($conn, $insert_query);
 
                     // Update Quantity in manageprod table
@@ -141,7 +153,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -231,62 +242,93 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                         <label for="email">Customer Email:</label>
                         <input type="email" class="form-control" id="email" name="Customer_Email" value="<?php echo $customer_email; ?>" readonly>
+                        
                     </div>
                     <div class="form-group">
-                        <label for="address">Customer Address:</label>
-                        <input type="text" class="form-control" id="address" name="Customer_Address" value="<?php echo $customer_address; ?>" required>
+                        <label for="houseNumber">House Number:</label>
+                        <input type="text" class="form-control" id="houseNumber" name="Customer_HouseNumber" value="<?php echo $customer_house_number; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Street:</label>
+                        <input type="text" class="form-control" id="street" name="Customer_Street" value="<?php echo $customer_street; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="barangay">Barangay:</label>
+                        <input type="text" class="form-control" id="barangay" name="Customer_Barangay" value="<?php echo $customer_barangay; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <input type="text" class="form-control" id="city" name="Customer_City" value="<?php echo $customer_city; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postal">Postal:</label>
+                        <input type="text" class="form-control" id="postal" name="Customer_Postal" value="<?php echo $customer_postal; ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="number">Customer Number:</label>
                         <input type="number" class="form-control" id="number" name="Customer_Number" value="<?php echo $customer_number; ?>" required>
                     </div>
                     <div class="form-group">
-                        <div class="qr-title">Click to enlarge image.</div>
-                        <img id="qr" src="LDAssets/gcash-qr.png" class="qr-image" alt="Pay here!" style="width:100%;max-width:100px">
-                        <div id="myModal" class="modal">
-                            <span class="close">&times;</span>
-                            <img class="modal-content" id="img01">
-                            <div id="caption"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="receiptImg">Upload Receipt Image:</label>
                         <input type="file" class="form-control-receipt" id="receiptImg" name="Receipt_img">
                     </div>
-                    
                     <div class="form-group">
-                        <label for="totalPrice">Overall Total Price:</label>
-                        <input type="text" class="form-control" id="totalPrice" value="<?php echo $total_price; ?>" readonly>
+                        <label for="paymentMethod">Select Payment Method:</label>
+                        <select class="form-control" id="paymentMethod" name="paymentMethod">
+                            <option value=""></option> <!-- Added default blank option -->
+                            <?php
+                            // Fetch payment methods from the database
+                            $payment_methods_query = "SELECT * FROM payment_methods";
+                            $payment_methods_result = mysqli_query($conn, $payment_methods_query);
+                            while ($row = mysqli_fetch_assoc($payment_methods_result)) {
+                                $selected = ''; // Initialize selected variable
+                                if (isset($_POST['paymentMethod']) && $_POST['paymentMethod'] == $row['id']) {
+                                    $selected = 'selected'; // Mark as selected if payment method matches
+                                }
+                                echo '<option value="' . $row['id'] . '" ' . $selected . '>' . $row['payment_method'] . '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
-                    <button type="submit" class="submit-btn" name="submit">Submit Payment</button>
+
+                    <div class="form-group">
+    <div id="qrCodeContainer">
+        <?php
+        // Display blank image initially
+        echo '<img id="qrCodeImage" src="" alt="QR Code" style="max-width: 200px;">';
+        ?>
+    </div>
+</div>
+
+
+                    <button type="submit" class="btn btn-primary">Place Order</button>
                 </section>
             </form>
         </section>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-        var modal = document.getElementById("myModal");
+    // Function to update QR code image source based on selected payment method
+    $(document).ready(function(){
+        $('#paymentMethod').change(function(){
+            var paymentMethodId = $(this).val();
+            $.ajax({
+                url: 'get_qr_code.php', // PHP script to fetch QR code image path based on payment method ID
+                method: 'POST',
+                data: {paymentMethodId: paymentMethodId},
+                success: function(response){
+                    $('#qrCodeImage').attr('src', response);
+                }
+            });
+        });
 
-        var img = document.getElementById("qr");
-        var modalImg = document.getElementById("img01");
-        var captionText = document.getElementById("caption");
-        img.onclick = function(){
-        modal.style.display = "block";
-        modalImg.src = this.src;
-        captionText.innerHTML = this.alt;
-        }
+        // Add click event listener to QR code image
+        $('#qrCodeImage').click(function(){
+            // Toggle zoom effect by adding/removing CSS class
+            $(this).toggleClass('zoomed');
+        });
+    });
+</script>
 
-        var span = document.getElementsByClassName("close")[0];
-
-        span.onclick = function() {
-        modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-        
-    </script>
 </body>
 </html>

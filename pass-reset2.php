@@ -8,9 +8,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $Customer_PW = $_POST['new_password'];
         $ConfirmPassword = $_POST['Confirmpassword'];
         
-        if (strlen($Customer_PW) < 8) {
-            echo "<script>alert('Password must be at least 8 characters long.');</script>";
-            
+        // Check if password meets the complexity requirements
+        if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $Customer_PW)) {
+            echo "<script>alert('Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.'); window.location.href = 'pass-reset2.php';</script>";
+            exit;
         }
        
         if ($Customer_PW ===  $ConfirmPassword) {
@@ -28,12 +29,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Password updated successfully.";
               
                 header("Location: login.php");
-                
+                exit;
             } else {
                 echo "Error updating password: " . mysqli_error($conn);
             }
         } else {
             echo "Passwords do not match.";
+            exit;
         }
     }
 }

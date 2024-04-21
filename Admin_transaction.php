@@ -45,7 +45,11 @@ $order_result = mysqli_query($conn, $order_query);
                         <th>OrderRefID</th>
                         <th>Customer Email</th>
                         <th>Customer Name</th>
-                        <th>Customer Address</th>
+                        <th>Customer House Number</th>
+                        <th>Customer Street</th>
+                        <th>Customer Barangay</th>
+                        <th>Customer City</th>
+                        <th>Customer Postal</th>
                         <th>Customer Number</th>
                         <th>Product Name</th>
                         <th>Size</th>
@@ -67,7 +71,11 @@ $order_result = mysqli_query($conn, $order_query);
                     echo "<td>" . $row['OrderRefID'] . "</td>";
                     echo "<td>" . $row['Customer_Email'] . "</td>";
                     echo "<td>" . $row['Customer_Name'] . "</td>";
-                    echo "<td>" . $row['Customer_Address'] . "</td>";
+                    echo "<td>" . $row['Customer_HouseNumber'] . "</td>";
+                    echo "<td>" . $row['Customer_Street'] . "</td>";
+                    echo "<td>" . $row['Customer_Barangay'] . "</td>";
+                    echo "<td>" . $row['Customer_City'] . "</td>";
+                    echo "<td>" . $row['Customer_Postal'] . "</td>";
                     echo "<td>" . $row['Customer_Number'] . "</td>";
                     echo "<td>" . $row['Product_Name'] . "</td>";
                     echo "<td>" . $row['Size'] . "</td>";
@@ -88,8 +96,9 @@ $order_result = mysqli_query($conn, $order_query);
                         echo "<button type='submit' name='confirm' class='confirm-btn' value='" . $row['OrderRefID'] . "'>Confirm</button>";
                         echo "</form>";
                         echo "<form action='Deny_Order.php' method='post' onsubmit='return confirmDeny()'>";
-                        echo "<button type='submit' class='deny-btn' name='deny' value='" . $row['OrderRefID'] . "'>Deny</button>";
-                        echo "</form>";
+                        echo "<input type='hidden' name='reason' id='reason'>";
+                        echo "<button type='submit' class='deny-btn' name='deny' value='" . $row['OrderRefID'] . "'>Cancel</button>";
+                        echo "</form>";;
                     }
                     echo "</td>";
                     echo "</tr>";
@@ -97,6 +106,7 @@ $order_result = mysqli_query($conn, $order_query);
                     ?>
                 </tbody>
             </table>
+            
             </form>
         </div>
     </div>
@@ -145,15 +155,18 @@ $order_result = mysqli_query($conn, $order_query);
             }
         
 
-        function confirmDeny() {
-            if (confirm('Do you want to Deny the Order of this User?')) {
-                var input = document.createElement('input');
-                input.type = 'hidden';
-                document.forms[0].appendChild(input);
-                return true;
-            }
-            return false; // Cancel submission if Admin cancels the prompt or provides no reason
-        }
+          // Function to prompt admin for reason when cancelling order
+          // Function to prompt admin for reason when cancelling order
+    function confirmDeny() {
+    var reason = prompt("Please enter the reason for cancelling the order:");
+    if (reason != null && reason != "") {
+        // Set the value of the hidden input field to the reason provided
+        document.getElementById("reason").value = reason;
+        return true; // Submit the form
+    }
+    return false; // Cancel submission if admin cancels the prompt or provides no reason
+}
+
     </script>
 </body>
 </html>

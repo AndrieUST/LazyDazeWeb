@@ -13,6 +13,12 @@ if(isset($_POST["submit"])) {
          echo "New password or admin email is missing.";
          exit();
      }
+
+     // Check if password meets the complexity requirements
+     if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $new_password)) {
+      echo "<script>alert('Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.'); window.location.href = 'admin_pass_reset.php';</script>";
+      exit;
+  }
  
      // Check if the new password matches the confirmation password
      if ($new_password !== $Confirmpassword) {
