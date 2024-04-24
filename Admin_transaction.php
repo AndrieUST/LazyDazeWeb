@@ -1,10 +1,19 @@
 <?php
 include('connect.php');
 
-// Fetch all orders from the manageorders table
-$order_query = "SELECT * FROM manageorders";
+// Fetch unconfirmed orders from the manageorders table, sorted by Order Date in descending order
+$order_query = "SELECT * FROM manageorders WHERE Confirmed = 0 ORDER BY Order_Date DESC";
 $order_result = mysqli_query($conn, $order_query);
+
+// Fetch confirmed orders from the manageorders table, sorted by Order Date in descending order
+$confirmed_order_query = "SELECT * FROM manageorders WHERE Confirmed = 1 ORDER BY Order_Date DESC";
+$confirmed_order_result = mysqli_query($conn, $confirmed_order_query);
+
+// Fetch cancelled orders from the manageorders table, sorted by Order Date in descending order
+$cancelled_order_query = "SELECT * FROM manageorders WHERE Confirmed = 2 ORDER BY Order_Date DESC";
+$cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +28,6 @@ $order_result = mysqli_query($conn, $order_query);
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="icon" href="./LDAssets/lz logo.png">
-  
 </head>
 <body>
     <div class="bg">
@@ -37,37 +45,177 @@ $order_result = mysqli_query($conn, $order_query);
             </div>
         </div>
         <div class="container">
-            <h2>All Orders</h2>
-            <form action="Confirm_Order.php" method="post">
-            <table class="table">
-                <thead>
-                    <tr class="order-headers">
-                        <th>OrderRefID</th>
-                        <th>Customer Email</th>
-                        <th>Customer Name</th>
-                        <th>Customer House Number</th>
-                        <th>Customer Street</th>
-                        <th>Customer Barangay</th>
-                        <th>Customer City</th>
-                        <th>Customer Postal</th>
-                        <th>Customer Number</th>
-                        <th>Product Name</th>
-                        <th>Size</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                        <th>Image</th>
-                        <th>Receipt Image</th>
-                        <th>Action</th> <!-- Header for action buttons -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                   while ($row = mysqli_fetch_assoc($order_result)) {
-                    // Add the class 'confirmed' if the order is confirmed
-                    $class = ($row['Confirmed'] == 1) ? 'confirmed' : '';
-                
-                    echo "<tr class='orders $class'>"; 
-                    // Echo order details in each column
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#Orders">Orders</a></li>
+                <li><a data-toggle="tab" href="#confirmedOrders">Confirmed Orders</a></li>
+                <li><a data-toggle="tab" href="#cancelledOrders">Cancelled Orders</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="Orders" class="tab-pane fade in active">
+                    <h2>Orders</h2>
+                    <form action="Confirm_Order.php" method="post">
+                        <table class="table">
+                            <thead>
+                                <tr class="order-headers">
+                                    <th>OrderRefID</th>
+                                    <th>Customer Email</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer House Number</th>
+                                    <th>Customer Street</th>
+                                    <th>Customer Barangay</th>
+                                    <th>Customer City</th>
+                                    <th>Customer Postal</th>
+                                    <th>Customer Number</th>
+                                    <th>Product Name</th>
+                                    <th>Size</th>
+                                    <th>Quantity</th>
+                                    <th>Total Price</th>
+                                    <th>Image</th>
+                                    <th>Receipt Image</th>
+                                    <th>Action</th> <!-- Header for action buttons -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    while ($row = mysqli_fetch_assoc($order_result)) {
+                                        // Add the class 'confirmed' if the order is confirmed
+                                        $class = ($row['Confirmed'] == 1) ? 'confirmed' : '';
+                                        
+                                        echo "<tr class='orders $class'>"; 
+                                        // Echo order details in each column
+                                        echo "<td>" . $row['OrderRefID'] . "</td>";
+                                        echo "<td>" . $row['Customer_Email'] . "</td>";
+                                        echo "<td>" . $row['Customer_Name'] . "</td>";
+                                        echo "<td>" . $row['Customer_HouseNumber'] . "</td>";
+                                        echo "<td>" . $row['Customer_Street'] . "</td>";
+                                        echo "<td>" . $row['Customer_Barangay'] . "</td>";
+                                        echo "<td>" . $row['Customer_City'] . "</td>";
+                                        echo "<td>" . $row['Customer_Postal'] . "</td>";
+                                        echo "<td>" . $row['Customer_Number'] . "</td>";
+                                        echo "<td>" . $row['Product_Name'] . "</td>";
+                                        echo "<td>" . $row['Size'] . "</td>";
+                                        echo "<td>" . $row['Quantity'] . "</td>";
+                                        echo "<td>" . $row['TotalPrice'] . "</td>";
+                                        echo "<td><img src='" . $row['img'] . "' alt='Product Image' width='135px'></td>";
+                                        echo "<td><img src='" . $row['Receipt_img'] . "' width='100' onclick='showLargerImage(this.src)' style='cursor:pointer'></td>"; 
+                                        echo "<td>";
+
+                                        
+                                           
+                                            echo "<form action='Confirm_Order.php' method='post' onsubmit='return confirmOrder()'>";
+                                            echo "<button type='submit' name='confirm' class='confirm-btn' value='" . $row['OrderRefID'] . "'>Confirm</button>";
+                                            echo "</form>";
+                                            echo "<form action='Deny_Order.php' method='post' onsubmit='return confirmDeny()'>";
+                                            echo "<input type='hidden' name='reason' id='reason'>";
+                                            echo "<button type='submit' class='deny-btn' name='deny' value='" . $row['OrderRefID'] . "'>Cancel</button>";
+                                            echo "</form>";;
+                                        
+                                        echo "</td>";
+                                        echo "</tr>";
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <!-- Confirmed Orders Tab Content -->
+                <div id="confirmedOrders" class="tab-pane fade">
+    <h2>Confirmed Orders</h2>
+    <table class="table">
+        <thead>
+            <tr class="order-headers">
+                <th>OrderRefID</th>
+                <th>Customer Email</th>
+                <th>Customer Name</th>
+                <th>Customer House Number</th>
+                <th>Customer Street</th>
+                <th>Customer Barangay</th>
+                <th>Customer City</th>
+                <th>Customer Postal</th>
+                <th>Customer Number</th>
+                <th>Product Name</th>
+                <th>Size</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Image</th>
+                <th>Receipt Image</th>
+                <th>Status</th>
+                <th>Action</th> <!-- Header for action buttons -->
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+           // Check if there are confirmed orders
+           if ($confirmed_order_result) {
+               while ($row = mysqli_fetch_assoc($confirmed_order_result)) {
+                echo "<tr>"; 
+                echo "<td>" . $row['OrderRefID'] . "</td>";
+                echo "<td>" . $row['Customer_Email'] . "</td>";
+                echo "<td>" . $row['Customer_Name'] . "</td>";
+                echo "<td>" . $row['Customer_HouseNumber'] . "</td>";
+                echo "<td>" . $row['Customer_Street'] . "</td>";
+                echo "<td>" . $row['Customer_Barangay'] . "</td>";
+                echo "<td>" . $row['Customer_City'] . "</td>";
+                echo "<td>" . $row['Customer_Postal'] . "</td>";
+                echo "<td>" . $row['Customer_Number'] . "</td>";
+                echo "<td>" . $row['Product_Name'] . "</td>";
+                echo "<td>" . $row['Size'] . "</td>";
+                echo "<td>" . $row['Quantity'] . "</td>";
+                echo "<td>" . $row['TotalPrice'] . "</td>";
+                echo "<td><img src='" . $row['img'] . "' alt='Product Image' width='135px'></td>";
+                echo "<td><img src='" . $row['Receipt_img'] . "' width='100' onclick='showLargerImage(this.src)' style='cursor:pointer'></td>"; 
+                echo "<td>" . $row['Status'] . "</td>";
+                echo "<td>";
+                // Add the "Deliver" button
+                echo "<form action='Deliver.php' method='post'>";
+echo "<button type='submit' class='deliver-btn' name='deliver' value='" . $row['OrderRefID'] . "'>Deliver</button>";
+echo "</form>";
+                // Add the "Received" button
+                echo "<form action='Received.php' method='post'>";
+                echo '<button type="submit" class="received-btn" name="received" value="' . $row['OrderRefID'] . '" onclick="return confirmReceive();">Received</button>';
+                echo "</form>";
+                echo "</td>";
+                echo "</tr>";
+            } } else {
+                echo "<tr><td colspan='16'>No confirmed orders found.</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+                <!-- Cancelled Orders Tab Content -->
+                <div id="cancelledOrders" class="tab-pane fade">
+    <h2>Cancelled Orders</h2>
+    <table class="table">
+        <thead>
+            <tr class="order-headers">
+                <th>OrderRefID</th>
+                <th>Customer Email</th>
+                <th>Customer Name</th>
+                <th>Customer House Number</th>
+                <th>Customer Street</th>
+                <th>Customer Barangay</th>
+                <th>Customer City</th>
+                <th>Customer Postal</th>
+                <th>Customer Number</th>
+                <th>Product Name</th>
+                <th>Size</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Image</th>
+                <th>Receipt Image</th>
+                <th>Status</th> <!-- Added Status column -->
+                <th>Action</th> <!-- Header for action buttons -->
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Check if there are cancelled orders
+            if ($cancelled_order_result) {
+                while ($row = mysqli_fetch_assoc($cancelled_order_result)) {
+                    // Echo order details in each row
+                    echo "<tr>"; 
                     echo "<td>" . $row['OrderRefID'] . "</td>";
                     echo "<td>" . $row['Customer_Email'] . "</td>";
                     echo "<td>" . $row['Customer_Name'] . "</td>";
@@ -81,33 +229,26 @@ $order_result = mysqli_query($conn, $order_query);
                     echo "<td>" . $row['Size'] . "</td>";
                     echo "<td>" . $row['Quantity'] . "</td>";
                     echo "<td>" . $row['TotalPrice'] . "</td>";
+                   
                     echo "<td><img src='" . $row['img'] . "' alt='Product Image' width='135px'></td>";
                     echo "<td><img src='" . $row['Receipt_img'] . "' width='100' onclick='showLargerImage(this.src)' style='cursor:pointer'></td>"; 
+                    echo "<td>" . $row['Status'] . "</td>"; // Display status
                     echo "<td>";
-                    
-                    // Check if the order is confirmed
-                    if ($row['Confirmed'] == 1) {
-                        // If confirmed, disable the buttons
-                        echo "<button type='button' class='confirm-btn' disabled>Confirm</button>";
-                        echo "<button type='button' class='deny-btn' disabled>Deny</button>";
-                    } else {
-                        // If not confirmed, display the buttons with form submission
-                        echo "<form action='Confirm_Order.php' method='post' onsubmit='return confirmOrder()'>";
-                        echo "<button type='submit' name='confirm' class='confirm-btn' value='" . $row['OrderRefID'] . "'>Confirm</button>";
-                        echo "</form>";
-                        echo "<form action='Deny_Order.php' method='post' onsubmit='return confirmDeny()'>";
-                        echo "<input type='hidden' name='reason' id='reason'>";
-                        echo "<button type='submit' class='deny-btn' name='deny' value='" . $row['OrderRefID'] . "'>Cancel</button>";
-                        echo "</form>";;
-                    }
+                    // Add the "Refund" button
+                    echo "<form action='Refund_Order.php' method='post'>";
+                    echo "<button type='submit' class='Refund-btn' name='Refund' value='" . $row['OrderRefID'] . "'>Refund</button>";
+                    echo "</form>";
                     echo "</td>";
                     echo "</tr>";
                 }
-                    ?>
-                </tbody>
-            </table>
-            
-            </form>
+            } else {
+                echo "<tr><td colspan='17'>No cancelled orders found.</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+            </div>
         </div>
     </div>
     <script>
@@ -144,29 +285,58 @@ $order_result = mysqli_query($conn, $order_query);
 
             document.body.appendChild(modal);
         }
-        
+
         // Add click event listener to all confirm buttons
         function confirmOrder() {
-            
-                var input = document.createElement('input');
-                input.type = 'hidden';
-                document.forms[0].appendChild(input);
-                return true;
+            // Your confirmation logic here
+            return true;
+        }
+
+        // Function to prompt admin for reason when cancelling order
+        function confirmDeny() {
+            var reason = prompt("Please enter the reason for cancelling the order:");
+            if (reason != null && reason != "") {
+                // Set the value of the hidden input field to the reason provided
+                document.getElementById("reason").value = reason;
+                return true; // Submit the form
             }
-        
+            return false; // Cancel submission if admin cancels the prompt or provides no reason
+        }
+        $('.deliver-btn').click(function() {
+    // Prompt admin for a message
+    var message = prompt("Enter a message for the user:");
 
-          // Function to prompt admin for reason when cancelling order
-          // Function to prompt admin for reason when cancelling order
-    function confirmDeny() {
-    var reason = prompt("Please enter the reason for cancelling the order:");
-    if (reason != null && reason != "") {
-        // Set the value of the hidden input field to the reason provided
-        document.getElementById("reason").value = reason;
-        return true; // Submit the form
+    // Check if the admin provided a message
+    if (message !== null) {
+        // If a message is provided, submit the form with the orderRefID and message
+        $(this).closest('form').append('<input type="hidden" name="message" value="' + message + '">');
+        return true;
     }
-    return false; // Cancel submission if admin cancels the prompt or provides no reason
-}
+    // If the admin cancels the prompt, prevent form submission
+    return false;
+});
+// Add click event listener to all refund buttons
+$('.Refund-btn').click(function() {
+    // Prompt admin for a message
+    var message = prompt("Enter a message for the user:");
 
+    // Check if the admin provided a message
+    if (message !== null) {
+        // If a message is provided, submit the form with the orderRefID and message
+        $(this).closest('form').append('<input type="hidden" name="message" value="' + message + '">');
+        return true;
+    }
+    // If the admin cancels the prompt, prevent form submission
+    return false;
+});
+ // Function to confirm receiving the order
+ function confirmReceive() {
+    // Prompt the admin with the confirmation message
+    var confirmation = confirm("Are you sure that this order has been received by the customer?");
+    // If admin confirms, return true to proceed with the form submission
+    // Else, return false to cancel the submission
+    return confirmation;
+}
     </script>
 </body>
 </html>

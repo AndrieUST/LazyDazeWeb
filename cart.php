@@ -177,6 +177,7 @@ include('connect.php');
                 }
                 ?>
                 <button class="submit-btn" onclick="proceedToPayment()">Proceed to Payment</button>
+                <button class="submit-btn" onclick="ViewOrders()">View Orders</button>
             </div>
         </div>
     </div>
@@ -186,6 +187,10 @@ include('connect.php');
 function proceedToPayment() {
     // Redirect to payment.php
     window.location.href = 'Payment.php';
+}
+function ViewOrders() {
+    // Redirect to payment.php
+    window.location.href = 'View_Order.php';
 }
 
 $(document).ready(function(){

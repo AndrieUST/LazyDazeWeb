@@ -50,9 +50,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm'])) {
         $mail->Body = $emailBody;
 
         $mail->send();
+        
         // Update the database to mark the order as confirmed
-$update_query = "UPDATE manageorders SET Confirmed = 1 WHERE OrderRefID = $orderID";
-mysqli_query($conn, $update_query);
+        $update_query = "UPDATE manageorders SET Confirmed = 1 WHERE OrderRefID = $orderID";
+        mysqli_query($conn, $update_query);
         
         // Redirect back to the admin transaction page after sending the email
         header('Location: Admin_transaction.php');

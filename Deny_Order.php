@@ -6,15 +6,20 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-// Retrieve the order ID and reason for denial from the form submission
-$orderID = $_POST['deny'];
-// Retrieve reason value properly from the form submission
-$reason = isset($_POST['reason']) ? $_POST['reason'] : 'No reason provided';
+    // Retrieve the order ID and reason for denial from the form submission
+    $orderID = $_POST['deny'];
+    // Retrieve reason value properly from the form submission
+    $reason = isset($_POST['reason']) ? $_POST['reason'] : 'No reason provided';
 
     // Fetch the order details from the database
     $order_query = "SELECT * FROM manageorders WHERE OrderRefID = '$orderID'";
     $order_result = mysqli_query($conn, $order_query);
     $order = mysqli_fetch_assoc($order_result);
+
+    // Update order status to cancelled in the database
+    $update_query = "UPDATE manageorders SET Confirmed = 2 WHERE OrderRefID = '$orderID'"; // Assuming 2 represents cancelled status
+    mysqli_query($conn, $update_query);
+
     // Send email notification to the user
     // Replace the placeholders with your SMTP credentials and appropriate email content
     $mail = new PHPMailer(true);
@@ -31,11 +36,11 @@ $reason = isset($_POST['reason']) ? $_POST['reason'] : 'No reason provided';
         //Recipients
         $mail->setFrom('johnlinga0949@gmail.com', 'Lazy Daze.com');
         $mail->addAddress($order['Customer_Email'], $order['Customer_Name']);
-        
+
         // Content
         $mail->isHTML(true);
         $mail->Subject = 'Order Denial Notification';
-        $mail->Body = 'Dear customer,<br><br>Your order with OrderRefID: ' . $orderID . ' has been denied due to the following reason/s:<br>' . $reason . '<br>Your Payment will be refunded immediately. If you have any questions, please send us an inquiry from our inquiry page. Thank you!<br><br>Order Details:<br>';
+        $mail->Body = 'Dear customer,<br><br>Your order with OrderRefID: ' . $orderID . ' has been denied due to the following reason/s:<br>' . $reason . '<br>Your Payment will be refunded immediately.Wait for our Refund Confirmation thru Email. If you have any questions, please send us an inquiry from our inquiry page. Thank you!<br><br>Order Details:<br>';
         $mail->Body .= '<ul>';
         $mail->Body .= '<li>Customer Name: ' . $order['Customer_Name'] . '</li>';
         $mail->Body .= '<li>Customer Email: ' . $order['Customer_Email'] . '</li>';
@@ -50,22 +55,12 @@ $reason = isset($_POST['reason']) ? $_POST['reason'] : 'No reason provided';
         $mail->Body .= '<li>Quantity: ' . $order['Quantity'] . '</li>';
         $mail->Body .= '<li>Total Price: ' . $order['TotalPrice'] . '</li>';
         $mail->Body .= '</ul>';
-        
+
         $mail->send();
         echo 'Email notification sent successfully';
-
+        header('Location: Admin_transaction.php');
     } catch (Exception $e) {
         echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-      
-    // Delete the order data from the manageorders table
-    $delete_query = "DELETE FROM manageorders WHERE OrderRefID = '$orderID'";
-    if (mysqli_query($conn, $delete_query)) {
-        echo 'Order data deleted successfully';
-        header('Location: Admin_transaction.php');
-    } else {
-        echo 'Error deleting order data: ' . mysqli_error($conn);
-    }
 }
-
 ?>

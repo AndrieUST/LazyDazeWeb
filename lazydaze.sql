@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2024 at 05:49 PM
+-- Generation Time: Apr 24, 2024 at 05:46 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -121,15 +121,19 @@ CREATE TABLE `manageorders` (
   `TotalPrice` int(200) NOT NULL,
   `img` varchar(200) NOT NULL,
   `Receipt_img` varchar(200) NOT NULL,
-  `Confirmed` tinyint(1) DEFAULT 0
+  `Confirmed` tinyint(1) DEFAULT 0,
+  `Status` varchar(50) NOT NULL DEFAULT 'Pending',
+  `Order_Date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `manageorders`
 --
 
-INSERT INTO `manageorders` (`OrderRefID`, `Customer_Email`, `Customer_Name`, `Customer_HouseNumber`, `Customer_Street`, `Customer_Barangay`, `Customer_City`, `Customer_Postal`, `Customer_Number`, `Product_Name`, `Size`, `Quantity`, `TotalPrice`, `img`, `Receipt_img`, `Confirmed`) VALUES
-(73, 'johnangelo.linga.cics@ust.edu.ph', '', '1263', 'Don Quijote street sampaloc manila', '489', 'MANILA CITY', 1008, '9950240166', 'Ninja white', 'Large', 1, 500, 'Shirt (3).png', 'uploads/receipt.png', 1);
+INSERT INTO `manageorders` (`OrderRefID`, `Customer_Email`, `Customer_Name`, `Customer_HouseNumber`, `Customer_Street`, `Customer_Barangay`, `Customer_City`, `Customer_Postal`, `Customer_Number`, `Product_Name`, `Size`, `Quantity`, `TotalPrice`, `img`, `Receipt_img`, `Confirmed`, `Status`, `Order_Date`) VALUES
+(85, 'johnangelo.linga.cics@ust.edu.ph', 'tt', '1263', 'Don Quijote street sampaloc manila', '489', 'MANILA CITY', 1008, '9950240166', 'Long tee', 'Small', 1, 300, 'Shirt (7).png', 'uploads/receipt.png', 2, 'Refunded', '2024-04-24 23:15:22'),
+(86, 'johnangelo.linga.cics@ust.edu.ph', 'tt', '1263', 'Don Quijote street sampaloc manila', '489', 'MANILA CITY', 1008, '9950240166', 'Long tee', 'Medium', 1, 300, 'Shirt (7).png', 'uploads/receipt.png', 1, 'Delivering', '2024-04-24 23:15:22'),
+(87, 'johnangelo.linga.cics@ust.edu.ph', '', '1263', 'Don Quijote street sampaloc manila', '489', 'MANILA CITY', 1008, '9950240166', 'White- Tshirt', 'Medium', 2, 400, 'Shirt (5).png', 'uploads/receipt.png', 1, 'Received', '2024-04-24 23:17:11');
 
 -- --------------------------------------------------------
 
@@ -154,9 +158,9 @@ CREATE TABLE `manageprod` (
 --
 
 INSERT INTO `manageprod` (`ProductID`, `Product_Name`, `Description`, `Quantity_Small`, `Quantity_Medium`, `Quantity_Large`, `Quantity_XL`, `Price`, `img`) VALUES
-(66, 'White- Tshirt', 'goodies ', 0, 0, 0, 0, 200, 'Shirt (5).png'),
-(67, 'Ninja white', 'bettererrrr', 0, 0, 0, 1, 500, 'Shirt (3).png'),
-(68, 'Long tee', 'hehe', 0, 0, -1, 0, 300, 'Shirt (7).png');
+(66, 'White- Tshirt', 'goodies ', 2, 1, 2, 5, 200, 'Shirt (5).png'),
+(67, 'Ninja white', 'bettererrrr', 2, 3, 4, 4, 500, 'Shirt (3).png'),
+(68, 'Long tee', 'hehe', 0, 0, 4, 3, 300, 'Shirt (7).png');
 
 -- --------------------------------------------------------
 
@@ -293,7 +297,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `managecart`
 --
 ALTER TABLE `managecart`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=306;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=320;
 
 --
 -- AUTO_INCREMENT for table `manageinquiry`
@@ -311,7 +315,7 @@ ALTER TABLE `manageinventory`
 -- AUTO_INCREMENT for table `manageorders`
 --
 ALTER TABLE `manageorders`
-  MODIFY `OrderRefID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `OrderRefID` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `manageprod`

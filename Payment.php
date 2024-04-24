@@ -110,10 +110,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($mail->send()) {
                 $emailSent = true;
                 echo 'Message has been sent';
+                // Convert UTC timestamp to Philippine time
+                $order_date_local = new DateTime($order_date, new DateTimeZone('UTC'));
+                $order_date_local->setTimezone(new DateTimeZone('Asia/Manila'));
+                $local_order_date_formatted = $order_date_local->format('Y-m-d H:i:s');
+                echo "Order Date (Philippine Time): " . $local_order_date_formatted;
             } else {
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
-
+            
             // If email sent successfully, insert data into manageorders table
             if ($emailSent) {
                 // Reset pointer of cart_result
@@ -125,23 +130,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $quantity = $row['Quantity'];
                     $total_price = $row['TotalPrice'];
                     $img = $row['img']; // Fetch 'img' field from managecart
-
+            
                     // Insert order into manageorders table
-                    $insert_query = "INSERT INTO manageorders (Customer_Email, Customer_Name, Customer_HouseNumber, Customer_Street, Customer_Barangay, Customer_City, Customer_Postal, Customer_Number, Product_Name, Size, Quantity, TotalPrice, img, Receipt_img) VALUES ('$customer_email', '$customer_name', '$customer_house_number', '$customer_street', '$customer_barangay', '$customer_city', '$customer_postal', '$customer_number', '$product_name', '$size', '$quantity', '$total_price', '$img', '$target_file')";
+                    $insert_query = "INSERT INTO manageorders (Customer_Email, Customer_Name, Customer_HouseNumber, Customer_Street, Customer_Barangay, Customer_City, Customer_Postal, Customer_Number, Product_Name, Size, Quantity, TotalPrice, img, Receipt_img, Order_Date) VALUES ('$customer_email', '$customer_name', '$customer_house_number', '$customer_street', '$customer_barangay', '$customer_city', '$customer_postal', '$customer_number', '$product_name', '$size', '$quantity', '$total_price', '$img', '$target_file', '$local_order_date_formatted')";
                     mysqli_query($conn, $insert_query);
-
+            
                     // Update Quantity in manageprod table
                     $update_query = "UPDATE manageprod SET Quantity_$size = Quantity_$size - $quantity WHERE Product_Name = '$product_name'";
                     mysqli_query($conn, $update_query);
                 }
-
+            
                 // Delete orders from managecart table
                 $delete_query = "DELETE FROM managecart WHERE Customer_Email = '$customer_email'";
                 mysqli_query($conn, $delete_query);
-
+            
                 // Reset cart count to 0
                 $_SESSION['cart_count'] = 0;
-
+            
                 // Redirect to another page after successful insertion
                 header("Location: success.php");
                 exit();
