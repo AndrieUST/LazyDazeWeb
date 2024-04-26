@@ -191,3 +191,54 @@ input:focus {
 #register{
 	left: 450px;
 }
+/* Modal styles */
+.modal-content {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Open Sans', sans-serif;
+}
+
+.modal-header {
+    background-color: #5e72e4;
+    color: white;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.modal-title {
+    font-size: 24px;
+}
+
+.modal-body {
+    color: #333;
+}
+
+.modal-footer {
+    background-color: #f7f7f7;
+    border-top: none;
+    border-radius: 0px 0px 10px 10px;
+}
+
+/* Checkbox container styles */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Style the checkbox */
+.checkbox-container input[type="checkbox"] {
+    margin-right: 5px; /* Add some space between the checkbox and the text */
+}
+
+/* Terms and Conditions link */
+#termsLink {
+    color: #5e72e4;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#termsLink:hover {
+    color: #324cdd;
+    text-decoration: none;
+}

@@ -1,12 +1,12 @@
 <?php
 include('connect.php'); // Include database connection file
 
-//Import PHPMailer classes into the global namespace
+// Import PHPMailer classes into the global namespace
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-//Load Composer's autoloader
+// Load Composer's autoloader
 require 'vendor/autoload.php';
 
 if (isset($_POST["submit"])) {
@@ -116,7 +116,7 @@ if (isset($_POST["submit"])) {
     <!-- Register Page -->
     <h1>Create an account</h1>
     <div class = "register-center">
-    <form id = "register"  action = "register.php" method ="post">
+    <form id = "register"  action = "register.php" method ="post" onsubmit="return validateForm()">
         <label>Email</label>
         <input type = "text" class = "email-input"  name ="register_email" required>
         <label>House Number</label>
@@ -136,6 +136,15 @@ if (isset($_POST["submit"])) {
         <input type = "password" class = "password-input"  name ="register_password" required>
         <label>Confirm Password</label>
         <input type = "password" class = "password-input"   name ="Confirmpassword" minlength="8" required>
+        
+        <!-- Checkbox for agreeing to terms -->
+        <div class="checkbox-container">
+            <label>
+                <input type="checkbox" id="agreeCheckbox" disabled required>
+                I agree to the <a href="#" id="termsLink" data-toggle="modal" data-target="#termsModal">Terms and Conditions</a>
+            </label>
+        </div>
+
         <button type= "submit" class = "submit-btn" name = "submit" value = "Login">Sign Up</button>
         <div class = "center">
         <p>Already have an account? <a href="login.php" class = "sign-in-text">Sign In</a>!</p>
@@ -143,5 +152,57 @@ if (isset($_POST["submit"])) {
     </form>
     </div>
     </div>
+    <!-- Modal for displaying Terms and Conditions -->
+    <div id="termsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Terms and Conditions</h4>
+            </div>
+            <div class="modal-body">
+                <!-- Insert your Terms and Conditions content here -->
+                <p>
+                    <!-- Sample Terms and Conditions content -->
+                    1. Ordering Procedure:<br>
+                    Customers must view the Product and add desired Size and Quantity to the cart and proceed to the Cart. After Finalizing the Size and quantity, customers should proceed to Payment details and are required to fill out an order form with their details. Payment can be made online via GCash, bank transfer (upon prior coordination with the client). Customers must click the "Place Order" button to finalize their order.<br><br>
+                    2. Payment Methods:<br>
+                    Accepted payment methods include GCash, PayMaya, and bank transfer (upon coordination with the client).<br><br>
+                    3. Shipping and Delivery:<br>
+                    Shipping fees are not included unless explicitly stated. Customers are responsible for any applicable shipping fees. LazyDaze is not liable for shipping delays beyond our control, such as customs issues or adverse weather conditions. Customers must provide accurate shipping information, as we are not responsible for delays or losses due to incorrect information provided.<br><br>
+                    4. Data Privacy:<br>
+                    LazyDaze complies with the Data Privacy Act and ensures the confidentiality of customers' personal information. Any data collected is solely used for order processing and receipts. We do not share, sell, or rent personal information for marketing purposes. By using our services, you consent to our Privacy Policy.<br><br>
+                    5. Product Details:<br>
+                    We aim to provide accurate product descriptions and images on our website. However, slight variations in color and size may occur due to monitor settings and manufacturing processes.<br><br>
+                    6. No Return Policy:<br>
+                    We have a strict no-return policy, except for damaged or defective products upon receipt. Customers should carefully review product descriptions before purchasing. By using our services, you agree to adhere to these Terms and Conditions. If you disagree with any part, please refrain from using our services or making a purchase.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!-- Button to indicate agreement with Terms and Conditions -->
+                <button type="button" class="btn btn-primary" id="agreeBtn" data-dismiss="modal" onclick="enableCheckbox()">I Agree</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script to handle showing Terms and Conditions modal and enabling the checkbox -->
+<script>
+    // Function to enable the checkbox when the user agrees with the Terms and Conditions
+    function enableCheckbox() {
+        $('#agreeCheckbox').prop('checked', true);
+        $('#agreeCheckbox').prop('disabled', false);
+    }
+
+    // Validate the form before submission
+    function validateForm() {
+        if (!document.getElementById('agreeCheckbox').checked) {
+            alert('Please agree to the Terms and Conditions.');
+            return false;
+        }
+        return true;
+    }
+</script>
 </body>
 </html>
