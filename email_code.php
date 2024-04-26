@@ -1,5 +1,4 @@
 <?php
-
 include('connect.php');
 
 require 'vendor/autoload.php';
@@ -15,29 +14,34 @@ if(isset($_POST["confirm"])) {
     $Customer_Email = $_SESSION['registered_email'];
 
     // Check if the verification code matches the one sent to the user
-    $query = "SELECT verification_code, email_verified_at FROM users WHERE Customer_Email = '$Customer_Email'";
-    $result = mysqli_query($conn, $query);
+    $query = "SELECT verification_code, email_verified_at FROM users WHERE Customer_Email = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $Customer_Email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if(mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_assoc($result);
+    if($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
         $stored_verification_code = $row['verification_code'];
         $email_verified_at = $row['email_verified_at'];
 
         if ($email_verified_at !== null) {
             echo "Email already verified. Redirecting to main page...";
             header("Refresh:2; url=mainpage.php");
-            
+            exit;
         }
 
         if($stored_verification_code === $verification_code) {
             // Update the email_verified_at field to mark the email as verified
-            $update_query = "UPDATE users SET email_verified_at = NOW() WHERE Customer_Email = '$Customer_Email'";
-            if(mysqli_query($conn, $update_query)) {
+            $update_query = "UPDATE users SET email_verified_at = NOW(), Confirmed = 1 WHERE Customer_Email = ?";
+            $stmt = $conn->prepare($update_query);
+            $stmt->bind_param("s", $Customer_Email);
+            if($stmt->execute()) {
                 // Redirect the user to the main page or any other destination
                 header("Location: mainpage.php");
-                
+                exit;
             } else {
-                echo "Error updating record: " . mysqli_error($conn);
+                echo "Error updating record: " . $stmt->error;
             }
         } else {
             echo "<div class='warning'>Invalid verification code. Please try again.</div>";
@@ -55,8 +59,10 @@ if(isset($_POST["resend"])) {
     $new_verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
 
     // Update the verification code in the database
-    $update_query = "UPDATE users SET verification_code = '$new_verification_code' WHERE Customer_Email = '$Customer_Email'";
-    if(mysqli_query($conn, $update_query)) {
+    $update_query = "UPDATE users SET verification_code = ?, Confirmed = 0 WHERE Customer_Email = ?";
+    $stmt = $conn->prepare($update_query);
+    $stmt->bind_param("ss", $new_verification_code, $Customer_Email);
+    if($stmt->execute()) {
         // Send the verification email with the new code
         $mail = new PHPMailer(true);
         try {
@@ -86,7 +92,7 @@ if(isset($_POST["resend"])) {
             echo "Error sending verification code: {$mail->ErrorInfo}";
         }
     } else {
-        echo "Error updating verification code: " . mysqli_error($conn);
+        echo "Error updating verification code: " . $stmt->error;
     }
 }
 ?>

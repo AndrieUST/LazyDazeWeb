@@ -1,23 +1,15 @@
 <?php
 include('connect.php');
 
-// Check if search query is set
-if(isset($_GET['search'])) {
-    // Perform search operation here
-    // You can add your search logic here
-    // For example: $search_query = $_GET['search'];
-    // Then redirect to products.php with the search query
-    header("Location: products.php?search=" . urlencode($_GET['search']));
-    exit();
-}
 ?>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to LazyDaze!</title>
+    <title>Welcome to Lazy Daze!</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Homepage CSS -->
@@ -49,23 +41,23 @@ if(isset($_GET['search'])) {
             </div>
             <div class="nav-line"></div>
             <!-- Cart Icon -->
-            <div class="nav-icon">
-            <a href="cart.php">
-                <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
-            </a>
-        </div>
+            <div class="nav-icon" id="cart-icon">
+                <a <?php if (!isset($_SESSION['registered_email'])) echo 'class="disabled-link"'; ?> href="<?php if (isset($_SESSION['registered_email'])) echo 'cart.php'; ?>">
+                    <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                    <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
+                </a>
+            </div>
             <div class="nav-line"></div>
             <!-- Reviews Icon -->
-            <div class="nav-icon">
-                <a href="reviews.php">
+            <div class="nav-icon" id="reviews-icon">
+            <a href="reviews.php">
                     <i class="fa-solid fa-star fa-xl"></i>
                 </a>
             </div>
             <div class="nav-line"></div>
             <!-- Info Icon -->
-            <div class="nav-icon">
-                <a href="inquiries.php">
+            <div class="nav-icon" id="inquiries-icon">
+                <a <?php if (!isset($_SESSION['registered_email'])) echo 'class="disabled-link"'; ?> href="<?php if (isset($_SESSION['registered_email'])) echo 'inquiries.php'; ?>">
                     <i class="fa-solid fa-circle-info fa-xl"></i>
                 </a>
             </div>
@@ -86,7 +78,26 @@ if(isset($_GET['search'])) {
     if (isset($_SESSION['registered_email'])) {
         $email_parts = explode('@', $_SESSION['registered_email']);
         $display_name = $email_parts[0];
-        echo '<h1>' . htmlspecialchars($display_name) . '</h1>';
+        
+        // Fetch confirmed status from the database
+        $query = "SELECT Confirmed FROM users WHERE Customer_Email = '{$_SESSION['registered_email']}'";
+        $result = mysqli_query($conn, $query);
+        $row = mysqli_fetch_assoc($result);
+        $confirmed_status = $row['Confirmed'];
+        
+        // Check if the account is confirmed
+        if ($confirmed_status == 1) {
+            echo '<h1>' . htmlspecialchars($display_name) . '</h1>';
+        } else {
+            // Account is not confirmed, display default message
+            echo '<h1>Get your apparel now!</h1>';
+            // Disable links for inquiries, reviews, and cart
+            echo "<script>
+                    $('#inquiries-icon a').removeAttr('href');
+                   
+                    $('#cart-icon a').removeAttr('href');
+                 </script>";
+        }
     } else {
         echo '<h1>Get your apparel now!</h1>';
     }

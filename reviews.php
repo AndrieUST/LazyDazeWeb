@@ -2,19 +2,35 @@
 include('connect.php'); // Include database connection file
 // Check if the user's email is verified before allowing access to the cart page
 
-if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
-    $cartPage = "cart.php"; // Set the cart page URL
-    $inquiriespage = "inquiries.php";
-} else {
-    $cartPage = "#"; 
-    $inquiriespage = "#";
+// Initialize variables to store user information
+$registered_email = '';
+$confirmed = 0;
+
+// Check if the user is logged in and fetch user information from the database
+if(isset($_SESSION['registered_email'])) {
+    $registered_email = $_SESSION['registered_email'];
+
+    // Fetch confirmed status from the database
+    $query = "SELECT Confirmed FROM users WHERE Customer_Email = '$registered_email'";
+    $result = mysqli_query($conn, $query);
+
+    // Check if the query was successful
+    if($result) {
+        // Fetch the confirmed status
+        $row = mysqli_fetch_assoc($result);
+        $confirmed = $row['Confirmed'];
+    }
 }
-// Check if the user's email is verified before allowing access to the cart page
-if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
+
+// Determine the cart and inquiries page URLs based on user confirmation status
+if($confirmed == 1) {
     $cartPage = "cart.php"; // Set the cart page URL
+    $inquiriesPage = "inquiries.php"; // Set the inquiries page URL
 } else {
-    $cartPage = "#"; // Set the URL to a placeholder or any other page you want to redirect unverified users to
+    $cartPage = "#"; // Set a placeholder URL for the cart page
+    $inquiriesPage = "#"; // Set a placeholder URL for the inquiries page
 }
+
 // Initialize SQL query
 $query = "SELECT * FROM managereview";
 
@@ -75,20 +91,20 @@ mysqli_data_seek($result, 0);
                 </a>
             </div>
             <div class="nav-line"></div>
-            <!-- Cart Icon -->
-            <div class="nav-icon">
-            <a href="<?php echo $cartPage; ?>">
-                <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
-            </a>
-            </div>
+              <!-- Cart Icon -->
+              <div class="nav-icon">
+                    <a <?php if (!isset($_SESSION['registered_email'])) echo 'class="disabled-link"'; ?> href="<?php echo $cartPage; ?>">
+                        <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                        <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
+                    </a>
+                </div>
             <div class="nav-line"></div>
-            <!-- Info Icon -->
-            <div class="nav-icon">
-            <a href="<?php echo $inquiriespage; ?>">
-                    <i class="fa-solid fa-circle-info fa-xl"></i>
-                </a>
-            </div>
+             <!-- Info Icon -->
+             <div class="nav-icon">
+                    <a href="<?php echo $inquiriesPage; ?>">
+                        <i class="fa-solid fa-circle-info fa-xl"></i>
+                    </a>
+                </div>
             <div class="nav-line"></div>
             <!-- Search -->
             <div class="nav-search">

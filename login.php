@@ -25,7 +25,6 @@ if (isset($_POST["submit"])) {
     if (time() - $_SESSION['lockout_start_time'] < $lockout_duration) {
         $remaining_lockout_time = $lockout_duration - (time() - $_SESSION['lockout_start_time']);
         echo "<script> alert('You are currently locked out. Please try again after $remaining_lockout_time seconds.'); </script>";
-       
     }
 
     // Check if lockout duration has passed since last attempt
@@ -54,15 +53,13 @@ if (isset($_POST["submit"])) {
                 $_SESSION["login"] = true;
                 $_SESSION["admin"] = true; 
                 header("Location: admin_mainpage.php");
-                
+                exit; // Exit after successful login
            }  else {
             echo "<script> alert('Wrong Admin Password. Attempts left: ". ($max_attempts - $_SESSION['login_attempts']) ."'); </script>";
                 $_SESSION['login_attempts']++; // Increase login attempts
-              
             }
         } else {
             echo "<script> alert('Admin account not found.'); </script>";
-           
         }
         // Admin login logic
         // Omitted for brevity
@@ -72,6 +69,11 @@ if (isset($_POST["submit"])) {
         $row = mysqli_fetch_assoc($result);
 
         if (mysqli_num_rows($result) > 0) {
+            if ($row['Confirmed'] == 0) {
+                
+                
+            }
+
             if (password_verify($Customer_PW, $row['Customer_PW'])) {
                 if (!empty($row['email_verified_at'])) { // Check if email is verified
                     $_SESSION["login"] = true;
@@ -81,7 +83,7 @@ if (isset($_POST["submit"])) {
                     header("Location: mainpage.php");
                     exit; // Exit after successful login
                 } else {
-                    echo "<script> alert('Please verify your email to proceed.'); </script>";
+                    echo "<script> alert('Your account is not confirmed. Please verify your email.'); </script>";
                 }
             } else {
                 echo "<script> alert('Wrong Password. Attempts left: ". ($max_attempts - $_SESSION['login_attempts']) ."'); </script>";

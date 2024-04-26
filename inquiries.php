@@ -1,13 +1,8 @@
 <?php
 include('connect.php');
-if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
-    $cartPage = "cart.php"; // Set the cart page URL
-    $inquiriespage = "inquiries.php";
-} else {
-    $cartPage = "#"; 
-    $inquiriespage = "#";
-}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +28,7 @@ if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at'])
 <div class="bg">
     <!-- Navigation Bar -->
     <div class="topnav">
-        <a href="mainpage.php">
+        <a href="homepage.php">
             <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
@@ -47,11 +42,10 @@ if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at'])
             <div class="nav-line"></div>
             <!-- Cart Icon -->
             <div class="nav-icon">
-            <a href="<?php echo $cartPage; ?>">
-                <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
-            </a>
-        </div>
+                <a href="cart.php">
+                    <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                </a>
+            </div>
             <div class="nav-line"></div>
             <!-- Reviews Icon -->
             <div class="nav-icon">

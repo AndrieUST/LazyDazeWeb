@@ -1,12 +1,36 @@
 <?php
+// Include the connection file
 include('connect.php');
-if(isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
-    $cartPage = "cart.php"; // Set the cart page URL
-    $inquiriespage = "inquiries.php";
-} else {
-    $cartPage = "#"; 
-    $inquiriespage = "#";
+
+// Initialize variables to store user information
+$registered_email = '';
+$confirmed = 0;
+
+// Check if the user is logged in and fetch user information from the database
+if(isset($_SESSION['registered_email'])) {
+    $registered_email = $_SESSION['registered_email'];
+
+    // Fetch confirmed status from the database
+    $query = "SELECT Confirmed FROM users WHERE Customer_Email = '$registered_email'";
+    $result = mysqli_query($conn, $query);
+
+    // Check if the query was successful
+    if($result) {
+        // Fetch the confirmed status
+        $row = mysqli_fetch_assoc($result);
+        $confirmed = $row['Confirmed'];
+    }
 }
+
+// Determine the cart and inquiries page URLs based on user confirmation status
+if($confirmed == 1) {
+    $cartPage = "cart.php"; // Set the cart page URL
+    $inquiriesPage = "inquiries.php"; // Set the inquiries page URL
+} else {
+    $cartPage = "#"; // Set a placeholder URL for the cart page
+    $inquiriesPage = "#"; // Set a placeholder URL for the inquiries page
+}
+
 // Initialize SQL query
 $sql = "SELECT * FROM manageprod";
 
@@ -58,11 +82,11 @@ $result = mysqli_query($conn, $sql);
                 <div class="nav-line"></div>
                 <!-- Cart Icon -->
                 <div class="nav-icon">
-                <a href="<?php echo $cartPage; ?>">
-                <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
-            </a>
-        </div>
+                    <a <?php if (!isset($_SESSION['registered_email'])) echo 'class="disabled-link"'; ?> href="<?php echo $cartPage; ?>">
+                        <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                        <span id="cart-notification" class="cart-notification">0</span> <!-- Notification badge -->
+                    </a>
+                </div>
                 <div class="nav-line"></div>
                 <!-- Reviews Icon -->
                 <div class="nav-icon">
@@ -73,7 +97,7 @@ $result = mysqli_query($conn, $sql);
                 <div class="nav-line"></div>
                 <!-- Info Icon -->
                 <div class="nav-icon">
-                <a href="<?php echo $inquiriespage; ?>">
+                    <a href="<?php echo $inquiriesPage; ?>">
                         <i class="fa-solid fa-circle-info fa-xl"></i>
                     </a>
                 </div>
@@ -96,9 +120,9 @@ $result = mysqli_query($conn, $sql);
                     <div class="item">
                         <img class="item-image" src="<?php echo $row['img']; ?>" alt="<?php echo htmlspecialchars($row['Product_Name']); ?>">
                         <div class="item-details">
-                        <h3 class="item-title"><?php echo htmlspecialchars($row['Product_Name']); ?></h3>
-                        <div class="item-desc"><?php echo htmlspecialchars($row['Description']); ?></div>
-                        <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP
+                            <h3 class="item-title"><?php echo htmlspecialchars($row['Product_Name']); ?></h3>
+                            <div class="item-desc"><?php echo htmlspecialchars($row['Description']); ?></div>
+                            <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP
                         </div>
                         <form method="get" action="viewprod.php">
                             <!-- get the value and pass to the viewprod.php -->

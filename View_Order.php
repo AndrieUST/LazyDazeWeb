@@ -1,9 +1,18 @@
 <?php
 include('connect.php');
 
-// Fetch order details from the database
-$order_query = "SELECT * FROM manageorders ORDER BY Order_Date DESC";
-$order_result = mysqli_query($conn, $order_query);
+// Check if the user is logged in
+if(isset($_SESSION['registered_email'])) {
+    $customer_email = $_SESSION['registered_email'];
+
+    // Fetch order details associated with the logged-in user from the database
+    $order_query = "SELECT * FROM manageorders WHERE Customer_Email = '$customer_email' ORDER BY Order_Date DESC";
+    $order_result = mysqli_query($conn, $order_query);
+} else {
+    // Redirect to the login page if the user is not logged in
+    header("Location: login.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
