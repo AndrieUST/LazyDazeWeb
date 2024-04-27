@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "DELETE FROM manageprod WHERE ProductID = $product_id";
         if (mysqli_query($conn, $sql)) {
             // Product removed successfully
-            header("Location: prod.php"); // Redirect back to the product management page
+            header("Location: inventory.php"); // Redirect back to the product management page
             exit();
         } else {
             // Error deleting product

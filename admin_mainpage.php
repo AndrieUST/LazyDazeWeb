@@ -54,6 +54,9 @@ include('connect.php');
 <a href="Admin_payment.php">
   <button class = "main-btn" name = "Payment" value = "Payment">Payment</button>
 </a>
+<a href="Report_sales.php">
+  <button class = "main-btn" name = "Sales" value = "Sales">Report Sales</button>
+</a>
 </div>
 <img class="biglogo" src="LDAssets/biglogo.png" alt="Big Lazy Logo"/>
 </div>	

@@ -126,48 +126,4 @@ a:hover {
     transition-duration: 0.3s;
 }
 
-.main-btn {
-	margin-top: 5px;
-	margin-bottom: 5px;
-	width: 170px;
-	height: 55px;
-	padding: 10px 30px;
-	cursor: pointer;
-	background: #5271FF;
-	border: 0;
-	color: black;
-	outline: none;
-	transition-duration: .4s;
-	font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
-}
 
-.main-btn:hover {
-    background: #31449b;
-	border-radius: 15px;
-	transition-duration: .4s;
-}
-
-.intro {
-	margin-top: 15%;
-	margin-bottom: auto;
-	margin-left: 10%;
-	font-family: 'Open Sans', sans-serif;
-}
-
-.intro h1{
-	margin-bottom: 15px;
-	font-size: 50px;
-	font-weight: 700;
-}
-
-.intro h2{
-	margin-bottom: -15px;
-	font-size: 15px;
-}
-
-.biglogo {
-	float: right;
-	margin-top: -11%;
-	margin-right: 8.5%;
-}

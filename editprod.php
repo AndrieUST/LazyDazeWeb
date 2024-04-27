@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (mysqli_query($conn, $update_sql)) {
         // Product details updated successfully
-        header("Location: prod.php"); // Redirect back to the product management page
+        header("Location: inventory.php"); // Redirect back to the product management page
         exit();
     } else {
         // Error updating product details

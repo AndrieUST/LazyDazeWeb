@@ -24,7 +24,7 @@ if(isset($_POST['submit'])) {
 
             if(mysqli_query($conn, $sql)){
                 // Redirect to prod.php if records added successfully
-                header("Location: prod.php");
+                header("Location: inventory.php");
                 exit();
             } else{
                 echo "ERROR: Could not able to execute query. Please try again later."; // A more user-friendly error message
