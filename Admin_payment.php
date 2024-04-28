@@ -70,7 +70,7 @@ $payment_result = mysqli_query($conn, $payment_query);
 <div class = "bg">
   <!-- Navigation Bar -->
 <div class="topnav">
-        <a href="">
+        <a href="admin_mainpage.php">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->
