@@ -107,9 +107,28 @@ include('connect.php');
 <!-- JavaScript for live search with debounce -->
 <script>
 function ViewOrders() {
-    // Redirect to payment.php
-    window.location.href = 'View_Order.php';
+    <?php
+    if (!isset($_SESSION['registered_email'])) {
+        // User is not logged in, redirect to login page
+        echo 'window.location.href = "login.php";';
+    } else {
+        // User is logged in, check if the account is confirmed
+        $query = "SELECT Confirmed FROM users WHERE Customer_Email = '{$_SESSION['registered_email']}'";
+        $result = mysqli_query($conn, $query);
+        $row = mysqli_fetch_assoc($result);
+        $confirmed_status = $row['Confirmed'];
+
+        if ($confirmed_status != 1) {
+            // Account is not confirmed, redirect to login page
+            echo 'window.location.href = "login.php";';
+        } else {
+            // Account is confirmed, redirect to View Orders page
+            echo 'window.location.href = "View_Order.php";';
+        }
+    }
+    ?>
 }
+
 $(document).ready(function(){
     var typingTimer;
     var doneTypingInterval = 300; // 300 milliseconds
