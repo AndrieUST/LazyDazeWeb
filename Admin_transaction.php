@@ -64,14 +64,13 @@ $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
                                     <th>OrderRefID</th>
                                     <th>Customer Email</th>
                                     <th>Customer Name</th>
-                                    <th>Customer House Number</th>
-                                    <th>Customer Street</th>
-                                    <th>Customer Barangay</th>
-                                    <th>Customer City</th>
-                                    <th>Customer Postal</th>
-                                    <th>Customer Number</th>
+                                    <th> House Number</th>
+                                    <th> Street</th>
+                                    <th> Barangay</th>
+                                    <th> City</th>
+                                    <th> Postal</th>
+                                    <th> Number</th>
                                     <th>Product Name</th>
-                                    
                                     <th>Size</th>
                                     <th>Quantity</th>
                                     <th>Total Price</th>
@@ -135,12 +134,12 @@ $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
                 <th>OrderRefID</th>
                 <th>Customer Email</th>
                 <th>Customer Name</th>
-                <th>Customer House Number</th>
-                <th>Customer Street</th>
-                <th>Customer Barangay</th>
-                <th>Customer City</th>
-                <th>Customer Postal</th>
-                <th>Customer Number</th>
+                <th> House Number</th>
+                <th> Street</th>
+                <th> Barangay</th>
+                <th> City</th>
+                <th> Postal</th>
+                <th> Number</th>
                 <th>Product Name</th>
                 
                 <th>Size</th>
@@ -207,12 +206,12 @@ echo "</form>";
                 <th>OrderRefID</th>
                 <th>Customer Email</th>
                 <th>Customer Name</th>
-                <th>Customer House Number</th>
-                <th>Customer Street</th>
-                <th>Customer Barangay</th>
-                <th>Customer City</th>
-                <th>Customer Postal</th>
-                <th>Customer Number</th>
+                <th> House Number</th>
+                <th> Street</th>
+                <th> Barangay</th>
+                <th> City</th>
+                <th> Postal</th>
+                <th> Number</th>
                 <th>Product Name</th>
                 
                 <th>Size</th>
