@@ -22,6 +22,7 @@ if(isset($_GET['product_id'])) {
         $Quantity_Medium = $row['Quantity_Medium'];
         $Quantity_Large = $row['Quantity_Large'];
         $Quantity_XL = $row['Quantity_XL'];
+        $Prod_Cost = $row['Prod_Cost'];
         $Price = $row['Price'];
         $img = $row['img'];
     } else {
@@ -42,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_Quantity_Medium = isset($_POST['Quantity_Medium']) ? mysqli_real_escape_string($conn, $_POST['Quantity_Medium']) : '';
     $new_Quantity_Large = isset($_POST['Quantity_Large']) ? mysqli_real_escape_string($conn, $_POST['Quantity_Large']) : '';
     $new_Quantity_XL = isset($_POST['Quantity_XL']) ? mysqli_real_escape_string($conn, $_POST['Quantity_XL']) : '';
+    $new_Prod_Cost = isset($_POST['Prod_Cost']) ? mysqli_real_escape_string($conn, $_POST['Prod_Cost']) : '';
     $new_Price = isset($_POST['Price']) ? mysqli_real_escape_string($conn, $_POST['Price']) : '';
 
     // Check if a new image is uploaded
@@ -80,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     Quantity_Medium = '$new_Quantity_Medium', 
     Quantity_Large = '$new_Quantity_Large', 
     Quantity_XL = '$new_Quantity_XL', 
+    Prod_Cost = '$new_Prod_Cost',
     Price = '$new_Price', 
     img = '$img' 
   WHERE ProductID = '$product_id'";
@@ -150,6 +153,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label>Quantity (XL)</label>
         <input type="number" class="Quantity" name="Quantity_XL" value="<?php echo htmlspecialchars($Quantity_XL); ?>" required>
+
+        <label>Product Cost (PHP)</label>
+        <input type="number" class="Price" name="Prod_Cost" value="<?php echo htmlspecialchars($Prod_Cost); ?>" required>
 
         <label>Price (PHP)</label>
         <input type="number" class="Price" name="Price" value="<?php echo htmlspecialchars($Price); ?>" required>

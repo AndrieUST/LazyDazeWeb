@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\Exception;
 // Check if the received button is clicked
 if(isset($_POST['received'])) {
     $orderRefID = $_POST['received'];
-    $update_query = "UPDATE manageorders SET Status = 'Received' WHERE OrderRefID = '$orderRefID'";
+    $update_query = "UPDATE manageorders SET Status = 'Received', Date_Completed = NOW() WHERE OrderRefID = '$orderRefID'";
     mysqli_query($conn, $update_query);
 
     // Send email to the user

@@ -122,23 +122,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // If email sent successfully, insert data into manageorders table
             if ($emailSent) {
                 // Reset pointer of cart_result
-                mysqli_data_seek($cart_result, 0);
-                while ($row = mysqli_fetch_assoc($cart_result)) {
-                    // Fetch necessary data
-                    $product_name = $row['Product_Name'];
-                    $size = $row['Size'];
-                    $quantity = $row['Quantity'];
-                    $total_price = $row['TotalPrice'];
-                    $img = $row['img']; // Fetch 'img' field from managecart
-            
-                    // Insert order into manageorders table
-                    $insert_query = "INSERT INTO manageorders (Customer_Email, Customer_Name, Customer_HouseNumber, Customer_Street, Customer_Barangay, Customer_City, Customer_Postal, Customer_Number, Product_Name, Size, Quantity, TotalPrice, img, Receipt_img, Order_Date) VALUES ('$customer_email', '$customer_name', '$customer_house_number', '$customer_street', '$customer_barangay', '$customer_city', '$customer_postal', '$customer_number', '$product_name', '$size', '$quantity', '$total_price', '$img', '$target_file', '$local_order_date_formatted')";
-                    mysqli_query($conn, $insert_query);
-            
-                    // Update Quantity in manageprod table
-                    $update_query = "UPDATE manageprod SET Quantity_$size = Quantity_$size - $quantity WHERE Product_Name = '$product_name'";
-                    mysqli_query($conn, $update_query);
-                }
+                // Fetch data from managecart table
+mysqli_data_seek($cart_result, 0);
+while ($row = mysqli_fetch_assoc($cart_result)) {
+    // Fetch necessary data from managecart table
+    $product_name = $row['Product_Name'];
+    $size = $row['Size'];
+    $quantity = $row['Quantity'];
+    $price =$row['Price'];
+    $total_price = $row['TotalPrice'];
+    $img = $row['img']; // Fetch 'img' field from managecart
+
+    // Fetch ProductID and Prod_Cost from manageprod table
+    $prod_query = "SELECT ProductID, Prod_Cost FROM manageprod WHERE Product_Name = '$product_name'";
+    $prod_result = mysqli_query($conn, $prod_query);
+    $prod_row = mysqli_fetch_assoc($prod_result);
+    $product_id = $prod_row['ProductID'];
+    $prod_cost = $prod_row['Prod_Cost'];
+
+    // Insert order into manageorders table
+    $insert_query = "INSERT INTO manageorders (Customer_Email, Customer_Name, Customer_HouseNumber, Customer_Street, Customer_Barangay, Customer_City, Customer_Postal, Customer_Number, ProductID, Product_Name, Price, Size, Quantity, TotalPrice, Prod_Cost, img, Receipt_img, Order_Date) VALUES ('$customer_email', '$customer_name', '$customer_house_number', '$customer_street', '$customer_barangay', '$customer_city', '$customer_postal', '$customer_number', '$product_id', '$product_name','$price', '$size', '$quantity', '$total_price', '$prod_cost', '$img', '$target_file', '$local_order_date_formatted')";
+    mysqli_query($conn, $insert_query);
+
+    // Update Quantity in manageprod table
+    $update_query = "UPDATE manageprod SET Quantity_$size = Quantity_$size - $quantity WHERE Product_Name = '$product_name'";
+    mysqli_query($conn, $update_query);
+}
+
             
                 // Delete orders from managecart table
                 $delete_query = "DELETE FROM managecart WHERE Customer_Email = '$customer_email'";
@@ -240,10 +250,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <section class="container">
             <form method="post" action="" enctype="multipart/form-data">
                 <section class="form-container">
+                <div class="form-group">
+    <label>Total Price for All Items:</label>
+    <p style="font-weight: bold; font-size: 1.2em;"><?php echo $total_price; ?></p>
+</div>
                     <div class="form-group">
                         <label for="name">Customer Name:</label>
                         <input type="text" class="form-control" id="name" name="Customer_Name">
                     </div>
+                    
                     <div class="form-group">
                         <label for="email">Customer Email:</label>
                         <input type="email" class="form-control" id="email" name="Customer_Email" value="<?php echo $customer_email; ?>" readonly>
@@ -273,6 +288,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="number">Customer Number:</label>
                         <input type="number" class="form-control" id="number" name="Customer_Number" value="<?php echo $customer_number; ?>" required>
                     </div>
+       
                     <div class="form-group">
                         <label for="receiptImg">Upload Receipt Image:</label>
                         <input type="file" class="form-control-receipt" id="receiptImg" name="Receipt_img">

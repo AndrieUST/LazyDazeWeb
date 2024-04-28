@@ -87,8 +87,10 @@ $result = mysqli_query($conn, $sql);
                             <div class="item-quantity">XL: Out of stock</div>
                         <?php } else { ?>
                             <div class="item-quantity">XL: <?php echo $row['Quantity_XL']; ?></div>
+                            
                         <?php } ?>
-                        <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP
+                        <div class="item-cost">Cost: <?php echo number_format($row['Prod_Cost'], 2, '.', ','); ?> PHP</div>
+                        <div class="item-price">Price: <?php echo number_format($row['Price'], 2, '.', ','); ?> PHP</div>
                         </div>
                         <!-- Edit Button -->
                         <a href="editprod.php?product_id=<?php echo $row['ProductID']; ?>">

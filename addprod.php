@@ -5,6 +5,7 @@ if(isset($_POST['submit'])) {
     // Escape user inputs for security
     $Product_Name = isset($_POST['Prod-name']) ? mysqli_real_escape_string($conn, $_POST['Prod-name']) : '';
     $Description = isset($_POST['Description']) ? mysqli_real_escape_string($conn, $_POST['Description']) : '';
+    $Prod_Cost = isset($_POST['Prod_Cost']) ? mysqli_real_escape_string($conn, $_POST['Prod_Cost']) : '';
     $Price = isset($_POST['Price']) ? mysqli_real_escape_string($conn, $_POST['Price']) : '';
 
     // File upload handling
@@ -20,7 +21,7 @@ if(isset($_POST['submit'])) {
             $Quantity_XL = isset($_POST['Quantity_XL']) ? mysqli_real_escape_string($conn, $_POST['Quantity_XL']) : '';
 
             // Insert query with image path and quantities for different sizes
-            $sql = "INSERT INTO manageprod (Product_Name, Description, Quantity_Small, Quantity_Medium, Quantity_Large, Quantity_XL, Price, img) VALUES ('$Product_Name', '$Description', '$Quantity_Small', '$Quantity_Medium', '$Quantity_Large', '$Quantity_XL', '$Price', '$target_file')";
+            $sql = "INSERT INTO manageprod (Product_Name, Description, Quantity_Small, Quantity_Medium, Quantity_Large, Quantity_XL, Prod_Cost, Price, img) VALUES ('$Product_Name', '$Description', '$Quantity_Small', '$Quantity_Medium', '$Quantity_Large', '$Quantity_XL','$Prod_Cost', '$Price', '$target_file')";
 
             if(mysqli_query($conn, $sql)){
                 // Redirect to prod.php if records added successfully
@@ -109,6 +110,9 @@ if(isset($_POST['submit'])) {
 
         <label>Quantity (XL)</label>
         <input type="number" class="Quantity" name="Quantity_XL" required>
+
+        <label>Product Cost (PHP)</label>
+        <input type="number" class="Price" name="Prod_Cost" required>
 
         <label>Price (PHP)</label>
         <input type="number" class="Price" name="Price" required>

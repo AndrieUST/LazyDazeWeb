@@ -49,11 +49,14 @@ $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
                 <li class="active"><a data-toggle="tab" href="#Orders">Orders</a></li>
                 <li><a data-toggle="tab" href="#confirmedOrders">Confirmed Orders</a></li>
                 <li><a data-toggle="tab" href="#cancelledOrders">Cancelled Orders</a></li>
+             
             </ul>
+            
 
             <div class="tab-content">
                 <div id="Orders" class="tab-pane fade in active">
                     <h2>Orders</h2>
+                    
                     <form action="Confirm_Order.php" method="post">
                         <table class="table">
                             <thead>
@@ -68,11 +71,13 @@ $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
                                     <th>Customer Postal</th>
                                     <th>Customer Number</th>
                                     <th>Product Name</th>
+                                    
                                     <th>Size</th>
                                     <th>Quantity</th>
                                     <th>Total Price</th>
                                     <th>Image</th>
                                     <th>Receipt Image</th>
+                                    <th>Order Date</th>
                                     <th>Action</th> <!-- Header for action buttons -->
                                 </tr>
                             </thead>
@@ -94,11 +99,13 @@ $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
                                         echo "<td>" . $row['Customer_Postal'] . "</td>";
                                         echo "<td>" . $row['Customer_Number'] . "</td>";
                                         echo "<td>" . $row['Product_Name'] . "</td>";
+                                       
                                         echo "<td>" . $row['Size'] . "</td>";
                                         echo "<td>" . $row['Quantity'] . "</td>";
                                         echo "<td>" . $row['TotalPrice'] . "</td>";
                                         echo "<td><img src='" . $row['img'] . "' alt='Product Image' width='135px'></td>";
                                         echo "<td><img src='" . $row['Receipt_img'] . "' width='100' onclick='showLargerImage(this.src)' style='cursor:pointer'></td>"; 
+                                        echo "<td>" . $row['Order_Date'] . "</td>";
                                         echo "<td>";
 
                                         
@@ -135,12 +142,15 @@ $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
                 <th>Customer Postal</th>
                 <th>Customer Number</th>
                 <th>Product Name</th>
+                
                 <th>Size</th>
                 <th>Quantity</th>
                 <th>Total Price</th>
                 <th>Image</th>
                 <th>Receipt Image</th>
                 <th>Status</th>
+                <th>Order Date</th>
+                <th>Date Completed</th>
                 <th>Action</th> <!-- Header for action buttons -->
             </tr>
         </thead>
@@ -160,12 +170,15 @@ $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
                 echo "<td>" . $row['Customer_Postal'] . "</td>";
                 echo "<td>" . $row['Customer_Number'] . "</td>";
                 echo "<td>" . $row['Product_Name'] . "</td>";
+                
                 echo "<td>" . $row['Size'] . "</td>";
                 echo "<td>" . $row['Quantity'] . "</td>";
                 echo "<td>" . $row['TotalPrice'] . "</td>";
                 echo "<td><img src='" . $row['img'] . "' alt='Product Image' width='135px'></td>";
                 echo "<td><img src='" . $row['Receipt_img'] . "' width='100' onclick='showLargerImage(this.src)' style='cursor:pointer'></td>"; 
                 echo "<td>" . $row['Status'] . "</td>";
+                echo "<td>" . $row['Order_Date'] . "</td>";
+                echo "<td>" . $row['Date_Completed'] . "</td>";
                 echo "<td>";
                 // Add the "Deliver" button
                 echo "<form action='Deliver.php' method='post'>";
@@ -187,6 +200,7 @@ echo "</form>";
                 <!-- Cancelled Orders Tab Content -->
                 <div id="cancelledOrders" class="tab-pane fade">
     <h2>Cancelled Orders</h2>
+    
     <table class="table">
         <thead>
             <tr class="order-headers">
@@ -200,12 +214,15 @@ echo "</form>";
                 <th>Customer Postal</th>
                 <th>Customer Number</th>
                 <th>Product Name</th>
+                
                 <th>Size</th>
                 <th>Quantity</th>
                 <th>Total Price</th>
                 <th>Image</th>
                 <th>Receipt Image</th>
-                <th>Status</th> <!-- Added Status column -->
+                <th>Status</th>
+                <th>Order Date</th>
+                <th>Date Completed</th>  <!-- Added Status column -->
                 <th>Action</th> <!-- Header for action buttons -->
             </tr>
         </thead>
@@ -226,6 +243,7 @@ echo "</form>";
                     echo "<td>" . $row['Customer_Postal'] . "</td>";
                     echo "<td>" . $row['Customer_Number'] . "</td>";
                     echo "<td>" . $row['Product_Name'] . "</td>";
+                   
                     echo "<td>" . $row['Size'] . "</td>";
                     echo "<td>" . $row['Quantity'] . "</td>";
                     echo "<td>" . $row['TotalPrice'] . "</td>";
@@ -233,6 +251,8 @@ echo "</form>";
                     echo "<td><img src='" . $row['img'] . "' alt='Product Image' width='135px'></td>";
                     echo "<td><img src='" . $row['Receipt_img'] . "' width='100' onclick='showLargerImage(this.src)' style='cursor:pointer'></td>"; 
                     echo "<td>" . $row['Status'] . "</td>"; // Display status
+                    echo "<td>" . $row['Order_Date'] . "</td>";
+                    echo "<td>" . $row['Date_Completed'] . "</td>";
                     echo "<td>";
                     // Add the "Refund" button
                     echo "<form action='Refund_Order.php' method='post'>";
@@ -244,10 +264,15 @@ echo "</form>";
             } else {
                 echo "<tr><td colspan='17'>No cancelled orders found.</td></tr>";
             }
+            
             ?>
+            
         </tbody>
+  
     </table>
+ 
 </div>
+
             </div>
         </div>
     </div>

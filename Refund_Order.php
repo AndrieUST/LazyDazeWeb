@@ -9,7 +9,7 @@ if(isset($_POST['Refund'])) {
     $orderRefID = $_POST['Refund'];
     $message = isset($_POST['message']) ? $_POST['message'] : ''; // Retrieve message from form
     
-    $update_query = "UPDATE manageorders SET Status = 'Refunded' WHERE OrderRefID = '$orderRefID'";
+    $update_query = "UPDATE manageorders SET Status = 'Refunded', Date_Completed = NOW() WHERE OrderRefID = '$orderRefID'";
     mysqli_query($conn, $update_query);
 
     // Fetch order details using $orderRefID
