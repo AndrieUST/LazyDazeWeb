@@ -262,7 +262,6 @@ if(isset($_POST['submit_cart'])) {
                 <i class="fa-solid fa-star fa-xl"></i>
             </a>
         </div>
-        <div class="nav-line"></div>
         <!-- Info Icon -->
         <div class="nav-line"></div>
                 <!-- Info Icon -->
@@ -270,14 +269,6 @@ if(isset($_POST['submit_cart'])) {
                     <a href="<?php echo $inquiriesPage; ?>">
                 <i class="fa-solid fa-circle-info fa-xl"></i>
             </a>
-        </div>
-        <div class="nav-line"></div>
-        <!-- Search -->
-        <div class="nav-search">
-            <form method="get">
-                <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-                <input type="text" class="search-input" name="search" value="" placeholder="Search Product">
-            </form>
         </div>
         <div class="nav-line"></div>
     </div>

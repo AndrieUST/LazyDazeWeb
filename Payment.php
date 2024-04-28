@@ -288,11 +288,6 @@ while ($row = mysqli_fetch_assoc($cart_result)) {
                         <label for="number">Customer Number:</label>
                         <input type="number" class="form-control" id="number" name="Customer_Number" value="<?php echo $customer_number; ?>" required>
                     </div>
-       
-                    <div class="form-group">
-                        <label for="receiptImg">Upload Receipt Image:</label>
-                        <input type="file" class="form-control-receipt" id="receiptImg" name="Receipt_img">
-                    </div>
                     <div class="form-group">
                         <label for="paymentMethod">Select Payment Method:</label>
                         <select class="form-control" id="paymentMethod" name="paymentMethod">
@@ -311,18 +306,21 @@ while ($row = mysqli_fetch_assoc($cart_result)) {
                             ?>
                         </select>
                     </div>
-
                     <div class="form-group">
-    <div id="qrCodeContainer">
-        <?php
-        // Display blank image initially
-        echo '<img id="qrCodeImage" src="" alt="QR Code" style="max-width: 200px;">';
-        ?>
-    </div>
-</div>
+                    <div id="qrCodeContainer">
+                        <?php
+                        // Display blank image initially
+                        echo '<img id="qrCodeImage" src="" alt="QR Code" style="max-width: 200px;">';
+                        ?>
+                    </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="receiptImg">Upload Receipt Image:</label>
+                        <input type="file" class="form-control-receipt" id="receiptImg" name="Receipt_img">
+                    </div>
 
 
-                    <button type="submit" class="btn btn-primary">Place Order</button>
+                    <button type="submit" class="submit-btn">Place Order</button>
                 </section>
             </form>
         </section>

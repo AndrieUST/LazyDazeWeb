@@ -62,14 +62,6 @@ include('connect.php');
                 </a>
             </div>
             <div class="nav-line"></div>
-            <!-- Search -->
-            <div class="nav-search">
-            <form method="get">
-                <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-                <input type="text" class="search-input" name="search" value="" placeholder="Search Product">
-            </form>
-            </div>
-            <div class="nav-line"></div>
         </div>
   </header>
   <div class="intro">
@@ -105,6 +97,7 @@ include('connect.php');
     <a href="products.php">
         <button class="go-products" name="go-to-products" value="Go-Products">View Products</button>
     </a>
+    <button class="orders-btn" onclick="ViewOrders()">Your Orders</button>
 </div>
 <img class="biglogo" src="LDAssets/biglogo.png" alt="Big Lazy Logo"/>
 </div>
@@ -113,6 +106,10 @@ include('connect.php');
 
 <!-- JavaScript for live search with debounce -->
 <script>
+function ViewOrders() {
+    // Redirect to payment.php
+    window.location.href = 'View_Order.php';
+}
 $(document).ready(function(){
     var typingTimer;
     var doneTypingInterval = 300; // 300 milliseconds

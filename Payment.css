@@ -98,20 +98,6 @@ a:hover {
     transition-duration: 0.3s;
 }
 
-.fa-star:hover {
-    color: rgb(253, 233, 146);
-    transition-duration: 0.3s;
-}
-.fa-cart-shopping:hover {
-    color: rgb(91, 255, 118);
-    transition-duration: 0.3s;
-}
-
-.fa-circle-info:hover {
-    color: rgb(96, 178, 255);
-    transition-duration: 0.3s;
-}
-
 table {
     border-top: 2.5px solid rgba(166, 166, 166, 0.5);
     border-bottom: 2.5px solid rgba(166, 166, 166, 0.5);

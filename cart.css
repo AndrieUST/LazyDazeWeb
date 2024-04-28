@@ -262,6 +262,30 @@ a:hover {
     width: 250px;
     height: 60px;
     display: block;
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: 0;
+    cursor: pointer;
+    background: #5271FF;
+    border: 0;
+    color: black;
+    outline: none;
+    transition-duration: .4s;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.submit-btn:hover {
+    background: #31449b;
+    border-radius: 10px;
+    transition-duration: .4s;
+}
+
+.orders-btn {
+    width: 250px;
+    height: 60px;
+    display: block;
     margin-bottom: 30px;
     margin-left: auto;
     margin-right: 0;
@@ -273,10 +297,10 @@ a:hover {
     transition-duration: .4s;
     font-family: 'Open Sans', sans-serif;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
 }
 
-.submit-btn:hover {
+.orders-btn:hover {
     background: #31449b;
     border-radius: 10px;
     transition-duration: .4s;

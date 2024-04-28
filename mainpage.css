@@ -10,10 +10,11 @@
 	}
 }
 
-body {
+body, html {
 	animation: appear 0.5s;
 	background-color: white;
 	color: black;
+	height: 100%;
 }
 
 a {
@@ -32,6 +33,7 @@ a:hover {
 	height: 100%;
 	background-size: 100%;
 	position: relative;
+	overflow-x: hidden;
 }
 
 .topnav {
@@ -156,6 +158,28 @@ a:hover {
 	transition-duration: .4s;
 }
 
+.orders-btn {
+    width: 205px;
+	height: 55px;
+	padding: 10px 30px;
+    display: block;
+    margin-top: 10px;
+    cursor: pointer;
+    background: #5271FF;
+    border: 0;
+    color: black;
+    outline: none;
+    transition-duration: .4s;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+}
+
+.orders-btn:hover {
+    background: #31449b;
+    border-radius: 10px;
+    transition-duration: .4s;
+}
+
 .intro {
 	margin-top: 15%;
 	margin-bottom: auto;
@@ -176,6 +200,6 @@ a:hover {
 
 .biglogo {
 	float: right;
-	margin-top: -10%;
-	margin-right: 8.5%;
+	margin-top: -270px;
+	margin-right: 200px;
 }

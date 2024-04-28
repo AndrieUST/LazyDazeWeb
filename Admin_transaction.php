@@ -256,7 +256,7 @@ echo "</form>";
                     echo "<td>";
                     // Add the "Refund" button
                     echo "<form action='Refund_Order.php' method='post'>";
-                    echo "<button type='submit' class='Refund-btn' name='Refund' value='" . $row['OrderRefID'] . "'>Refund</button>";
+                    echo "<button type='submit' class='refund-btn' name='Refund' value='" . $row['OrderRefID'] . "'>Refund</button>";
                     echo "</form>";
                     echo "</td>";
                     echo "</tr>";

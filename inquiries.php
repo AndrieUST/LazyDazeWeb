@@ -54,14 +54,6 @@ include('connect.php');
                 </a>
             </div>
             <div class="nav-line"></div>
-            <!-- Search -->
-            <div class="nav-search">
-                <form class="search-form" method="get">
-                    <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-                    <input type="text" class="search-input" name="search" value="" placeholder="Search Product">
-                </form>
-            </div>
-            <div class="nav-line"></div>
         </div>
     </div>
     <!-- Inquiry Page -->

@@ -119,7 +119,7 @@ if (isset($_POST["submit"])) {
     <form id = "register"  action = "register.php" method ="post" onsubmit="return validateForm()">
         <label>Email</label>
         <input type = "text" class = "email-input"  name ="register_email" required>
-        <label>House Number</label>
+        <label>House Number/Building</label>
         <input type = "text" class = "Address-input"  name ="HouseNumber" required>
         <label>Street</label>
         <input type = "text" class = "Address-input"  name ="Street" required>
@@ -136,13 +136,20 @@ if (isset($_POST["submit"])) {
         <input type = "password" class = "password-input"  name ="register_password" required>
         <label>Confirm Password</label>
         <input type = "password" class = "password-input"   name ="Confirmpassword" minlength="8" required>
+        <div class = "pass-conditions">
+        <h5>For security purposes your password must have the following conditions:</h5>
+        <ul>
+            <li>One uppercase letter.</li>
+            <li>One lowercase letter.</li>
+            <li>One number.</li>
+            <li>One special character.</li>
+            <li>At least 8 characters long.</li>
+        </ul>
+        </div>
         
         <!-- Checkbox for agreeing to terms -->
-        <div class="checkbox-container">
-            <label>
-                <input type="checkbox" id="agreeCheckbox" disabled required>
-                I agree to the <a href="#" id="termsLink" data-toggle="modal" data-target="#termsModal">Terms and Conditions</a>
-            </label>
+        <div class="tnc-container">
+        <input class = "chkbox" type="checkbox" id="agreeCheckbox" disabled required><p>Read the <a href="#" id="termsLink" data-toggle="modal" data-target="#termsModal">terms and conditions here</a> before agreeing.</p>
         </div>
 
         <button type= "submit" class = "submit-btn" name = "submit" value = "Login">Sign Up</button>

@@ -97,7 +97,7 @@ if (isset($_POST["confirm"])) {
     <form id="email" action="verify_email_again.php" method="post">
         <label>Email Verification</label>
         <input type="text" class="email-input" name="email_input" required>
-        <button type="submit" class="reset-btn" name="confirm" value="confirm">Send Email to Verify</button><br><br>
+        <button type="submit" class="verify-btn" name="confirm" value="confirm">Send Email to Verify</button><br><br>
     </form>
     </div>
     </div>

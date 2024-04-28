@@ -137,6 +137,7 @@ if(isset($_GET['date'])) {
         </div>
          
         <!-- Received Orders Section -->
+        <div class = "container">
         <div id="receivedOrders">
             <h2>Received Orders</h2>
             <table class="table">
@@ -286,12 +287,13 @@ if(isset($_GET['date'])) {
         </div>
         
         <!-- Button to Show Graph -->
-        <button id="showGraphButton">Show Graph</button>
+        <button id="showGraphButton" class = "graph-btn">Show Graph</button>
 
         <!-- Line Chart Section (Initially Hidden) -->
         <div id="lineChartContainer" style="display: none;">
             <canvas id="lineChart" width="400" height="300"></canvas>
         </div>
+    </div>
     </div>
 
     <script>

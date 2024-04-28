@@ -166,7 +166,7 @@ include('connect.php');
                             echo "</div>";
                         }
                     } else {
-                        echo "<p>No items in the cart</p>";
+                        echo "<h1>There are no items in your cart.</h1>";
                     }
 
                     // Display total price for all items in the cart
@@ -177,7 +177,7 @@ include('connect.php');
                 }
                 ?>
                 <button class="submit-btn" onclick="proceedToPayment()">Proceed to Payment</button>
-                <button class="submit-btn" onclick="ViewOrders()">View Orders</button>
+                <button class="orders-btn" onclick="ViewOrders()">Your Orders</button>
             </div>
         </div>
     </div>

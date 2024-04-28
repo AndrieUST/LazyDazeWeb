@@ -106,14 +106,6 @@ mysqli_data_seek($result, 0);
                     </a>
                 </div>
             <div class="nav-line"></div>
-            <!-- Search -->
-            <div class="nav-search">
-            <form method="get">
-                <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-                <input type="text" class="search-input" id="search-input" name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" placeholder="Search Product">
-            </form>
-            </div>
-            <div class="nav-line"></div>
         </div>
   </div>
   <div class="whole-container">

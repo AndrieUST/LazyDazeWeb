@@ -126,7 +126,7 @@ $payment_result = mysqli_query($conn, $payment_query);
                 <label for="qrCodeFile">Upload QR Code Image:</label> <!-- Add input for file upload -->
                 <input type="file" class="form-control-file" id="qrCodeFile" name="qr_code_file" required>
             </div>
-            <button type="submit" class="btn btn-primary" name="add_payment_method">Add Payment Method</button>
+            <button type="submit" class="submit-btn" name="add_payment_method">Add Payment Method</button>
         </form>
     </div>
 </body>

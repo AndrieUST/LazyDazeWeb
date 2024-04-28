@@ -93,7 +93,7 @@ a:hover {
 }
 
 .container {
-    width: 1850px;
+    width: 1900px;
 }
 
 .container h2 {
@@ -147,7 +147,7 @@ td {
 }
 
 .confirm-btn:hover {
-    border-radius: 0px;
+    background: #60ff68;
     transition-duration: .4s;
 }
 
@@ -170,9 +170,79 @@ td {
 }
 
 .deny-btn:hover {
-    border-radius: 0px;
+    background: #ff8181;
     transition-duration: .4s;
 }
+
+.deliver-btn {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 2.5px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    height: 45px;
+    border-radius: 10px;
+    border: 0;
+    background: #51a2ff;
+    cursor: pointer;
+    color: black;
+    outline: none;
+    font-family: 'Open Sans', sans-serif;
+    transition-duration: .4s;
+}
+
+.deliver-btn:hover {
+    background: #7ebaff;
+    transition-duration: .4s;
+}
+
+.received-btn {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 2.5px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    height: 45px;
+    border-radius: 10px;
+    border: 0;
+    background: #43c74a;
+    cursor: pointer;
+    color: black;
+    outline: none;
+    font-family: 'Open Sans', sans-serif;
+    transition-duration: .4s;
+}
+
+.received-btn:hover {
+    background: #60ff68;
+    transition-duration: .4s;
+}
+
+.refund-btn {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 2.5px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    height: 45px;
+    border-radius: 10px;
+    border: 0;
+    background: #fc4747;
+    cursor: pointer;
+    color: black;
+    outline: none;
+    font-family: 'Open Sans', sans-serif;
+    transition-duration: .4s;
+}
+
+.refund-btn:hover {
+    background: #ff8181;
+    transition-duration: .4s;
+}
+
 .transparent-row {
     opacity: 0.5;
 }

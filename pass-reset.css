@@ -127,21 +127,37 @@ input:focus {
 	font-family: 'Open Sans', sans-serif;
 }
 
-.reset-btn:hover {
-	width: 45%;
-	height: 7%;
-	;
+.verify-btn:hover {
+	background: #858585;
+	border: 0;
+	color: white;
+	outline: none;
+	transition-duration: .4s;
+}
+
+.verify-btn {
+	width: 50%;
+	height: 5.5%;
 	padding: 10px 30px;
 	cursor: pointer;
 	display: block;
 	margin: auto;
-	background: #858585;
+	background: black;
 	border: 0;
 	color: white;
 	outline: none;
 	border-radius: 30px;
 	margin-top: 30.5px;
 	margin-bottom: 30.5px;
+	transition-duration: .4s;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.reset-btn:hover {
+	background: #858585;
+	border: 0;
+	color: white;
+	outline: none;
 	transition-duration: .4s;
 }
 

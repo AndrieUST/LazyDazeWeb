@@ -43,9 +43,10 @@ include('connect.php');
             <div class="nav-line"></div>
         </div>
   </div>
+  <img class="biglogo" src="LDAssets/biglogo.png" alt="Big Lazy Logo"/>
   <div class="intro">
-  <h2>Welcome!</h2>
-  <h1>Have any changes?</h1>
+  <h1>Welcome!</h1>
+  <h2>Have any changes?</h2>
   <a href="prod.php">
   <button class = "main-btn" name = "add-products" value = "Add-Products">Products</button>
 </a>
@@ -82,12 +83,10 @@ include('connect.php');
         </div>
     </div>
 </div>
-
 </div>
-<img class="biglogo" src="LDAssets/biglogo.png" alt="Big Lazy Logo"/>
 </div>
 
-<<script>
+<script>
 $(function() {
     // Initialize Datepickers for start and end dates
     $("#start_datepicker").datepicker({
