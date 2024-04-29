@@ -75,8 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->addReplyTo($customer_email); // Customer's email address for reply
             $mail->isHTML(true);
             $mail->Subject = 'New Order Received';
+           
             // Construct email body with inserted data
             $emailBody = '<p>A new order has been received:</p>';
+            
             $emailBody .= '<p><strong>Customer Name:</strong> ' . $customer_name . '</p>';
             $emailBody .= '<p><strong>Customer Email:</strong> ' . $customer_email . '</p>';
             $emailBody .= '<p><strong>Customer House Number:</strong> ' . $customer_house_number . '</p>';
@@ -105,6 +107,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Set email body
             $mail->Body = $emailBody;
             $mail->AltBody = 'A new order has been received. Please check the admin panel for details.';
+
+            // Attach the image file
+           $mail->addAttachment($target_file);
 
             // Attempt to send email
             if ($mail->send()) {

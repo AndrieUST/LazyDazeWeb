@@ -12,6 +12,8 @@ $confirmed_order_result = mysqli_query($conn, $confirmed_order_query);
 // Fetch cancelled orders from the manageorders table, sorted by Order Date in descending order
 $cancelled_order_query = "SELECT * FROM manageorders WHERE Confirmed = 2 ORDER BY Order_Date DESC";
 $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
+
+
 ?>
 
 
@@ -46,9 +48,9 @@ $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
         </div>
         <div class="container">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#Orders">Orders</a></li>
-                <li><a data-toggle="tab" href="#confirmedOrders">Confirmed Orders</a></li>
-                <li><a data-toggle="tab" href="#cancelledOrders">Cancelled Orders</a></li>
+            <li class="active"><a data-toggle="tab" href="#Orders">Orders <span id="newOrderNotification" class="badge">0</span></a></li>
+            <li><a data-toggle="tab" href="#confirmedOrders">Confirmed Orders <span id="confirmedOrderNotification" class="badge">0</span></a></li>
+<li><a data-toggle="tab" href="#cancelledOrders">Cancelled Orders <span id="cancelledOrderNotification" class="badge">0</span></a></li>
              
             </ul>
             
@@ -158,6 +160,7 @@ $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
            // Check if there are confirmed orders
            if ($confirmed_order_result) {
                while ($row = mysqli_fetch_assoc($confirmed_order_result)) {
+                $isCompleted = !empty($row['Date_Completed']);
                 echo "<tr>"; 
                 echo "<td>" . $row['OrderRefID'] . "</td>";
                 echo "<td>" . $row['Customer_Email'] . "</td>";
@@ -179,14 +182,16 @@ $cancelled_order_result = mysqli_query($conn, $cancelled_order_query);
                 echo "<td>" . $row['Order_Date'] . "</td>";
                 echo "<td>" . $row['Date_Completed'] . "</td>";
                 echo "<td>";
-                // Add the "Deliver" button
-                echo "<form action='Deliver.php' method='post'>";
-echo "<button type='submit' class='deliver-btn' name='deliver' value='" . $row['OrderRefID'] . "'>Deliver</button>";
-echo "</form>";
-                // Add the "Received" button
-                echo "<form action='Received.php' method='post'>";
-                echo '<button type="submit" class="received-btn" name="received" value="' . $row['OrderRefID'] . '" onclick="return confirmReceive();">Received</button>';
-                echo "</form>";
+                if ($isCompleted) {
+                    echo "Order Completed";
+                } else {
+                    echo "<form action='Deliver.php' method='post'>";
+                    echo "<button type='submit' class='deliver-btn' name='deliver' value='" . $row['OrderRefID'] . "'>Deliver</button>";
+                    echo "</form>";
+                    echo "<form action='Received.php' method='post'>";
+                    echo '<button type="submit" class="received-btn" name="received" value="' . $row['OrderRefID'] . '" onclick="return confirmReceive();">Received</button>';
+                    echo "</form>";
+                }
                 echo "</td>";
                 echo "</tr>";
             } } else {
@@ -231,6 +236,7 @@ echo "</form>";
             if ($cancelled_order_result) {
                 while ($row = mysqli_fetch_assoc($cancelled_order_result)) {
                     // Echo order details in each row
+                    $isCompleted = !empty($row['Date_Completed']);
                     echo "<tr>"; 
                     echo "<td>" . $row['OrderRefID'] . "</td>";
                     echo "<td>" . $row['Customer_Email'] . "</td>";
@@ -253,10 +259,13 @@ echo "</form>";
                     echo "<td>" . $row['Order_Date'] . "</td>";
                     echo "<td>" . $row['Date_Completed'] . "</td>";
                     echo "<td>";
-                    // Add the "Refund" button
-                    echo "<form action='Refund_Order.php' method='post'>";
-                    echo "<button type='submit' class='refund-btn' name='Refund' value='" . $row['OrderRefID'] . "'>Refund</button>";
-                    echo "</form>";
+                    if ($isCompleted) {
+                        echo "Refund Completed";
+                    } else {
+                        echo "<form action='Refund_Order.php' method='post'>";
+                        echo "<button type='submit' class='refund-btn' name='Refund' value='" . $row['OrderRefID'] . "'>Refund</button>";
+                        echo "</form>";
+                    }
                     echo "</td>";
                     echo "</tr>";
                 }
@@ -340,7 +349,7 @@ echo "</form>";
     return false;
 });
 // Add click event listener to all refund buttons
-$('.Refund-btn').click(function() {
+$('.refund-btn').click(function() {
     // Prompt admin for a message
     var message = prompt("Enter a message for the user:");
 
@@ -361,6 +370,62 @@ $('.Refund-btn').click(function() {
     // Else, return false to cancel the submission
     return confirmation;
 }
+$(document).ready(function() {
+            // Function to check for new orders periodically
+            function checkForNewOrders() {
+                $.ajax({
+                    url: 'check_for_new_orders.php', // Path to a PHP script to check for new orders
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.newOrders > 0) {
+                            // Update the notification count and display it
+                            $('#newOrderNotification').text(response.newOrders).show();
+                        } else {
+                            // Hide the notification if no new orders
+                            $('#newOrderNotification').hide();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error checking for new orders:', error);
+                    }
+                });
+            }
+
+            // Call the function initially
+            checkForNewOrders();
+
+            // Call the function every 60 seconds to check for new orders
+            setInterval(checkForNewOrders, 10000); // 10 seconds
+        });
+        $(document).ready(function() {
+    // Function to check for new orders periodically
+    function checkForNewOrders() {
+        $.ajax({
+            url: 'check_new_orders.php', // Path to a PHP script to check for new orders
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Update the notification count for confirmed orders
+                $('#confirmedOrderNotification').text(response.confirmedCount);
+
+                // Update the notification count for cancelled orders
+                $('#cancelledOrderNotification').text(response.cancelledCount);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error checking for new orders:', error);
+            }
+        });
+    }
+
+    // Call the function initially
+    checkForNewOrders();
+
+    // Call the function every 5 seconds to check for new orders
+    setInterval(checkForNewOrders, 5000); // 5 seconds
+});
+
+
     </script>
 </body>
 </html>

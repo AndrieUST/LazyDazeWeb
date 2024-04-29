@@ -40,7 +40,7 @@ if(isset($_GET['date'])) {
     $total_refunded = $total_refunded_row['total_refunded'];
 
     // Calculate total production cost for the selected date range
-    $total_prod_cost_query = "SELECT SUM(Prod_Cost) AS total_prod_cost FROM manageorders WHERE Status NOT IN ('Pending', 'Delivering') AND DATE(Date_Completed) BETWEEN '$date' AND '$end_date'";
+    $total_prod_cost_query = "SELECT SUM(Prod_Cost) AS total_prod_cost FROM manageorders WHERE Confirmed = 1 AND Status NOT IN ('Pending', 'Delivering') AND DATE(Date_Completed) BETWEEN '$date' AND '$end_date'";
     $total_prod_cost_result = mysqli_query($conn, $total_prod_cost_query);
     $total_prod_cost_row = mysqli_fetch_assoc($total_prod_cost_result);
     $total_prod_cost = $total_prod_cost_row['total_prod_cost'];
@@ -49,7 +49,7 @@ if(isset($_GET['date'])) {
     $total_gross_income = $total_sales;
 
     // Calculate Net Income for the selected date range
-    $net_income = $total_sales - $total_refunded - $total_prod_cost;
+    $net_income = $total_sales - $total_prod_cost;
 } else {
     // If no date parameter is provided, fetch all orders and calculate total sales, total refunded, etc. for all orders
     // Fetch confirmed orders (Received) from the manageorders table, sorted by Date Completed in descending order
@@ -90,7 +90,7 @@ if(isset($_GET['date'])) {
     $total_gross_income = $total_sales;
 
     // Calculate Net Income
-    $net_income = $total_sales - $total_refunded - $total_prod_cost;
+    $net_income = $total_sales  - $total_prod_cost;
 }
 ?>
 
@@ -283,6 +283,7 @@ if(isset($_GET['date'])) {
         <div id="income">
             <h2>Income Summary</h2>
             <p>Total Gross Income: <?php echo $total_gross_income; ?></p>
+            <p>Total Product Cost: <?php echo $total_prod_cost; ?></p>
             <p>Net Income: <?php echo $net_income; ?></p>
         </div>
         

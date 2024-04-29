@@ -17,6 +17,28 @@ if(isset($_POST['Refund'])) {
     $order_result = mysqli_query($conn, $order_query);
     $order = mysqli_fetch_assoc($order_result);
 
+    // Retrieve product name and quantity
+    $product_name = $order['Product_Name'];
+    $quantity_refunded = $order['Quantity'];
+
+    // Update the quantity of the product in the manageprod table based on the size
+    $update_quantity_query = "";
+    switch ($order['Size']) {
+        case 'Small':
+            $update_quantity_query = "UPDATE manageprod SET Quantity_Small = Quantity_Small + $quantity_refunded WHERE Product_Name = '$product_name'";
+            break;
+        case 'Medium':
+            $update_quantity_query = "UPDATE manageprod SET Quantity_Medium = Quantity_Medium + $quantity_refunded WHERE Product_Name = '$product_name'";
+            break;
+        case 'Large':
+            $update_quantity_query = "UPDATE manageprod SET Quantity_Large = Quantity_Large + $quantity_refunded WHERE Product_Name = '$product_name'";
+            break;
+        case 'XL':
+            $update_quantity_query = "UPDATE manageprod SET Quantity_XL = Quantity_XL + $quantity_refunded WHERE Product_Name = '$product_name'";
+            break;
+    }
+    mysqli_query($conn, $update_quantity_query);
+
     // Send email notification to the user
     $mail = new PHPMailer(true);
 
