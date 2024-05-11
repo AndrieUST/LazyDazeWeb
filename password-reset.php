@@ -30,12 +30,12 @@ if (isset($_POST["confirm"])) {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'johnlinga0949@gmail.com'; // Update with your Gmail address
-                $mail->Password = 'vhyp kqbj ewaq igdr'; // Update with your Gmail password
+                $mail->Username = 'doffy.dualpass12@gmail.com'; // Update with your Gmail address
+                $mail->Password = 'qekn szpe wxsx ttzz'; // Update with your Gmail password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
-                $mail->setFrom('johnlinga0949@gmail.com', 'LazyDaze.com');
+                $mail->setFrom('doffy.dualpass12@gmail.com', 'LazyDaze.com');
                 $mail->addAddress($Customer_Email);
 
                 $mail->isHTML(true);
@@ -63,7 +63,7 @@ if (isset($_POST["confirm"])) {
     }
     
     // Check if the email belongs to the admin
-    $admin_email = 'johnlinga0949@gmail.com'; // Admin email
+    $admin_email = 'doffy.dualpass12@gmail.com'; // Admin email
     if ($Customer_Email === $admin_email) {
         // Generate a new password reset code for admin
         $reset_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
@@ -78,12 +78,12 @@ if (isset($_POST["confirm"])) {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'johnlinga0949@gmail.com'; // Update with your Gmail address
-                $mail->Password = 'vhyp kqbj ewaq igdr'; // Update with your Gmail password
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port = 587;
+                $mail->Username = 'doffy.dualpass12@gmail.com'; // Update with your Gmail address
+            $mail->Password = 'qekn szpe wxsx ttzz'; // Update with your Gmail password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
 
-                $mail->setFrom('johnlinga0949@gmail.com', 'LazyDaze.com');
+            $mail->setFrom('doffy.dualpass12@gmail.com', 'LazyDaze.com');
                 $mail->addAddress($admin_email);
 
                 $mail->isHTML(true);
@@ -134,7 +134,7 @@ if (isset($_POST["confirm"])) {
     <div class="bg">
         <!-- Navigation Bar -->
         <div class="topnav">
-            <a href="homepage.php">
+            <a href="index.php">
                 <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
             </a>
         </div>

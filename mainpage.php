@@ -28,7 +28,7 @@ include('connect.php');
 <div class="bg">
   <!-- Navigation Bar -->
 <header class="topnav">
-        <a href="homepage.php">
+        <a href="index.php">
           <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
         <!-- Icons -->

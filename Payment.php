@@ -4,7 +4,7 @@ include('connect.php');
 
 // Load Composer's autoloader
 require 'vendor/autoload.php';
-$adminEmail = "johnlinga0949@gmail.com";
+$adminEmail = "doffy.dualpass12@gmail.com";
 
 // Fetch data from managecart table
 if (isset($_SESSION['registered_email']) && isset($_SESSION['email_verified_at']) && $_SESSION['email_verified_at'] !== null) {
@@ -64,13 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com'; // Specify SMTP server
             $mail->SMTPAuth = true;
-            $mail->Username = 'johnlinga0949@gmail.com'; // SMTP username
-            $mail->Password = 'vhyp kqbj ewaq igdr'; // SMTP password
+            $mail->Username = 'doffy.dualpass12@gmail.com'; // Update with your Gmail address
+            $mail->Password = 'qekn szpe wxsx ttzz'; // Update with your Gmail password
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
-            // Set email parameters
-            $mail->setFrom('johnlinga0949@gmail.com', 'Lazy Daze Admin');
+            $mail->setFrom('doffy.dualpass12@gmail.com', 'LazyDaze.com');
             $mail->addAddress($adminEmail, 'Lazy Daze');
             $mail->addReplyTo($customer_email); // Customer's email address for reply
             $mail->isHTML(true);
@@ -191,7 +190,7 @@ while ($row = mysqli_fetch_assoc($cart_result)) {
 <body>
     <div class="bg">
         <div class="topnav">
-            <a href="homepage.php">
+            <a href="index.php">
                 <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
             </a>
             <div class="nav-h-layout">

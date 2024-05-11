@@ -30,13 +30,13 @@ if(isset($_POST['received'])) {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com'; // SMTP server
             $mail->SMTPAuth = true;
-            $mail->Username = 'johnlinga0949@gmail.com'; // SMTP username
-            $mail->Password = 'vhyp kqbj ewaq igdr'; // SMTP password
+            $mail->Username = 'doffy.dualpass12@gmail.com'; // Update with your Gmail address
+            $mail->Password = 'qekn szpe wxsx ttzz'; // Update with your Gmail password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
     
             // Set sender and recipient
-            $mail->setFrom('johnlinga0949@gmail.com', 'Lazy Daze.com');
+            $mail->setFrom('doffy.dualpass12@gmail.com', 'Lazy Daze.com');
             $mail->addAddress($row['Customer_Email'], $row['Customer_Name']); // Use $row instead of $order
 
             // Content

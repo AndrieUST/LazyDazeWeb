@@ -6,7 +6,7 @@ if(isset($_POST["confirm"])) {
     $verification_code = isset($_POST["code_input"]) ? $_POST["code_input"] : '';
 
     // Retrieve the admin's email from the session
-    $admin_email = 'johnlinga0949@gmail.com'; // Admin email
+    $admin_email = 'doffy.dualpass12@gmail.com'; // Admin email
 
     if(empty($verification_code) || empty($admin_email)) {
         echo "Verification code or admin email is missing.";
@@ -56,7 +56,7 @@ if(isset($_POST["confirm"])) {
 <div class = "bg">
   <!-- Navigation Bar -->
 <div class="topnav">
-        <a href="homepage.php">
+        <a href="index.php">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
   </div>

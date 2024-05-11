@@ -41,7 +41,7 @@ if (isset($_POST["submit"])) {
     $Customer_Email = $_POST["login_email"];
     $Customer_PW = $_POST["login_password"];
 
-    if ($Customer_Email === 'johnlinga0949@gmail.com') {
+    if ($Customer_Email === 'doffy.dualpass12@gmail.com') {
         $query = "SELECT * FROM admin WHERE Admin_Email = '$Customer_Email'";
         $result = mysqli_query($conn, $query);
         if (mysqli_num_rows($result) > 0) {
@@ -122,7 +122,7 @@ if (isset($_POST["submit"])) {
     <div class="bg">
         <!-- Navigation Bar -->
         <div class="topnav">
-            <a href="homepage.php">
+            <a href="index.php">
                 <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
             </a>
         </div>

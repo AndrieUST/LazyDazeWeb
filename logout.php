@@ -5,6 +5,6 @@ include  'connect.php';
 $_SESSION = [];
 session_unset();
 session_destroy();
-header("Location: homepage.php");
+header("Location: index.php");
 
 ?>

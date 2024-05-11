@@ -7,7 +7,7 @@ if(isset($_POST["submit"])) {
      $Confirmpassword = isset($_POST["Confirmpassword"]) ? $_POST["Confirmpassword"] : '';
  
      // Retrieve the admin's email from the session
-     $admin_email = 'johnlinga0949@gmail.com'; // Admin email
+     $admin_email = 'doffy.dualpass12@gmail.com'; // Admin email
  
      if(empty($new_password) || empty($admin_email)) {
          echo "New password or admin email is missing.";
@@ -22,9 +22,9 @@ if(isset($_POST["submit"])) {
  
      // Check if the new password matches the confirmation password
      if ($new_password !== $Confirmpassword) {
-         echo "New password and confirmation password do not match.";
-         exit();
-     }
+        echo "<script>alert('New password and confirmation password do not match.'); window.location.href = 'admin_pass_reset.php';</script>";
+        exit();
+    }
  
      // Hash the new password
      $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
@@ -62,7 +62,7 @@ if(isset($_POST["submit"])) {
 <div class = "bg">
   <!-- Navigation Bar -->
 <header class="topnav">
-        <a href="homepage.php">
+        <a href="index.php">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
   </header>

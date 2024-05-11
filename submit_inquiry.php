@@ -3,7 +3,7 @@ include('connect.php');
 require 'vendor/autoload.php'; // Include PHPMailer autoload file
 
 // Admin's email
-$adminEmail = "johnlinga0949@gmail.com";
+$adminEmail = "doffy.dualpass12@gmail.com";
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -19,14 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com'; // Specify SMTP server
     $mail->SMTPAuth = true;
-    $mail->Username = 'johnlinga0949@gmail.com'; // SMTP username
-    $mail->Password = 'vhyp kqbj ewaq igdr'; // SMTP password
+    $mail->Username = 'doffy.dualpass12@gmail.com'; // Update with your Gmail address
+    $mail->Password = 'qekn szpe wxsx ttzz'; // Update with your Gmail password
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587; // TCP port to connect to
 
     // Sender and recipient
     $mail->setFrom($adminEmail); // Admin's email address
-    $mail->addAddress($adminEmail, 'John Linga'); // Admin's email address and name
+    $mail->addAddress($adminEmail, 'Nelson Siao'); // Admin's email address and name
 
     // Set the "Reply-To" header to the customer's email
     $mail->addReplyTo($Customer_Email);

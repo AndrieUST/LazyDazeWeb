@@ -68,7 +68,7 @@ $result = mysqli_query($conn, $sql);
     <div class="bg">
         <!-- Navigation Bar -->
         <div class="topnav">
-            <a href="homepage.php">
+            <a href="index.php">
                 <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
             </a>
             <!-- Icons -->

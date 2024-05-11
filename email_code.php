@@ -70,13 +70,12 @@ if(isset($_POST["resend"])) {
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com'; // Specify SMTP server
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'johnlinga0949@gmail.com'; // SMTP username
-            $mail->Password   = 'vhyp kqbj ewaq igdr';            // SMTP password
+            $mail->Username = 'doffy.dualpass12@gmail.com'; // Update with your Gmail address
+            $mail->Password = 'qekn szpe wxsx ttzz'; // Update with your Gmail password
             $mail->SMTPSecure = 'tls';
-            $mail->Port       = 587;
-        
-            //Recipients
-            $mail->setFrom('johnlinga0949@gmail.com', 'LazyDaze.com');
+            $mail->Port = 587;
+
+            $mail->setFrom('doffy.dualpass12@gmail.com', 'LazyDaze.com');
             $mail->addAddress($Customer_Email);     // Add a recipient
         
             // Content
@@ -119,7 +118,7 @@ if(isset($_POST["resend"])) {
 <div class = "bg">
   <!-- Navigation Bar -->
 <header class="topnav">
-        <a href="homepage.php">
+        <a href="index.php">
           <img align = "left" class = "ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
         </a>
   </header>

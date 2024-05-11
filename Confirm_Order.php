@@ -23,13 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm'])) {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'johnlinga0949@gmail.com'; // Update with your Gmail address
-        $mail->Password = 'vhyp kqbj ewaq igdr'; // Update with your Gmail password
+        $mail->Username = 'doffy.dualpass12@gmail.com'; // Update with your Gmail address
+        $mail->Password = 'qekn szpe wxsx ttzz'; // Update with your Gmail password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
         //Recipients
-        $mail->setFrom('johnlinga0949@gmail.com', 'Lazy Daze.com');
+        $mail->setFrom('doffy.dualpass12@gmail.com', 'Lazy Daze.com');
         $mail->addAddress($order['Customer_Email'], $order['Customer_Name']);     // Add a recipient
 
         // Content
