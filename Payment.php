@@ -162,7 +162,7 @@ while ($row = mysqli_fetch_assoc($cart_result)) {
                 $_SESSION['cart_count'] = 0;
             
                 // Redirect to another page after successful insertion
-                header("Location: success.php");
+                header("Location: Success.php");
                 exit();
             }
         } else {

@@ -121,7 +121,7 @@ if(isset($_GET['date'])) {
     <div class="bg">
         <!-- Navigation Bar -->
         <div class="topnav">
-            <a href="Admin_mainpage.php">
+            <a href="admin_mainpage.php">
                 <img align="left" class="ld-icon" src="LDAssets/lz logo.png" alt="LazyDaze">
             </a>
             <!-- Icons -->
